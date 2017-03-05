@@ -21,7 +21,7 @@ class PeriodUsageDisplay extends Component {
   }
 }
 
-class CountDisplay extends Component {
+class EnergyUsageApp extends Component {
   constructor(props) {
     super(props);
     this.state = {periodUsage: []};
@@ -44,4 +44,4 @@ class CountDisplay extends Component {
 
 const appContainer = document.querySelector(".app-container");
 
-ReactDOM.render(<CountDisplay />, appContainer);
+ReactDOM.render(<EnergyUsageApp />, appContainer);
