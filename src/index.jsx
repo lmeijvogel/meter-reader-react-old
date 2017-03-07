@@ -60,9 +60,9 @@ class EnergyUsageApp extends Component {
     }
 
     fetch(url).then( (response) => response.json()).then( (json) => {
-      this.setState({periodUsage: json, year: date.getFullYear(), month: date.getMonth() + 1});
+      this.setState({periodUsage: json, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
     }).catch( () => { // No 'finally'?!?
-      this.setState({periodUsage: [], year: date.getFullYear(), month: date.getMonth() + 1});
+      this.setState({periodUsage: [], year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
     });
   }
 }
