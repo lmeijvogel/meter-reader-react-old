@@ -16,12 +16,14 @@ export default class NavigationButtons extends Component {
         </div>;
         break;
       case "day":
+        const currentDate = new Date(this.props.year, this.props.month - 1, 1);
         const previousDate = new Date(this.props.year, this.props.month - 1, this.props.day - 1);
         const nextDate = new Date(this.props.year, this.props.month - 1, this.props.day + 1);
 
         return <div>
           <ChangePeriodButton label="Previous day" date={previousDate} period="day" onClick={this.newPeriod.bind(this)}/>
           <ChangePeriodButton label="Next day" date={nextDate} period="day" onClick={this.newPeriod.bind(this)} />
+          <ChangePeriodButton label="Up to month" date={currentDate} period="month" onClick={this.newPeriod.bind(this)} />
         </div>;
         break;
     }
