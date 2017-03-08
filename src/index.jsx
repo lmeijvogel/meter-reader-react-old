@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import DayUsageDisplay from './day-usage-display.jsx';
 import MonthUsageDisplay from './month-usage-display.jsx';
-import ChangePeriodButton from './change-period-button.jsx';
+import NavigationButtons from './navigation-buttons.jsx';
 
 class EnergyUsageApp extends Component {
   constructor(state) {
@@ -15,41 +15,31 @@ class EnergyUsageApp extends Component {
   componentDidMount() {
     const date = new Date();
 
-    this.newPeriod(date, "month");
+    this.periodSelected(date, "month");
   }
 
   render() {
-    //const type="day"
-    const type="month"
-
     if (type == "month") {
-      const previousMonth = new Date(this.state.year, this.state.month - 2, 1);
-      const nextMonth = new Date(this.state.year, this.state.month, 1);
-
       return (
         <div>
           <h1>{this.state.year}-{this.state.month}</h1>
           <MonthUsageDisplay usage={this.state.periodUsage} year="2017" month={this.state.month} />
-          <ChangePeriodButton label="Previous month" date={previousMonth} period="month" onClick={this.newPeriod.bind(this)}  />
-          <ChangePeriodButton label="Next month" date={nextMonth} period="month" onClick={this.newPeriod.bind(this)} />
+          <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
         </div>
       )
     } else {
-      const previousDate = new Date(this.state.year, this.state.month - 1, this.state.day - 1);
-      const nextDate = new Date(this.state.year, this.state.month - 1, this.state.day + 1);
-
       return (
         <div>
           <h1>{this.state.year}-{this.state.month}-{this.state.day}</h1>
           <DayUsageDisplay usage={this.state.periodUsage} />
-          <ChangePeriodButton label="Previous day" date={previousDate} period="day" onClick={this.newPeriod.bind(this)}/>
-          <ChangePeriodButton label="Next day" date={nextDate} period="day" onClick={this.newPeriod.bind(this)} />
+
+          <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} />
         </div>
       )
     }
   }
 
-  newPeriod(date, period) {
+  periodSelected(date, period) {
     let url;
 
     switch(period) {
