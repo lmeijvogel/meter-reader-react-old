@@ -9,17 +9,17 @@ import NavigationButtons from './navigation-buttons.jsx';
 class EnergyUsageApp extends Component {
   constructor(state) {
     super(state);
-    this.state = {periodUsage: []};
+    this.state = {periodUsage: [], period: "month"};
   }
 
   componentDidMount() {
     const date = new Date();
 
-    this.periodSelected(date, "month");
+    this.periodSelected(date, "day");
   }
 
   render() {
-    if (type == "month") {
+    if (this.state.period == "month") {
       return (
         <div>
           <h1>{this.state.year}-{this.state.month}</h1>
@@ -52,9 +52,9 @@ class EnergyUsageApp extends Component {
     }
 
     fetch(url).then( (response) => response.json()).then( (json) => {
-      this.setState({periodUsage: json, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
+      this.setState({periodUsage: json, period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
     }).catch( () => { // No 'finally'?!?
-      this.setState({periodUsage: [], year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
+      this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
     });
   }
 }
