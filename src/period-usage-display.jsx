@@ -19,6 +19,7 @@ export default class PeriodUsageDisplay extends Component {
     );
   }
 
+  // Used by subclasses
   range(start, end) {
     let result = [];
 
