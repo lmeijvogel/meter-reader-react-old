@@ -14,4 +14,9 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
     // +1 because we want the 0th day of the next month (== last day of current month)
     return (new Date(this.props.year, this.props.month - 1 + 1, 0)).getDate();
   }
+
+  onClick(index) {
+    const newDate = new Date(this.props.year, this.props.month - 1, index + 1);
+    this.props.onSelect(newDate, "day");
+  }
 }

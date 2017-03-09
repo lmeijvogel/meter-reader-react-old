@@ -23,7 +23,7 @@ class EnergyUsageApp extends Component {
       return (
         <div>
           <h1>{this.state.year}-{this.state.month}</h1>
-          <MonthUsageDisplay usage={this.state.periodUsage} year="2017" month={this.state.month} />
+          <MonthUsageDisplay usage={this.state.periodUsage} year="2017" month={this.state.month} onSelect={this.periodSelected.bind(this)} />
           <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
         </div>
       )
