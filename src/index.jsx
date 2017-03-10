@@ -6,6 +6,16 @@ import DayUsageDisplay from './day-usage-display.jsx';
 import MonthUsageDisplay from './month-usage-display.jsx';
 import NavigationButtons from './navigation-buttons.jsx';
 
+const DAYS_OF_WEEK = {
+  0: "Sunday",
+  1: "Monday",
+  2: "Tuesday",
+  3: "Wednesday",
+  4: "Thursday",
+  5: "Friday",
+  6: "Saturday"
+}
+
 class EnergyUsageApp extends Component {
   constructor(state) {
     super(state);
@@ -28,9 +38,11 @@ class EnergyUsageApp extends Component {
         </div>
       )
     } else {
+      const date = new Date(this.state.year, this.state.month-1, this.state.day);
+
       return (
         <div>
-          <h1>{this.state.year}-{this.state.month}-{this.state.day}</h1>
+          <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>
           <DayUsageDisplay usage={this.state.periodUsage} />
 
           <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} />
