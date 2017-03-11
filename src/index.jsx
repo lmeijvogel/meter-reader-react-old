@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 import DayUsageDisplay from './day-usage-display.jsx';
 import MonthUsageDisplay from './month-usage-display.jsx';
+import YearUsageDisplay from './year-usage-display.jsx';
 import NavigationButtons from './navigation-buttons.jsx';
 
 const DAYS_OF_WEEK = {
@@ -29,15 +30,26 @@ class EnergyUsageApp extends Component {
   }
 
   render() {
-    if (this.state.period == "month") {
+    switch (this.state.period) {
+      case "year":
+      return (
+        <div>
+          <h1>{this.state.year}</h1>
+          <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} />
+          <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} />
+        </div>
+      );
+      break;
+      case "month":
       return (
         <div>
           <h1>{this.state.year}-{this.state.month}</h1>
-          <MonthUsageDisplay usage={this.state.periodUsage} year="2017" month={this.state.month} onSelect={this.periodSelected.bind(this)} />
+          <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
           <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
         </div>
-      )
-    } else {
+      );
+      break;
+    case "day":
       const date = new Date(this.state.year, this.state.month-1, this.state.day);
 
       return (
@@ -47,7 +59,8 @@ class EnergyUsageApp extends Component {
 
           <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} />
         </div>
-      )
+      );
+      break;
     }
   }
 
@@ -60,6 +73,9 @@ class EnergyUsageApp extends Component {
         break;
       case 'month':
         url = '/month/'+ date.getFullYear() + '/' + (date.getMonth()+1) +'.json';
+        break;
+      case 'year':
+        url = '/year/'+ date.getFullYear() + '.json';
         break;
     }
 
