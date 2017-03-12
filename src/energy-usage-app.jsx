@@ -68,10 +68,10 @@ export default class EnergyUsageApp extends Component {
 
     switch(period) {
       case 'day':
-        url = '/day/'+ date.getFullYear() + '/' + (date.getMonth()+1) + '/'+ date.getDate() +'.json';
+        url = '/day/'+ date.getFullYear() + '/' + this.padDatePart(date.getMonth()+1) + '/'+ this.padDatePart(date.getDate()) +'.json';
         break;
       case 'month':
-        url = '/month/'+ date.getFullYear() + '/' + (date.getMonth()+1) +'.json';
+        url = '/month/'+ date.getFullYear() + '/' + this.padDatePart(date.getMonth()+1) +'.json';
         break;
       case 'year':
         url = '/year/'+ date.getFullYear() + '.json';
@@ -83,5 +83,21 @@ export default class EnergyUsageApp extends Component {
     }).catch( () => { // No 'finally'?!?
       this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
     });
+  }
+
+  padDatePart(part) {
+    const stringPart = part.toString();
+
+    switch(stringPart.length) {
+      case 0:
+        return '00';
+        break;
+      case 1:
+        return '0'+stringPart;
+        break;
+      default:
+        return stringPart;
+        break
+    }
   }
 }
