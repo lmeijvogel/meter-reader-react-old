@@ -25,7 +25,7 @@ export default class EnergyUsageApp extends Component {
   componentDidMount() {
     const date = new Date();
 
-    this.periodSelected(date, "day");
+    this.periodSelected(date, "month");
   }
 
   render() {
