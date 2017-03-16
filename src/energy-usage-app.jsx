@@ -35,7 +35,7 @@ export default class EnergyUsageApp extends Component {
         <div>
           <h1>{this.state.year}</h1>
           <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} />
-          <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} />
+          <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         </div>
       );
       break;
@@ -44,7 +44,7 @@ export default class EnergyUsageApp extends Component {
         <div>
           <h1>{this.state.year}-{this.state.month}</h1>
           <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
-          <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
+          <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         </div>
       );
       break;
@@ -56,7 +56,7 @@ export default class EnergyUsageApp extends Component {
           <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>
           <DayUsageDisplay usage={this.state.periodUsage} />
 
-          <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} />
+          <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         </div>
       );
       break;
@@ -78,10 +78,12 @@ export default class EnergyUsageApp extends Component {
         break;
     }
 
+    this.setState({loadingData: true});
+
     fetch(url).then( (response) => response.json()).then( (json) => {
-      this.setState({periodUsage: json, period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
+      this.setState({periodUsage: json, period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
     }).catch( () => { // No 'finally'?!?
-      this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()});
+      this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
     });
   }
 

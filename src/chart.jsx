@@ -9,7 +9,7 @@ import RelativeConverter from './relative-converter.js';
 export default class Chart extends Component {
 
   render() {
-    return <Bar data={this.data()} options={{onClick: this.onClick.bind(this)}} />
+    return <Bar data={this.data()} options={{onClick: this.onClick.bind(this), responsive: true}} />
   }
 
   data() {
