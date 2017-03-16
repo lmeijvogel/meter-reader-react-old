@@ -32,6 +32,8 @@ export default class Chart extends Component {
   }
 
   onClick(event, data) {
-    this.props.onClick(data[0]._index);
+    if (data[0]) {
+      this.props.onClick(data[0]._index);
+    }
   }
 }
