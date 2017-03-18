@@ -9,13 +9,16 @@ import RelativeConverter from './relative-converter.js';
 export default class Chart extends Component {
 
   render() {
-    return <Bar data={this.data()} options={{onClick: this.onClick.bind(this), responsive: true}} />
+    return (
+      <div>
+        <div>{this.max() - this.min()}</div>
+        <Bar data={this.chartData()} options={{onClick: this.onClick.bind(this), responsive: true}} />
+      </div>
+    );
   }
 
-  data() {
-    const data = this.props.data.map( (u) => u[this.props.fieldName] );
-
-    const interpolatedData = new ArrayInterpolator().call(data);
+  chartData() {
+    const interpolatedData = new ArrayInterpolator().call(this.dataForField());
     const relativeData = new RelativeConverter().convert(interpolatedData);
 
     return {
@@ -29,6 +32,18 @@ export default class Chart extends Component {
         }
       ]
     };
+  }
+
+  dataForField() {
+    return this.props.data.map( (u) => u[this.props.fieldName] );
+  }
+
+  max() {
+    return Math.max.apply(null, this.dataForField());
+  }
+
+  min() {
+    return Math.min.apply(null, this.dataForField());
   }
 
   onClick(event, data) {
