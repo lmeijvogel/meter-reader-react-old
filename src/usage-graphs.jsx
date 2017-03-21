@@ -29,38 +29,41 @@ export default class UsageGraphs extends Component {
   }
 
   render() {
+    var title;
+    var display;
+    var buttons;
+
     switch (this.state.period) {
       case "year":
-      return (
-        <div>
-          <h1>{this.state.year}</h1>
-          <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} />
-          <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-        </div>
-      );
-      break;
+        title = <h1>{this.state.year}</h1>;
+
+        display = <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} />;
+        buttons = <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
+        break;
       case "month":
-      return (
-        <div>
-          <h1>{this.state.year}-{this.state.month}</h1>
-          <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
-          <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-        </div>
-      );
-      break;
-    case "day":
-      const date = new Date(this.state.year, this.state.month-1, this.state.day);
+        title = <h1>{this.state.year}-{this.state.month}</h1>
 
-      return (
-        <div>
-          <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>
-          <DayUsageDisplay usage={this.state.periodUsage} />
+        display = <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} />
+        buttons = <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
+        break;
+      case "day":
+        const date = new Date(this.state.year, this.state.month-1, this.state.day);
 
-          <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-        </div>
-      );
-      break;
+        title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
+
+        display = <DayUsageDisplay usage={this.state.periodUsage} />
+        buttons = <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
+        break;
     }
+
+    return (
+      <div>
+        {title}
+        {display}
+        {buttons}
+      </div>
+    );
+
   }
 
   periodSelected(date, period) {
