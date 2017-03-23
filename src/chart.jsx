@@ -33,12 +33,16 @@ export default class Chart extends Component {
     const options = {
       onClick: this.onClick.bind(this),
       responsive: true,
-      tooltips: { callbacks: { title: titleCallback } },
+      title: { display: true,
+               text: this.chartTitle()
+      },
+      legend: { display: false },
+      tooltips: { callbacks: { title: titleCallback } }
     };
-
+    // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
+    // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
     return (
       <div>
-        <div>{this.max() - this.min()}</div>
         <Bar data={this.chartData()} options={options} />
       </div>
     );
@@ -61,8 +65,13 @@ export default class Chart extends Component {
     };
   }
 
-  dataForField() {
-    return this.props.data.map( (u) => u[this.props.fieldName] );
+  chartTitle() {
+    return "" + this.props.label + " (" + this.printableTotal() + " " + this.unit() + ")";
+  }
+
+  printableTotal() {
+    const total = this.max() - this.min();
+    return this.truncate(total, 3);
   }
 
   max() {
@@ -72,6 +81,26 @@ export default class Chart extends Component {
   min() {
     return Math.min.apply(null, this.dataForField());
   }
+
+  truncate(value, precision) {
+    return Math.round(value * 10**precision) / 10**precision;
+  }
+
+  dataForField() {
+    return this.props.data.map( (u) => u[this.props.fieldName] );
+  }
+
+  unit() {
+    switch (this.props.fieldName) {
+      case 'gas':
+        return "m3";
+        break;
+      case 'stroom_totaal':
+        return "kWh";
+        break;
+    }
+  }
+
 
   onClick(event, data) {
     if (data[0]) {
