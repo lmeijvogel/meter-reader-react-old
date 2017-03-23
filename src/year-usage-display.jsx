@@ -9,6 +9,10 @@ export default class YearUsageDisplay extends PeriodUsageDisplay {
     return range;
   }
 
+  tooltipLabel(month) {
+    return "" + this.props.year + "-" + month;
+  }
+
   onClick(index) {
     const newDate = new Date(this.props.year, index, 1);
     this.props.onSelect(newDate, "month");

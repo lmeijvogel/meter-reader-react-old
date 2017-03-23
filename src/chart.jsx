@@ -9,10 +9,31 @@ import RelativeConverter from './relative-converter.js';
 export default class Chart extends Component {
 
   render() {
+    var tooltipLabelBuilder = this.props.tooltipLabelBuilder;
+
+    var titleCallback = function (tooltipItems, data) {
+      // Pick first xLabel for now
+      var title = '';
+      var labels = data.labels;
+      var labelCount = labels ? labels.length : 0;
+
+      if (tooltipItems.length > 0) {
+        var item = tooltipItems[0];
+
+        if (item.xLabel) {
+          title = item.xLabel;
+        } else if (labelCount > 0 && item.index < labelCount) {
+          title = labels[item.index];
+        }
+      }
+
+      return tooltipLabelBuilder.call(null, title);
+    };
+
     return (
       <div>
         <div>{this.max() - this.min()}</div>
-        <Bar data={this.chartData()} options={{onClick: this.onClick.bind(this), responsive: true}} />
+        <Bar data={this.chartData()} options={{onClick: this.onClick.bind(this), responsive: true, tooltips: { callbacks: { title: titleCallback } }}} />
       </div>
     );
   }

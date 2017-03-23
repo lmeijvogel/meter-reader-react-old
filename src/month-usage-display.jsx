@@ -9,6 +9,10 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
     return range;
   }
 
+  tooltipLabel(day) {
+    return "" + this.props.year + "-" + this.props.month + "-" + day;
+  }
+
   maxDate() {
     // -1 because JS months are zero-based
     // +1 because we want the 0th day of the next month (== last day of current month)
