@@ -30,10 +30,16 @@ export default class Chart extends Component {
       return tooltipLabelBuilder.call(null, title);
     };
 
+    const options = {
+      onClick: this.onClick.bind(this),
+      responsive: true,
+      tooltips: { callbacks: { title: titleCallback } },
+    };
+
     return (
       <div>
         <div>{this.max() - this.min()}</div>
-        <Bar data={this.chartData()} options={{onClick: this.onClick.bind(this), responsive: true, tooltips: { callbacks: { title: titleCallback } }}} />
+        <Bar data={this.chartData()} options={options} />
       </div>
     );
   }
