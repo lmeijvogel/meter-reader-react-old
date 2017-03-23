@@ -37,7 +37,14 @@ export default class Chart extends Component {
                text: this.chartTitle()
       },
       legend: { display: false },
-      tooltips: { callbacks: { title: titleCallback } }
+      tooltips: { callbacks: { title: titleCallback } },
+      scales: {
+          yAxes: [{
+              ticks: {
+                  beginAtZero:true
+              }
+          }]
+      }
     };
     // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
     // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
