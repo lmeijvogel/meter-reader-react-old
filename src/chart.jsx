@@ -58,13 +58,14 @@ export default class Chart extends Component {
   chartData() {
     const interpolatedData = new ArrayInterpolator().call(this.dataForField());
     const relativeData = new RelativeConverter().convert(interpolatedData);
+    const roundedData = relativeData.map( (value) => this.truncate(value, 3) );
 
     return {
       labels: this.props.labels,
       datasets: [
         {
           label: this.props.label,
-          data: relativeData,
+          data: roundedData,
           borderColor: this.props.color,
           backgroundColor: this.props.color
         }
