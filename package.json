@@ -19,13 +19,20 @@
     "webpack": "^2.2.1"
   },
   "devDependencies": {
-    "milligram-cli": "0.0.3"
+    "babel-jest": "^19.0.0",
+    "jest": "^19.0.2",
+    "milligram-cli": "0.0.3",
+    "regenerator-runtime": "^0.10.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack",
     "watch": "webpack --watch",
     "serve": "cd build; python -m SimpleHTTPServer"
+  },
+  "jest": {
+    "transform": {".*": "<rootDir>/node_modules/babel-jest"},
+    "moduleFileExtensions": ["js", "json", "es6"]
   },
   "author": "Lennaert Meijvogel",
   "license": "MIT"
