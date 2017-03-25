@@ -45,7 +45,7 @@ export default class ArrayInterpolator {
   }
 
   firstNonNull(input) {
-    const firstIndexWhereInt = function(input, test) {
+    const firstIndexWhereInt = (input, test) => {
       if (input.length === 0) { return -1; }
 
       const head = input[0];
