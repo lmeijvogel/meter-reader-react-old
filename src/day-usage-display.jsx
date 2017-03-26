@@ -12,4 +12,13 @@ export default class DayUsageDisplay extends PeriodUsageDisplay {
     return "" + hour + ":00 - " + nextHour + ":00";
   }
 
+  positionInData(element, dataset) {
+    const days = dataset.map( (el) => new Date(el.time_stamp).getDate() );
+    const minDate = Math.min.apply(null, days);
+
+    const date = new Date(element.time_stamp);
+
+    return date.getHours() + (date.getDate() - minDate) * 24;
+  }
+
 }

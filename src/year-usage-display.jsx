@@ -9,6 +9,15 @@ export default class YearUsageDisplay extends PeriodUsageDisplay {
     return range;
   }
 
+  positionInData(element, dataset) {
+    const years = dataset.map( (el) => new Date(el.time_stamp).getFullYear() );
+    const minYear = Math.min.apply(null, years);
+
+    const date = new Date(element.time_stamp);
+
+    return date.getMonth() + (date.getFullYear() - minYear) * 12;
+  }
+
   tooltipLabel(month) {
     return "" + this.props.year + "-" + month;
   }
