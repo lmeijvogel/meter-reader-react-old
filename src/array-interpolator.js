@@ -1,36 +1,36 @@
 export default class ArrayInterpolator {
   call(input) {
-    const firstNonNull = this.firstNonNull(input);
+    const firstNonZero = this.firstNonZero(input);
 
-    if (firstNonNull === -1) {
+    if (firstNonZero === -1) {
       // No elements are filled in!
       return input;
     }
 
     let rest;
-    if (firstNonNull === 0) {
-      // Fill a single range by finding the next non-null element and
+    if (firstNonZero === 0) {
+      // Fill a single range by finding the next non-zero element and
       // interpolate between them
 
       // Skip the first element, but still count it in the offset
-      const nextNonNull = this.firstNonNull(this.tail(input)) + 1;
+      const nextNonZero = this.firstNonZero(this.tail(input)) + 1;
 
       // No further elements are filled in, nothing to interpolate
-      if (nextNonNull === 0) {
+      if (nextNonZero === 0) {
         return input;
       }
 
-      const first = this.take(input, nextNonNull+1);
-      rest  = this.drop(input, nextNonNull);
+      const first = this.take(input, nextNonZero+1);
+      rest  = this.drop(input, nextNonZero);
 
       const interpolatedFirst = this.interpolate(first);
 
       return this.initial(interpolatedFirst).concat(this.call(rest));
     } else {
-      const nulls = this.take(input, firstNonNull);
-      rest  = this.drop(input, firstNonNull);
+      const zeros = this.take(input, firstNonZero);
+      rest  = this.drop(input, firstNonZero);
 
-      return nulls.concat(this.call(rest));
+      return zeros.concat(this.call(rest));
     }
   }
 
@@ -44,7 +44,7 @@ export default class ArrayInterpolator {
     return this.range(count).map( (el) => first + el*stepSize );
   }
 
-  firstNonNull(input) {
+  firstNonZero(input) {
     const firstIndexWhereInt = (input, test) => {
       if (input.length === 0) { return -1; }
 
@@ -60,7 +60,7 @@ export default class ArrayInterpolator {
       }
     };
 
-    return firstIndexWhereInt(input, (el) => el != null);
+    return firstIndexWhereInt(input, (el) => el != 0);
   }
 
   take(input, count) {

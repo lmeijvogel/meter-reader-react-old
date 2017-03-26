@@ -11,7 +11,7 @@ describe('ArrayInterpolator', () => {
 
   describe("When there is an empty spot", () => {
     it("fills it", () => {
-      const input = [1,2,null,null,5];
+      const input = [1,2,0,0,5];
 
       expect(subject.call(input)).toEqual([1,2,3,4,5]);
     });
@@ -19,9 +19,9 @@ describe('ArrayInterpolator', () => {
 
   describe("When there is only one existing value", () => {
     it("does not try to interpolate anything", () => {
-      const input = [ null, null, 2, null, null ];
+      const input = [ 0, 0, 2, 0, 0 ];
 
-      expect(subject.call(input)).toEqual([null, null, 2, null, null]);
+      expect(subject.call(input)).toEqual([0, 0, 2, 0, 0]);
     });
   });
 });
