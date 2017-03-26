@@ -95,7 +95,13 @@ export default class Chart extends Component {
   }
 
   dataForField() {
-    return this.props.data.map( (u) => u[this.props.fieldName] );
+    return this.props.data.map( (u) => {
+      if (u) {
+        return u[this.props.fieldName]
+      } else {
+        return null;
+      }
+    });
   }
 
   unit() {
