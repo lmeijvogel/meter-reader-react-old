@@ -23,6 +23,10 @@ export default class PeriodUsageDisplay extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.usage !== nextProps.usage;
+  }
+
   positionInData(element, dataset) {
     throw "Not Implemented";
   }
