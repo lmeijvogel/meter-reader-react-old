@@ -1,36 +1,36 @@
 export default class ArrayInterpolator {
   call(input) {
-    const firstNonZero = this.firstNonZero(input);
+    const firstNonEmpty = this.firstNonEmpty(input);
 
-    if (firstNonZero === -1) {
+    if (firstNonEmpty === -1) {
       // No elements are filled in!
       return input;
     }
 
     let rest;
-    if (firstNonZero === 0) {
-      // Fill a single range by finding the next non-zero element and
+    if (firstNonEmpty === 0) {
+      // Fill a single range by finding the next non-empty element and
       // interpolate between them
 
       // Skip the first element, but still count it in the offset
-      const nextNonZero = this.firstNonZero(this.tail(input)) + 1;
+      const nextNonEmpty = this.firstNonEmpty(this.tail(input)) + 1;
 
       // No further elements are filled in, nothing to interpolate
-      if (nextNonZero === 0) {
+      if (nextNonEmpty === 0) {
         return input;
       }
 
-      const first = this.take(input, nextNonZero+1);
-      rest  = this.drop(input, nextNonZero);
+      const first = this.take(input, nextNonEmpty+1);
+      rest  = this.drop(input, nextNonEmpty);
 
       const interpolatedFirst = this.interpolate(first);
 
       return this.initial(interpolatedFirst).concat(this.call(rest));
     } else {
-      const zeros = this.take(input, firstNonZero);
-      rest  = this.drop(input, firstNonZero);
+      const empties = this.take(input, firstNonEmpty);
+      rest  = this.drop(input, firstNonEmpty);
 
-      return zeros.concat(this.call(rest));
+      return empties.concat(this.call(rest));
     }
   }
 
@@ -44,7 +44,7 @@ export default class ArrayInterpolator {
     return this.range(count).map( (el) => first + el*stepSize );
   }
 
-  firstNonZero(input) {
+  firstNonEmpty(input) {
     const firstIndexWhereInt = (input, test) => {
       if (input.length === 0) { return -1; }
 
@@ -60,7 +60,7 @@ export default class ArrayInterpolator {
       }
     };
 
-    return firstIndexWhereInt(input, (el) => el != 0);
+    return firstIndexWhereInt(input, (el) => el != 0 && el != null);
   }
 
   take(input, count) {
