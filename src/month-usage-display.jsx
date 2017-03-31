@@ -14,16 +14,18 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
   }
 
   positionInData(element, dataset) {
-    const months = dataset.map( (el) => new Date(el.time_stamp).getMonth() );
-    const minMonth = Math.min.apply(null, months);
-
     const date = new Date(element.time_stamp);
+    const month = date.getMonth();
 
-    const lastDayInMonth = new Date(date.getFullYear(), minMonth + 1, 0, 12, 0, 0);
+    const minMonth = new Date(dataset[0].time_stamp).getMonth();
 
-    const maxDateInMonth = lastDayInMonth.getDate();
+    if (month === minMonth) {
+      return date.getDate() - 1;
+    } else {
+      const lastDayInMonth = new Date(date.getFullYear(), minMonth + 1, 0, 12, 0, 0);
 
-    return date.getDate() - 1 + (date.getMonth() - minMonth) * maxDateInMonth;
+      return lastDayInMonth.getDate();
+    }
   }
 
   maxDate() {
