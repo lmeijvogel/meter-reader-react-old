@@ -3,7 +3,10 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: "./src/index.jsx",
-  output: { path: "./build/", filename: 'bundle.js' },
+  output: {
+    path: "./build/",
+    filename: 'bundle-[hash].js'
+  },
   module: {
     loaders: [{
       test: /.jsx?$/,
@@ -14,4 +17,18 @@ module.exports = {
       }
     }]
   },
+  plugins: [
+    new webpack.DefinePlugin({ // <-- key to reducing React's size
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    function() {
+      this.plugin("done", function(stats) {
+        require("fs").writeFileSync(
+          path.join(__dirname, "..", "stats.json"),
+          JSON.stringify(stats.toJson().assetsByChunkName.main));
+      });
+    }
+  ],
 }
