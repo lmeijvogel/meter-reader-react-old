@@ -16,7 +16,7 @@ export default class PeriodUsageDisplay extends Component {
     const data =  dataShifter.call(this.props.usage, this.positionInData.bind(this));
 
     return (
-      <div>
+      <div class="period-usage-display" className={'period-usage-display' + (this.props.enabled ? '' : ' disabled')}>
         <Chart label="Gas" labels={labels} data={data} fieldName="gas" color="#f0ad4e" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
         <Chart label="Stroom" labels={labels} data={data} fieldName="stroom_totaal" color="#428bca" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
       </div>
@@ -24,7 +24,7 @@ export default class PeriodUsageDisplay extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.props.usage !== nextProps.usage;
+    return (this.props.enabled !== nextProps.enabled) || (this.props.usage !== nextProps.usage);
   }
 
   positionInData(element, dataset) {
