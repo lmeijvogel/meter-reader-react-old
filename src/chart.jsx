@@ -107,7 +107,7 @@ export default class Chart extends Component {
   unit() {
     switch (this.props.fieldName) {
       case 'gas':
-        return "m3";
+        return "m³";
         break;
       case 'stroom_totaal':
         return "kWh";
