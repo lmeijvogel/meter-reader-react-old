@@ -55,7 +55,7 @@ export default class EnergyUsageApp extends Component {
   }
 
   retrieveLiveData() {
-    fetch("/current.json").then( (response) => response.json()).then( (json) => {
+    fetch("/api/energy/current.json", {credentials: 'include'}).then( (response) => response.json()).then( (json) => {
       this.setState({
         live_data: {
           id: json.id,

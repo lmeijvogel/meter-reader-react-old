@@ -83,9 +83,10 @@ export default class UsageGraphs extends Component {
 
     this.setState({loadingData: true});
 
-    fetch(url).then( (response) => response.json()).then( (json) => {
+    fetch("/api" + url, { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
       this.setState({periodUsage: json, period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
-    }).catch( () => { // No 'finally'?!?
+    }).catch( (e) => { // No 'finally'?!?
+      console.error("Error fetching ", url, e);
       this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
     });
   }
