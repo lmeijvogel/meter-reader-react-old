@@ -9,7 +9,7 @@ export default class EnergyUsageApp extends Component {
   constructor() {
     super();
     this.state = {
-      live_data: {}
+      liveData: {}
     };
   }
 
@@ -19,16 +19,16 @@ export default class EnergyUsageApp extends Component {
     return (
       <div style={{maxWidth: "500px"}}>
         <div className="row">
-          <CurrentUsage id={this.state.live_data.id} current={this.state.live_data.current} />
+          <CurrentUsage id={this.state.liveData.id} current={this.state.liveData.current} />
         </div>
         <div className="row">
           <UsageGraphs />
         </div>
         <div className="row">
           <ActualReadings
-            stroom_dal={this.state.live_data.stroom_dal}
-            stroom_piek={this.state.live_data.stroom_piek}
-            gas={this.state.live_data.gas} />
+            stroom_dal={this.state.liveData.stroom_dal}
+            stroom_piek={this.state.liveData.stroom_piek}
+            gas={this.state.liveData.gas} />
         </div>
       </div>
     );
@@ -57,7 +57,7 @@ export default class EnergyUsageApp extends Component {
   retrieveLiveData() {
     fetch("/api/energy/current.json", {credentials: 'include'}).then( (response) => response.json()).then( (json) => {
       this.setState({
-        live_data: {
+        liveData: {
           id: json.id,
           current: json.current,
           gas: json.gas,
