@@ -31,9 +31,10 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack --env=prod",
+    "build": "webpack --env=dev",
     "watch": "webpack --watch --env=dev",
-    "serve": "cd build; python -m SimpleHTTPServer"
+    "serve": "cd build; python -m SimpleHTTPServer",
+    "dist": "webpack --env=prod"
   },
   "jest": {
     "transform": {
