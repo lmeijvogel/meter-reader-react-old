@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;
+}
+.box {
+  text-align: center;
+  font: 15px "Helvetica Neue";
+  background:#5F9BD1;
+  color: #fff;
+  padding: 15px 0;
+
+}
+
+.numeric-data td {
+  width: 100px;
+}
+
+.period-usage-display {
+  transition: opacity 1s;
+}
+
+.disabled {
+  opacity: 0.3;
+}
