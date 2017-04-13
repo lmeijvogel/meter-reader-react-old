@@ -23,6 +23,7 @@
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.0",
     "html-webpack-plugin": "^2.28.0",
+    "html-webpack-template": "^6.0.1",
     "jest": "^19.0.2",
     "milligram-cli": "0.0.3",
     "regenerator-runtime": "^0.10.3",
@@ -30,8 +31,8 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "webpack",
-    "watch": "webpack --watch",
+    "build": "webpack --env=prod",
+    "watch": "webpack --watch --env=dev",
     "serve": "cd build; python -m SimpleHTTPServer"
   },
   "jest": {
