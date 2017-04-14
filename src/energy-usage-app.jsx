@@ -1,6 +1,7 @@
 import React from 'react';
 import {Component} from 'react';
 
+import LoginScreen from './login-screen.jsx';
 import CurrentUsage from './current-usage.jsx';
 import UsageGraphs from './usage-graphs.jsx';
 import ActualReadings from './actual-readings.jsx';
@@ -9,29 +10,34 @@ export default class EnergyUsageApp extends Component {
   constructor() {
     super();
     this.state = {
-      liveData: {}
+      liveData: {},
+      loggedIn: true
     };
   }
 
   render() {
-    // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
-    // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
-    return (
-      <div style={{maxWidth: "500px"}}>
-        <div className="row">
-          <CurrentUsage id={this.state.liveData.id} current={this.state.liveData.current} />
+    if (this.state.loggedIn) {
+      // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
+      // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
+      return (
+        <div style={{maxWidth: "500px"}}>
+          <div className="row">
+            <CurrentUsage id={this.state.liveData.id} current={this.state.liveData.current} />
+          </div>
+          <div className="row">
+            <UsageGraphs />
+          </div>
+          <div className="row">
+            <ActualReadings
+              stroom_dal={this.state.liveData.stroom_dal}
+              stroom_piek={this.state.liveData.stroom_piek}
+              gas={this.state.liveData.gas} />
+          </div>
         </div>
-        <div className="row">
-          <UsageGraphs />
-        </div>
-        <div className="row">
-          <ActualReadings
-            stroom_dal={this.state.liveData.stroom_dal}
-            stroom_piek={this.state.liveData.stroom_piek}
-            gas={this.state.liveData.gas} />
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return <LoginScreen loginSuccessful={this.loggedIn.bind(this)} />
+    }
   }
 
   componentDidMount() {
@@ -55,7 +61,10 @@ export default class EnergyUsageApp extends Component {
   }
 
   retrieveLiveData() {
-    fetch("/api/energy/current.json", {credentials: 'include'}).then( (response) => response.json()).then( (json) => {
+    if (!this.state.loggedIn) {
+      return;
+    }
+    fetch("/api/energy/current", {credentials: 'include'}).then( (response) => response.json()).then( (json) => {
       this.setState({
         liveData: {
           id: json.id,
@@ -66,8 +75,13 @@ export default class EnergyUsageApp extends Component {
         }
       });
     }).catch( () => { // No 'finally'?!?
+      this.setState({loggedIn: false});
       //this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
     });
+  }
+
+  loggedIn() {
+    this.setState({loggedIn: true});
   }
 
 }
