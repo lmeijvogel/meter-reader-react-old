@@ -30,7 +30,7 @@
     "style-loader": "^0.16.1"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest __tests__",
     "build": "webpack --env=dev",
     "watch": "webpack --watch --env=dev",
     "serve": "cd build; python -m SimpleHTTPServer",
