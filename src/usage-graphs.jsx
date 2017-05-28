@@ -51,7 +51,7 @@ export default class UsageGraphs extends Component {
 
         title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
 
-        display = <DayUsageDisplay usage={this.state.periodUsage} />
+        display = <DayUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} day={this.state.day} />
         buttons = <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         break;
     }

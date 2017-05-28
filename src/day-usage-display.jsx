@@ -13,12 +13,15 @@ export default class DayUsageDisplay extends PeriodUsageDisplay {
   }
 
   positionInData(element, dataset) {
-    const days = dataset.map( (el) => new Date(el.time_stamp).getDate() );
-    const minDate = Math.min.apply(null, days);
+    const currentDate = new Date(this.props.year, this.props.month - 1, this.props.day);
 
-    const date = new Date(element.time_stamp);
+    const elementTime = new Date(element.time_stamp);
+    const elementDate = new Date(elementTime.getFullYear(), elementTime.getMonth(), elementTime.getDate());
 
-    return date.getHours() + (date.getDate() - minDate) * 24;
+    const oneDay = 24*60*60*1000;
+    const dayDifference = (elementDate.getTime() - currentDate.getTime()) / oneDay;
+
+    return elementTime.getHours() + dayDifference * 24;
   }
 
 }
