@@ -64,20 +64,33 @@ export default class EnergyUsageApp extends Component {
     if (!this.state.loggedIn) {
       return;
     }
-    fetch("/api/energy/current", {credentials: 'include'}).then( (response) => response.json()).then( (json) => {
-      this.setState({
-        liveData: {
-          id: json.id,
-          current: json.current,
-          gas: json.gas,
-          stroom_dal: json.stroom_dal,
-          stroom_piek: json.stroom_piek
+
+    fetch("/api/energy/current", {credentials: 'include'})
+      .then( (response) => {
+        switch (response.status) {
+          case 200:
+            return response.json();
+            break;
+          case 401:
+            this.setState({loggedIn: false});
+            throw "Not logged in";
+          case 404:
+            throw "Current energy usage not found!";
+          default:
+            throw "Error occurred: "+ response.status;
         }
+      })
+      .then( (json) => {
+        this.setState({
+          liveData: {
+            id: json.id,
+            current: json.current,
+            gas: json.gas,
+            stroom_dal: json.stroom_dal,
+            stroom_piek: json.stroom_piek
+          }
+        });
       });
-    }).catch( () => { // No 'finally'?!?
-      this.setState({loggedIn: false});
-      //this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
-    });
   }
 
   loggedIn() {
