@@ -24,4 +24,11 @@ export default class DayUsageDisplay extends PeriodUsageDisplay {
     return elementTime.getHours() + dayDifference * 24;
   }
 
+  maxGasY() {
+    return 2;
+  }
+
+  maxStroomY() {
+    return 1.5;
+  }
 }

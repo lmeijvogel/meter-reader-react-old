@@ -38,4 +38,12 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
     const newDate = new Date(this.props.year, this.props.month - 1, index + 1);
     this.props.onSelect(newDate, "day");
   }
+
+  maxGasY() {
+    return 15;
+  }
+
+  maxStroomY() {
+    return 15;
+  }
 }

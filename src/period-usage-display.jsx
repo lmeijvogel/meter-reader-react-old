@@ -17,8 +17,8 @@ export default class PeriodUsageDisplay extends Component {
 
     return (
       <div className={'period-usage-display' + (this.props.enabled ? '' : ' disabled')}>
-        <Chart label="Gas" labels={labels} data={data} fieldName="gas" color="#f0ad4e" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
-        <Chart label="Stroom" labels={labels} data={data} fieldName="stroom_totaal" color="#428bca" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
+        <Chart label="Gas" labels={labels} data={data} maxY={this.maxGasY()} fieldName="gas" color="#f0ad4e" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
+        <Chart label="Stroom" labels={labels} data={data} maxY={this.maxStroomY()} fieldName="stroom_totaal" color="#428bca" onClick={this.onClick.bind(this)} tooltipLabelBuilder={this.tooltipLabel.bind(this)}></Chart>
       </div>
     );
   }
