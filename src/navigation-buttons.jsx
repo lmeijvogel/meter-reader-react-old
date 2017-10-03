@@ -11,8 +11,8 @@ export default class NavigationButtons extends Component {
         const nextYear = new Date(this.props.year + 1, 1, 1);
 
         return <div>
-          <ChangePeriodButton label="Previous year" date={previousYear} onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} />
-          <ChangePeriodButton label="Next year" date={nextYear} onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} />
+          <ChangePeriodButton label="Previous year" date={previousYear} onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} className="column-50" />
+          <ChangePeriodButton label="Next year" date={nextYear} onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} className="column-50" />
         </div>;
         break;
       case "month":
@@ -21,8 +21,9 @@ export default class NavigationButtons extends Component {
         const currentYear = new Date(this.props.year, 1, 1);
 
         return <div>
-          <ChangePeriodButton label="Previous month" onClick={() => this.newPeriod(this.toPeriod(previousMonth, "month"))} enabled={this.props.enabled} />
-          <ChangePeriodButton label="Next month" onClick={() => this.newPeriod(this.toPeriod(nextMonth, "month"))} enabled={this.props.enabled} />
+          <ChangePeriodButton label="Previous month" onClick={() => this.newPeriod(this.toPeriod(previousMonth, "month"))} enabled={this.props.enabled} className="column-50" />
+          <ChangePeriodButton label="Next month" onClick={() => this.newPeriod(this.toPeriod(nextMonth, "month"))} enabled={this.props.enabled} className="column-50" />
+          <br />
           <ChangePeriodButton label="Up to year" onClick={() => this.newPeriod(this.toPeriod(currentYear, "year"))} enabled={this.props.enabled} />
         </div>;
         break;
@@ -31,10 +32,14 @@ export default class NavigationButtons extends Component {
         const nextDate = new Date(this.props.year, this.props.month - 1, this.props.day + 1);
         const currentMonth = new Date(this.props.year, this.props.month - 1, 1);
 
-        return <div>
-          <ChangePeriodButton label="Previous day" onClick={() => this.newPeriod(this.toPeriod(previousDate, "day"))} enabled={this.props.enabled} />
-          <ChangePeriodButton label="Next day" onClick={() => this.newPeriod(this.toPeriod(nextDate, "day"))} enabled={this.props.enabled} />
-          <ChangePeriodButton label="Up to month" onClick={() => this.newPeriod(this.toPeriod(currentMonth, "month"))} enabled={this.props.enabled} />
+        return <div className="container">
+          <div className="row">
+            <ChangePeriodButton label="Previous day" onClick={() => this.newPeriod(this.toPeriod(previousDate, "day"))} enabled={this.props.enabled} className="column column-sm-40" />
+            <ChangePeriodButton label="Next day" onClick={() => this.newPeriod(this.toPeriod(nextDate, "day"))} enabled={this.props.enabled} className="column column-sm-40" />
+          </div>
+          <div className="row">
+            <ChangePeriodButton label="Up to month" onClick={() => this.newPeriod(this.toPeriod(currentMonth, "month"))} enabled={this.props.enabled} className="column column-100" />
+          </div>
         </div>;
         break;
     }
