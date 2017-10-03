@@ -20,7 +20,7 @@ export default class EnergyUsageApp extends Component {
       // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
       // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
       return (
-        <div style={{maxWidth: "500px"}}>
+        <div className="container" style={{maxWidth: "500px"}}>
           <div className="row">
             <CurrentUsage id={this.state.liveData.id} current={this.state.liveData.current} />
           </div>
