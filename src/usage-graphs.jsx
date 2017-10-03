@@ -70,23 +70,24 @@ export default class UsageGraphs extends Component {
   }
 
   periodSelected(period) {
-    let url;
+    let newLocation;
 
     switch(period.period) {
       case 'day':
-        url = '/day/'+ period.year + '/' + this.padDatePart(period.month) + '/'+ this.padDatePart(period.day) +'.json';
+        newLocation = '/day/'+ period.year + '/' + this.padDatePart(period.month) + '/'+ this.padDatePart(period.day);
         break;
       case 'month':
-        url = '/month/'+ period.year + '/' + this.padDatePart(period.month) +'.json';
+        newLocation = '/month/'+ period.year + '/' + this.padDatePart(period.month);
         break;
       case 'year':
-        url = '/year/'+ period.year + '.json';
+        newLocation = '/year/'+ period.year;
         break;
     }
 
     this.setState({loadingData: true});
+    window.history.pushState({}, newLocation, newLocation);
 
-    fetch("/api" + url, { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
+    fetch("/api" + newLocation + ".json", { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
       const newState = {periodUsage: json, period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false};
 
       this.setState(newState);
