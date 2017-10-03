@@ -5,6 +5,7 @@ import DayUsageDisplay from './day-usage-display.jsx';
 import MonthUsageDisplay from './month-usage-display.jsx';
 import YearUsageDisplay from './year-usage-display.jsx';
 import NavigationButtons from './navigation-buttons.jsx';
+import LocationBarParser from './location-bar-parser.js';
 
 const DAYS_OF_WEEK = {
   0: "Sunday",
@@ -19,13 +20,15 @@ const DAYS_OF_WEEK = {
 export default class UsageGraphs extends Component {
   constructor(state) {
     super(state);
-    this.state = {periodUsage: [], period: "month"};
+    this.state = {periodUsage: []};
   }
 
   componentDidMount() {
-    const date = new Date();
+    const locationBarParser = new LocationBarParser();
 
-    this.periodSelected(date, "month");
+    const period = locationBarParser.parse(window.location.pathname);
+
+    this.periodSelected(period);
   }
 
   render() {
@@ -66,28 +69,29 @@ export default class UsageGraphs extends Component {
 
   }
 
-  periodSelected(date, period) {
+  periodSelected(period) {
     let url;
 
-    switch(period) {
+    switch(period.period) {
       case 'day':
-        url = '/day/'+ date.getFullYear() + '/' + this.padDatePart(date.getMonth()+1) + '/'+ this.padDatePart(date.getDate()) +'.json';
+        url = '/day/'+ period.year + '/' + this.padDatePart(period.month) + '/'+ this.padDatePart(period.day) +'.json';
         break;
       case 'month':
-        url = '/month/'+ date.getFullYear() + '/' + this.padDatePart(date.getMonth()+1) +'.json';
+        url = '/month/'+ period.year + '/' + this.padDatePart(period.month) +'.json';
         break;
       case 'year':
-        url = '/year/'+ date.getFullYear() + '.json';
+        url = '/year/'+ period.year + '.json';
         break;
     }
 
     this.setState({loadingData: true});
 
     fetch("/api" + url, { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
-      this.setState({periodUsage: json, period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
+      const newState = {periodUsage: json, period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false};
+
+      this.setState(newState);
     }).catch( (e) => { // No 'finally'?!?
-      console.error("Error fetching ", url, e);
-      this.setState({periodUsage: [], period: period, year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate(), loadingData: false});
+      this.setState({periodUsage: [], period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false});
     });
   }
 

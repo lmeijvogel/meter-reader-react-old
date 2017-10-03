@@ -23,8 +23,13 @@ export default class YearUsageDisplay extends PeriodUsageDisplay {
   }
 
   onClick(index) {
-    const newDate = new Date(this.props.year, index, 1);
-    this.props.onSelect(newDate, "month");
+    const newPeriod = {
+      period: "month",
+      year: this.props.year,
+      month: index + 1
+    };
+
+    this.props.onSelect(newPeriod);
   }
 
   maxGasY() {
