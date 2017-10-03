@@ -5,14 +5,22 @@ import ChangePeriodButton from './change-period-button.jsx';
 
 export default class NavigationButtons extends Component {
   render() {
+    const today = new Date();
+    const todayButton = <ChangePeriodButton label="Today" onClick={() => this.newPeriod(this.toPeriod(today, "day"))} enabled={this.props.enabled} className="column column-100" />
+
     switch (this.props.period) {
       case "year":
         const previousYear = new Date(this.props.year - 1, 1, 1);
         const nextYear = new Date(this.props.year + 1, 1, 1);
 
         return <div>
-          <ChangePeriodButton label="Previous year" date={previousYear} onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} className="column-50" />
-          <ChangePeriodButton label="Next year" date={nextYear} onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} className="column-50" />
+          <div className="row">
+            <ChangePeriodButton label="Previous year" date={previousYear} onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} className="column-50" />
+            <ChangePeriodButton label="Next year" date={nextYear} onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} className="column-50" />
+          </div>
+          <div className="row">
+            {todayButton}
+          </div>
         </div>;
         break;
       case "month":
@@ -21,10 +29,16 @@ export default class NavigationButtons extends Component {
         const currentYear = new Date(this.props.year, 1, 1);
 
         return <div>
-          <ChangePeriodButton label="Previous month" onClick={() => this.newPeriod(this.toPeriod(previousMonth, "month"))} enabled={this.props.enabled} className="column-50" />
-          <ChangePeriodButton label="Next month" onClick={() => this.newPeriod(this.toPeriod(nextMonth, "month"))} enabled={this.props.enabled} className="column-50" />
-          <br />
-          <ChangePeriodButton label="Up to year" onClick={() => this.newPeriod(this.toPeriod(currentYear, "year"))} enabled={this.props.enabled} />
+          <div className="row">
+            <ChangePeriodButton label="Previous month" onClick={() => this.newPeriod(this.toPeriod(previousMonth, "month"))} enabled={this.props.enabled} className="column-50" />
+            <ChangePeriodButton label="Next month" onClick={() => this.newPeriod(this.toPeriod(nextMonth, "month"))} enabled={this.props.enabled} className="column-50" />
+          </div>
+          <div className="row">
+            <ChangePeriodButton label="Up to year" onClick={() => this.newPeriod(this.toPeriod(currentYear, "year"))} enabled={this.props.enabled} />
+          </div>
+          <div className="row">
+            {todayButton}
+          </div>
         </div>;
         break;
       case "day":
@@ -39,6 +53,9 @@ export default class NavigationButtons extends Component {
           </div>
           <div className="row">
             <ChangePeriodButton label="Up to month" onClick={() => this.newPeriod(this.toPeriod(currentMonth, "month"))} enabled={this.props.enabled} className="column column-100" />
+          </div>
+          <div className="row">
+            {todayButton}
           </div>
         </div>;
         break;
