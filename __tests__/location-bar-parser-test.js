@@ -14,7 +14,7 @@ describe("LocationBarParser", () => {
       expect(actual).toEqual({
         period: "month",
         month: (new Date()).getMonth() + 1,
-        year: (new Date()).getYear()
+        year: (new Date()).getFullYear()
       })
     })
   })

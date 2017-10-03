@@ -35,7 +35,7 @@ export default class LocationBarParser {
     return {
       period: "month",
       month: date.getMonth() + 1,
-      year: date.getYear()
+      year: date.getFullYear()
     }
   }
 }
