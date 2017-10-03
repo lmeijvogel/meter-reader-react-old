@@ -28,6 +28,12 @@ export default class UsageGraphs extends Component {
 
     const period = locationBarParser.parse(window.location.pathname);
 
+    window.onpopstate = (event) => {
+      if (event.state.period) {
+        this.periodSelected(event.state.period, true);
+      }
+    }
+
     this.periodSelected(period);
   }
 
@@ -69,7 +75,7 @@ export default class UsageGraphs extends Component {
 
   }
 
-  periodSelected(period) {
+  periodSelected(period, skipPushState) {
     let newLocation;
 
     switch(period.period) {
@@ -85,7 +91,10 @@ export default class UsageGraphs extends Component {
     }
 
     this.setState({loadingData: true});
-    window.history.pushState({}, newLocation, newLocation);
+
+    if (!skipPushState) {
+      window.history.pushState({period: period}, newLocation, newLocation);
+    }
 
     fetch("/api" + newLocation + ".json", { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
       const newState = {periodUsage: json, period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false};
