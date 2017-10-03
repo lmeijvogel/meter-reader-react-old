@@ -7,7 +7,8 @@ module.exports = {
   entry: "./src/index.jsx",
   output: {
     path: "./dist/",
-    filename: 'bundle-[hash].js'
+    filename: 'bundle-[hash].js',
+    publicPath: '/'
   },
   module: {
     loaders: [{
@@ -40,6 +41,7 @@ module.exports = {
       inject: false,
       template: require('html-webpack-template'),
 
+      title: "Energie",
       appMountId: 'app'
     })
 
