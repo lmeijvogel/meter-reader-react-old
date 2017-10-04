@@ -1,6 +1,8 @@
 import React from 'react';
 import {Component} from 'react';
 
+import PropTypes from 'prop-types';
+
 export default class CurrentUsage extends Component {
   render() {
     return (
@@ -27,7 +29,11 @@ export default class CurrentUsage extends Component {
     if (this.props.current) {
       return "" + (this.props.current * 1000) + " W";
     } else {
-      return "";
+      return "...";
     }
   }
+}
+
+CurrentUsage.propTypes = {
+  current: PropTypes.number
 }

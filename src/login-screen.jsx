@@ -1,7 +1,9 @@
 import React from 'react';
 import {Component} from 'react';
 
-export default class CurrentUsage extends Component {
+import PropTypes from 'prop-types';
+
+export default class LoginScreen extends Component {
   constructor() {
     super();
 
@@ -12,8 +14,8 @@ export default class CurrentUsage extends Component {
   }
 
   render() {
-
     const errorMessage = this.state.error ? <div className="error-message">{this.state.error}</div> : "";
+
     return (
       <div className="login-dialog">
         {errorMessage}
@@ -51,4 +53,8 @@ export default class CurrentUsage extends Component {
     }).then( () => this.props.loginSuccessful() )
       .catch( (e) => {console.log("Error"); console.log(e); this.setState({error: "Error logging in"})} );
   }
+}
+
+LoginScreen.propTypes = {
+  loginSuccessful: PropTypes.func.isRequired
 }

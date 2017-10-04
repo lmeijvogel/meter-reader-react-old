@@ -1,5 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import {Bar} from 'react-chartjs-2';
 
@@ -47,12 +48,9 @@ export default class Chart extends Component {
           }]
       }
     };
-    // Apparently, Chart.js doesn't understand 'height' and 'maxHeight' correctly, but only handles 'width' and 'max-width'.
-    // The maxWidth here corresponds to filling a single screen (vertically) on my laptop.
+
     return (
-      <div>
-        <Bar data={this.chartData()} options={options} />
-      </div>
+      <Bar data={this.chartData()} options={options} />
     );
   }
 
@@ -122,4 +120,15 @@ export default class Chart extends Component {
       this.props.onClick(data[0]._index);
     }
   }
+}
+
+Chart.propTypes = {
+  label: PropTypes.string.isRequired,
+  labels: PropTypes.arrayOf(PropTypes.number).isRequired,
+  data: PropTypes.array.isRequired,
+  maxY: PropTypes.number.isRequired,
+  fieldName: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  tooltipLabelBuilder: PropTypes.func.isRequired
 }

@@ -4,6 +4,8 @@ import {Component} from 'react';
 import DataShifter from './data-shifter'
 import Chart from './chart.jsx';
 
+import PropTypes from 'prop-types';
+
 export default class PeriodUsageDisplay extends Component {
   constructor(props) {
     super(props);
@@ -45,4 +47,8 @@ export default class PeriodUsageDisplay extends Component {
   onClick(index) {
     // Implemented by subclasses
   }
+}
+
+PeriodUsageDisplay.propTypes = {
+  usage: PropTypes.arrayOf(PropTypes.object)
 }

@@ -2,6 +2,8 @@ import React from 'react';
 
 import PeriodUsageDisplay from './period-usage-display.jsx';
 
+import PropTypes from 'prop-types';
+
 export default class MonthUsageDisplay extends PeriodUsageDisplay {
   labels() {
     var range = this.range(1, this.maxDate()+1);
@@ -52,4 +54,9 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
   maxStroomY() {
     return 15;
   }
+}
+
+MonthUsageDisplay.propTypes = {
+  year: PropTypes.number.isRequired,
+  month: PropTypes.number.isRequired
 }

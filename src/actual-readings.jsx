@@ -1,5 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class ActualReadings extends Component {
   constructor() {
@@ -35,3 +36,8 @@ export default class ActualReadings extends Component {
   }
 }
 
+ActualReadings.propTypes = {
+  stroom_dal: PropTypes.number,
+  stroom_piel: PropTypes.number,
+  gas: PropTypes.number
+}

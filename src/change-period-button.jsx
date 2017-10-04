@@ -1,5 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class ChangePeriodButton extends Component {
   render() {
@@ -7,6 +8,13 @@ export default class ChangePeriodButton extends Component {
   }
 
   onClick() {
-    this.props.onClick(this.props.date, this.props.period);
+    this.props.onClick();
   }
+}
+ChangePeriodButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
+
+  className: PropTypes.string
 }
