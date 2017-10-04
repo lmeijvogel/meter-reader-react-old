@@ -40,20 +40,17 @@ export default class UsageGraphs extends Component {
   render() {
     var title;
     var display;
-    var buttons;
 
     switch (this.state.period) {
       case "year":
         title = <h1>{this.state.year}</h1>;
 
         display = <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
-        buttons = <NavigationButtons period="year" year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
         break;
       case "month":
         title = <h1>{this.state.year}-{this.state.month}</h1>
 
         display = <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-        buttons = <NavigationButtons period="month" year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         break;
       case "day":
         const date = new Date(this.state.year, this.state.month-1, this.state.day);
@@ -61,7 +58,6 @@ export default class UsageGraphs extends Component {
         title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
 
         display = <DayUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} day={this.state.day} enabled={!this.state.loadingData} />
-        buttons = <NavigationButtons period="day" year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         break;
     }
 
@@ -69,7 +65,7 @@ export default class UsageGraphs extends Component {
       <div>
         {title}
         {display}
-        {buttons}
+        <NavigationButtons period={this.state.period} year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
       </div>
     );
 
