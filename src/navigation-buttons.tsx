@@ -1,29 +1,49 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
-import ChangePeriodButton from './change-period-button.jsx';
+import ChangePeriodButton from './change-period-button';
 
-export default class NavigationButtons extends Component {
+interface IProps {
+  enabled: boolean;
+
+  // TODO
+  year?: number;
+  month?: number;
+  day?: number;
+  // TODO
+  period: any;
+
+  onSelect: (any) => void;
+}
+export default class NavigationButtons extends Component<IProps, {}> {
   render() {
     const today = new Date();
     const todayButton = <ChangePeriodButton label="Today" onClick={() => this.newPeriod(this.toPeriod(today, "day"))} enabled={this.props.enabled} className="column column-100" />
 
     switch (this.props.period) {
       case "year":
+        if (this.props.year == null) {
+          throw "Props error: year: " + this.props.year + " is null";
+        }
+
         const previousYear = new Date(this.props.year - 1, 1, 1);
         const nextYear = new Date(this.props.year + 1, 1, 1);
 
         return <div>
           <div className="row">
-            <ChangePeriodButton label="Previous year" date={previousYear} onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} className="column-50" />
-            <ChangePeriodButton label="Next year" date={nextYear} onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} className="column-50" />
+            <ChangePeriodButton label="Previous year" onClick={() => this.newPeriod(this.toPeriod(previousYear, "year"))} enabled={this.props.enabled} className="column-50" />
+            <ChangePeriodButton label="Next year" onClick={() => this.newPeriod(this.toPeriod(nextYear, "year"))} enabled={this.props.enabled} className="column-50" />
           </div>
           <div className="row">
             {todayButton}
           </div>
         </div>;
-        break;
       case "month":
+        // TODO
+        if (this.props.year == null || this.props.month == null) {
+          throw "Props error: month: " + this.props.month + " is null";
+        }
+
         const previousMonth = new Date(this.props.year, this.props.month - 2, 1);
         const nextMonth = new Date(this.props.year, this.props.month, 1);
         const currentYear = new Date(this.props.year, 1, 1);
@@ -40,8 +60,12 @@ export default class NavigationButtons extends Component {
             {todayButton}
           </div>
         </div>;
-        break;
       case "day":
+        // TODO
+        if (this.props.year == null || this.props.month == null || this.props.day == null) {
+          throw "Props error: month: " + this.props.month + " or day " + this.props.day + " is null";
+        }
+
         const previousDate = new Date(this.props.year, this.props.month - 1, this.props.day - 1);
         const nextDate = new Date(this.props.year, this.props.month - 1, this.props.day + 1);
         const currentMonth = new Date(this.props.year, this.props.month - 1, 1);
@@ -58,7 +82,6 @@ export default class NavigationButtons extends Component {
             {todayButton}
           </div>
         </div>;
-        break;
     }
 
     return <div />;

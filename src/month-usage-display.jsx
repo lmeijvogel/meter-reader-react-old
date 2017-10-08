@@ -1,6 +1,6 @@
 import React from 'react';
 
-import PeriodUsageDisplay from './period-usage-display.jsx';
+import PeriodUsageDisplay from './period-usage-display';
 
 import PropTypes from 'prop-types';
 

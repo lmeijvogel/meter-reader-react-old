@@ -1,16 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
 import DataShifter from './data-shifter'
-import Chart from './chart.jsx';
+import Chart from './chart';
 
-import PropTypes from 'prop-types';
+export interface IPeriodUsageDisplayProps {
+  enabled: boolean;
+  onSelect: (period: any) => void;
+  usage: any;
+}
 
-export default class PeriodUsageDisplay extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+export default abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {
   render() {
     const labels = this.labels();
     const dataShifter = new DataShifter();
@@ -35,7 +35,7 @@ export default class PeriodUsageDisplay extends Component {
 
   // Used by subclasses
   range(start, end) {
-    let result = [];
+    let result:Array<number> = [];
 
     for (let i = start ; i < end ; i++) {
       result.push(i);
@@ -47,8 +47,11 @@ export default class PeriodUsageDisplay extends Component {
   onClick(index) {
     // Implemented by subclasses
   }
-}
 
-PeriodUsageDisplay.propTypes = {
-  usage: PropTypes.arrayOf(PropTypes.object)
+  abstract labels();
+  abstract tooltipLabel(field);
+
+  abstract maxGasY();
+
+  abstract maxStroomY();
 }

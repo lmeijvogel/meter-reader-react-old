@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
-import DayUsageDisplay from './day-usage-display.jsx';
-import MonthUsageDisplay from './month-usage-display.jsx';
-import YearUsageDisplay from './year-usage-display.jsx';
-import NavigationButtons from './navigation-buttons.jsx';
+import DayUsageDisplay from './day-usage-display';
+import MonthUsageDisplay from './month-usage-display';
+import YearUsageDisplay from './year-usage-display';
+import NavigationButtons from './navigation-buttons';
 import LocationBarParser from './location-bar-parser.js';
 
 const DAYS_OF_WEEK = {
@@ -17,10 +17,20 @@ const DAYS_OF_WEEK = {
   6: "Saturday"
 }
 
-export default class UsageGraphs extends Component {
+interface IState {
+  loadingData: boolean;
+  periodUsage: Array<any>;
+
+  period?: string;
+  day?: number;
+  month?: number;
+  year?: number;
+}
+
+export default class UsageGraphs extends Component<{}, IState> {
   constructor(state) {
     super(state);
-    this.state = {periodUsage: []};
+    this.state = {periodUsage: [], loadingData: true};
   }
 
   componentDidMount() {
@@ -45,7 +55,10 @@ export default class UsageGraphs extends Component {
       case "year":
         title = <h1>{this.state.year}</h1>;
 
-        display = <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
+        // TODO
+        if (this.state.year != null) {
+          display = <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
+        }
         break;
       case "month":
         title = <h1>{this.state.year}-{this.state.month}</h1>
@@ -53,12 +66,15 @@ export default class UsageGraphs extends Component {
         display = <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         break;
       case "day":
-        const date = new Date(this.state.year, this.state.month-1, this.state.day);
+        // TODO Typescript
+        if (this.state.year && this.state.month && this.state.day) {
+          const date = new Date(this.state.year, this.state.month-1, this.state.day);
 
-        title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
+          title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
 
-        display = <DayUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} day={this.state.day} enabled={!this.state.loadingData} />
-        break;
+          display = <DayUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} day={this.state.day} enabled={!this.state.loadingData} onSelect={() => {}} />
+          break;
+        }
     }
 
     return (
@@ -71,7 +87,7 @@ export default class UsageGraphs extends Component {
 
   }
 
-  periodSelected(period, skipPushState) {
+  periodSelected(period, skipPushState = false) {
     let newLocation;
 
     switch(period.period) {
@@ -107,13 +123,10 @@ export default class UsageGraphs extends Component {
     switch(stringPart.length) {
       case 0:
         return '00';
-        break;
       case 1:
         return '0'+stringPart;
-        break;
       default:
         return stringPart;
-        break
     }
   }
 }

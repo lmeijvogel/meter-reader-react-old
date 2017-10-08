@@ -5,11 +5,14 @@
   "description": "Implement my energy usage frontend to React",
   "main": "index.js",
   "dependencies": {
+    "@types/react": "^16.0.10",
+    "@types/react-dom": "^16.0.1",
     "babel-cli": "^6.23.0",
     "babel-loader": "^6.3.2",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "chart.js": "^2.5.0",
+    "jsonlint": "^1.6.2",
     "milligram": "^1.3.0",
     "prop-types": "^15.6.0",
     "react": "^15.4.2",
@@ -20,6 +23,7 @@
     "webpack": "^2.2.1"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^3.2.3",
     "babel-jest": "^19.0.0",
     "clean-webpack-plugin": "^0.1.16",
     "css-loader": "^0.28.0",
@@ -28,7 +32,9 @@
     "jest": "^19.0.2",
     "milligram-cli": "0.0.3",
     "regenerator-runtime": "^0.10.3",
-    "style-loader": "^0.16.1"
+    "source-map-loader": "^0.2.2",
+    "style-loader": "^0.16.1",
+    "typescript": "^2.5.3"
   },
   "scripts": {
     "test": "jest __tests__",

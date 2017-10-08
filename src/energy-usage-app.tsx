@@ -1,18 +1,30 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
-import LoginScreen from './login-screen.jsx';
-import CurrentUsage from './current-usage.jsx';
-import UsageGraphs from './usage-graphs.jsx';
-import ActualReadings from './actual-readings.jsx';
+import LoginScreen from './login-screen';
+import CurrentUsage from './current-usage';
+import UsageGraphs from './usage-graphs';
+import ActualReadings from './actual-readings';
 
-export default class EnergyUsageApp extends Component {
+interface IState {
+  liveData: LiveData;
+  loggedIn: boolean;
+}
+
+class LiveData {
+  id: number;
+  current: number;
+  gas: number;
+  stroom_dal: number;
+  stroom_piek: number;
+}
+
+export default class EnergyUsageApp extends Component<{}, IState> {
+  timer: any;
+
   constructor() {
     super();
-    this.state = {
-      liveData: {},
-      loggedIn: true
-    };
+    this.state = { liveData: new LiveData(), loggedIn: true };
   }
 
   render() {
@@ -70,7 +82,6 @@ export default class EnergyUsageApp extends Component {
         switch (response.status) {
           case 200:
             return response.json();
-            break;
           case 401:
             this.setState({loggedIn: false});
             throw "Not logged in";

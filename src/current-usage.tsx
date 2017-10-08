@@ -1,9 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
-import PropTypes from 'prop-types';
+interface IProps {
+  id: number;
+  current: number;
+}
 
-export default class CurrentUsage extends Component {
+export default class CurrentUsage extends Component<IProps, any> {
+
   render() {
     return (
       <table className="column column-20">
@@ -32,8 +36,4 @@ export default class CurrentUsage extends Component {
       return "...";
     }
   }
-}
-
-CurrentUsage.propTypes = {
-  current: PropTypes.number
 }

@@ -1,13 +1,23 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import {Bar} from 'react-chartjs-2';
 
 import ArrayInterpolator from './array-interpolator.js';
 import RelativeConverter from './relative-converter.js';
 
-export default class Chart extends Component {
+interface IProps {
+  label: string;
+  labels: number[];
+  data: any[]
+  maxY: number;
+  fieldName: string;
+  color: string;
+  onClick: (int) => void;
+  tooltipLabelBuilder: () => void;
+}
+
+export default class Chart extends Component<IProps, {}> {
 
   render() {
     var tooltipLabelBuilder = this.props.tooltipLabelBuilder;
@@ -54,7 +64,8 @@ export default class Chart extends Component {
     );
   }
 
-  chartData() {
+  // TODO?
+  chartData() : any {
     const interpolatedData = new ArrayInterpolator().call(this.dataForField());
     const relativeData = new RelativeConverter().convert(interpolatedData);
     const roundedData = relativeData.map( (value) => this.truncate(value, 3) );
@@ -107,10 +118,8 @@ export default class Chart extends Component {
     switch (this.props.fieldName) {
       case 'gas':
         return "m³";
-        break;
       case 'stroom_totaal':
         return "kWh";
-        break;
     }
   }
 
@@ -120,15 +129,4 @@ export default class Chart extends Component {
       this.props.onClick(data[0]._index);
     }
   }
-}
-
-Chart.propTypes = {
-  label: PropTypes.string.isRequired,
-  labels: PropTypes.arrayOf(PropTypes.number).isRequired,
-  data: PropTypes.array.isRequired,
-  maxY: PropTypes.number.isRequired,
-  fieldName: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  tooltipLabelBuilder: PropTypes.func.isRequired
 }

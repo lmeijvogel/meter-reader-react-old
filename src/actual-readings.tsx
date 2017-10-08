@@ -1,15 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
-import PropTypes from 'prop-types';
 
-export default class ActualReadings extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-
+export default class ActualReadings extends Component<IProps, {}> {
   render() {
-    const {stroom_dal, stroom_piek, gas} = this.props;
+    const stroom_dal = this.props.stroom_dal;
+    const stroom_piek = this.props.stroom_piek;
+    const gas = this.props.gas;
 
     return (
       <div>
@@ -36,8 +32,8 @@ export default class ActualReadings extends Component {
   }
 }
 
-ActualReadings.propTypes = {
-  stroom_dal: PropTypes.number,
-  stroom_piel: PropTypes.number,
-  gas: PropTypes.number
+interface IProps {
+  stroom_dal: number,
+  stroom_piek: number,
+  gas: number
 }

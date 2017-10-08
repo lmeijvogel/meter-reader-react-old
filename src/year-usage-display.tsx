@@ -1,10 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 
-import PeriodUsageDisplay from './period-usage-display.jsx';
+import PeriodUsageDisplay from './period-usage-display';
+import { IPeriodUsageDisplayProps } from './period-usage-display';
 
-import PropTypes from 'prop-types';
+interface IProps extends IPeriodUsageDisplayProps {
+  year: number;
+}
 
-export default class YearUsageDisplay extends PeriodUsageDisplay {
+export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   labels() {
     var range = this.range(1, 13);
 
@@ -41,8 +44,4 @@ export default class YearUsageDisplay extends PeriodUsageDisplay {
   maxStroomY() {
     return 350;
   }
-}
-
-YearUsageDisplay.propTypes = {
-  year: PropTypes.number.isRequired
 }
