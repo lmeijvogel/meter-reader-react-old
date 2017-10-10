@@ -1,26 +1,26 @@
 import * as React from 'react';
 
-import PeriodUsageDisplay from './period-usage-display';
-import { IPeriodUsageDisplayProps } from './period-usage-display';
+import { DayDescription } from './period-description';
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from './period-usage-display';
 
 interface IProps extends IPeriodUsageDisplayProps {
-  year: number;
-  month: number;
-  day: number;
+  periodDescription: DayDescription;
 }
 
 export default class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
-  labels() {
+  labels() : number[] {
     return this.range(0, 24);
   }
 
-  tooltipLabel(hour) {
+  tooltipLabel(hour) : string {
     const nextHour = (parseInt(hour, 10) + 1) % 24;
     return "" + hour + ":00 - " + nextHour + ":00";
   }
 
   positionInData(element, dataset) {
-    const currentDate = new Date(this.props.year, this.props.month - 1, this.props.day);
+    const periodDescription = this.props.periodDescription;
+
+    const currentDate = new Date(periodDescription.year, periodDescription.month, periodDescription.day);
 
     const elementTime = new Date(element.time_stamp);
     const elementDate = new Date(elementTime.getFullYear(), elementTime.getMonth(), elementTime.getDate());

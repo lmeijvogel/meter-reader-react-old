@@ -9,7 +9,7 @@ import RelativeConverter from './relative-converter.js';
 interface IProps {
   label: string;
   labels: number[];
-  data: any[]
+  data: number[]
   maxY: number;
   fieldName: string;
   color: string;

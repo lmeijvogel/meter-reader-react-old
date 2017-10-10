@@ -1,10 +1,13 @@
-import React from 'react';
+import * as React from 'react';
 
-import PeriodUsageDisplay from './period-usage-display';
+import { DayDescription, MonthDescription } from './period-description';
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from './period-usage-display';
 
-import PropTypes from 'prop-types';
+interface IProps extends IPeriodUsageDisplayProps {
+  periodDescription : MonthDescription;
+}
 
-export default class MonthUsageDisplay extends PeriodUsageDisplay {
+export default class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   labels() {
     var range = this.range(1, this.maxDate()+1);
 
@@ -12,7 +15,7 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
   }
 
   tooltipLabel(day) {
-    return "" + this.props.year + "-" + this.props.month + "-" + day;
+    return this.props.periodDescription.toTitle() + "-" + day;
   }
 
   positionInData(element, dataset) {
@@ -33,16 +36,15 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
   maxDate() {
     // -1 because JS months are zero-based
     // +1 because we want the 0th day of the next month (== last day of current month)
-    return (new Date(this.props.year, this.props.month - 1 + 1, 0)).getDate();
+    return (new Date(this.props.periodDescription.year, this.props.periodDescription.month - 1 + 1, 0)).getDate();
   }
 
   onClick(index) {
-    const newPeriod = {
-      period: "day",
-      day: index + 1,
-      month: this.props.month,
-      year: this.props.year
-    }
+    const newPeriod = new DayDescription(
+      this.props.periodDescription.year,
+      this.props.periodDescription.month,
+      index + 1
+    )
 
     this.props.onSelect(newPeriod);
   }
@@ -54,9 +56,4 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay {
   maxStroomY() {
     return 15;
   }
-}
-
-MonthUsageDisplay.propTypes = {
-  year: PropTypes.number.isRequired,
-  month: PropTypes.number.isRequired
 }

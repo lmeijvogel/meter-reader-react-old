@@ -5,26 +5,15 @@ import DayUsageDisplay from './day-usage-display';
 import MonthUsageDisplay from './month-usage-display';
 import YearUsageDisplay from './year-usage-display';
 import NavigationButtons from './navigation-buttons';
-import LocationBarParser from './location-bar-parser.js';
+import LocationBarParser from './location-bar-parser';
 
-const DAYS_OF_WEEK = {
-  0: "Sunday",
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday"
-}
+import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from './period-description';
 
 interface IState {
   loadingData: boolean;
   periodUsage: Array<any>;
 
-  period?: string;
-  day?: number;
-  month?: number;
-  year?: number;
+  periodDescription?: PeriodDescription;
 }
 
 export default class UsageGraphs extends Component<{}, IState> {
@@ -48,85 +37,48 @@ export default class UsageGraphs extends Component<{}, IState> {
   }
 
   render() {
-    var title;
     var display;
 
-    switch (this.state.period) {
-      case "year":
-        title = <h1>{this.state.year}</h1>;
+    const periodDescription = this.state.periodDescription;
 
-        // TODO
-        if (this.state.year != null) {
-          display = <YearUsageDisplay usage={this.state.periodUsage} year={this.state.year} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
-        }
-        break;
-      case "month":
-        title = <h1>{this.state.year}-{this.state.month}</h1>
+    if (periodDescription) {
+      const title = <h1>{periodDescription.toTitle()}</h1>;
 
-        display = <MonthUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-        break;
-      case "day":
-        // TODO Typescript
-        if (this.state.year && this.state.month && this.state.day) {
-          const date = new Date(this.state.year, this.state.month-1, this.state.day);
+      if (periodDescription instanceof DayDescription) {
+        display = <DayUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} enabled={!this.state.loadingData} onSelect={() => {}} />
+      } else if (periodDescription instanceof MonthDescription) {
+        display = <MonthUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
+      } else if (periodDescription instanceof YearDescription) {
+        display = <YearUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
+      }
 
-          title = <h1>{DAYS_OF_WEEK[date.getDay()]} {this.state.year}-{this.state.month}-{this.state.day}</h1>;
-
-          display = <DayUsageDisplay usage={this.state.periodUsage} year={this.state.year} month={this.state.month} day={this.state.day} enabled={!this.state.loadingData} onSelect={() => {}} />
-          break;
-        }
+      return (
+        <div>
+          {title}
+          {display}
+          <NavigationButtons periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
+        </div>
+      );
+    } else {
+      return null;
     }
-
-    return (
-      <div>
-        {title}
-        {display}
-        <NavigationButtons period={this.state.period} year={this.state.year} month={this.state.month} day={this.state.day} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
-      </div>
-    );
-
   }
 
-  periodSelected(period, skipPushState = false) {
-    let newLocation;
-
-    switch(period.period) {
-      case 'day':
-        newLocation = '/day/'+ period.year + '/' + this.padDatePart(period.month) + '/'+ this.padDatePart(period.day);
-        break;
-      case 'month':
-        newLocation = '/month/'+ period.year + '/' + this.padDatePart(period.month);
-        break;
-      case 'year':
-        newLocation = '/year/'+ period.year;
-        break;
-    }
+  periodSelected(periodDescription: PeriodDescription, skipPushState = false) {
+    const newLocation = periodDescription.toUrl();
 
     this.setState({loadingData: true});
 
     if (!skipPushState) {
-      window.history.pushState({period: period}, newLocation, newLocation);
+      window.history.pushState({periodDescription: periodDescription}, newLocation, newLocation);
     }
 
     fetch("/api" + newLocation + ".json", { credentials: 'include' }).then( (response) => response.json()).then( (json) => {
-      const newState = {periodUsage: json, period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false};
+      const newState = {periodUsage: json, periodDescription: periodDescription, loadingData: false};
 
       this.setState(newState);
     }).catch( (e) => { // No 'finally'?!?
-      this.setState({periodUsage: [], period: period.period, year: period.year, month: period.month, day: period.day, loadingData: false});
+      this.setState({periodUsage: [], periodDescription: periodDescription, loadingData: false});
     });
-  }
-
-  padDatePart(part) {
-    const stringPart = part.toString();
-
-    switch(stringPart.length) {
-      case 0:
-        return '00';
-      case 1:
-        return '0'+stringPart;
-      default:
-        return stringPart;
-    }
   }
 }

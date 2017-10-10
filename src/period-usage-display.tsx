@@ -10,12 +10,12 @@ export interface IPeriodUsageDisplayProps {
   usage: any;
 }
 
-export default abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {
+export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {
   render() {
     const labels = this.labels();
     const dataShifter = new DataShifter();
 
-    const data =  dataShifter.call(this.props.usage, this.positionInData.bind(this));
+    const data = dataShifter.call(this.props.usage, this.positionInData.bind(this));
 
     return (
       <div className={'period-usage-display' + (this.props.enabled ? '' : ' disabled')}>
@@ -34,10 +34,10 @@ export default abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayPr
   }
 
   // Used by subclasses
-  range(start, end) {
-    let result:Array<number> = [];
+  range(start, end) : number[] {
+    let result : number[] = [];
 
-    for (let i = start ; i < end ; i++) {
+    for (let i: number = start ; i < end ; i++) {
       result.push(i);
     }
 

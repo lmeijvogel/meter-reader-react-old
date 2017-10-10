@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import PeriodUsageDisplay from './period-usage-display';
-import { IPeriodUsageDisplayProps } from './period-usage-display';
+import { YearDescription } from './period-description';
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from './period-usage-display';
 
 interface IProps extends IPeriodUsageDisplayProps {
-  year: number;
+  periodDescription: YearDescription;
 }
 
 export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
@@ -24,13 +24,13 @@ export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   }
 
   tooltipLabel(month) {
-    return "" + this.props.year + "-" + month;
+    return "" + this.props.periodDescription.year + "-" + month;
   }
 
   onClick(index) {
     const newPeriod = {
       period: "month",
-      year: this.props.year,
+      year: this.props.periodDescription.year,
       month: index + 1
     };
 
