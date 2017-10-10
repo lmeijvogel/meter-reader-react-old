@@ -1,6 +1,6 @@
 export default class RelativeConverter {
-  convert(input) {
-    const copy = input.slice(0);
+  convert(input : number[]) : number[] {
+    const copy : number[] = input.slice(0);
 
     let previousValue = copy.shift();
 

@@ -3,8 +3,8 @@ import {Component} from 'react';
 
 import {Bar} from 'react-chartjs-2';
 
-import ArrayInterpolator from './array-interpolator.js';
-import RelativeConverter from './relative-converter.js';
+import ArrayInterpolator from './array-interpolator';
+import RelativeConverter from './relative-converter';
 
 interface IProps {
   label: string;
