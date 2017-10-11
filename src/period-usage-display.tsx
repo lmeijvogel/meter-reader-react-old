@@ -26,12 +26,12 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) : boolean {
     return (this.props.enabled !== nextProps.enabled) || (this.props.usage !== nextProps.usage);
   }
 
   // Used by subclasses
-  range(start, end) : number[] {
+  range(start : number, end : number) : number[] {
     let result : number[] = [];
 
     for (let i: number = start ; i < end ; i++) {
@@ -43,11 +43,11 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
 
   abstract onClick(index) : void;
 
-  abstract labels();
-  abstract tooltipLabel(field);
+  abstract labels() : number[];
+  abstract tooltipLabel(field : number) : string;
   abstract positionInData(element, dataset) : number;
 
-  abstract maxGasY();
+  abstract maxGasY() : number;
 
-  abstract maxStroomY();
+  abstract maxStroomY() : number;
 }
