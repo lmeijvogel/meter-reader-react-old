@@ -37,25 +37,30 @@ export default class UsageGraphs extends Component<{}, IState> {
   }
 
   render() {
-    var display;
-
     const periodDescription = this.state.periodDescription;
 
     if (periodDescription) {
-      const title = <h1>{periodDescription.toTitle()}</h1>;
+      let displayElementClass;
 
       if (periodDescription instanceof DayDescription) {
-        display = <DayUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} enabled={!this.state.loadingData} onSelect={() => {}} />
+        displayElementClass = DayUsageDisplay
       } else if (periodDescription instanceof MonthDescription) {
-        display = <MonthUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
+        displayElementClass = MonthUsageDisplay
       } else if (periodDescription instanceof YearDescription) {
-        display = <YearUsageDisplay usage={this.state.periodUsage} periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />;
+        displayElementClass = YearUsageDisplay
       }
+
+      const usageDisplay = React.createElement(displayElementClass, {
+        usage: this.state.periodUsage,
+        periodDescription: periodDescription,
+        onSelect: this.periodSelected.bind(this),
+        enabled: !this.state.loadingData
+      })
 
       return (
         <div>
-          {title}
-          {display}
+          <h1>{periodDescription.toTitle()}</h1>
+          {usageDisplay}
           <NavigationButtons periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         </div>
       );
