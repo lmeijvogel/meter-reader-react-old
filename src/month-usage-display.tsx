@@ -15,7 +15,7 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   }
 
   tooltipLabel(day) {
-    return this.props.periodDescription.toTitle() + "-" + day;
+    return this.dayDescriptionAt(day).toTitle();
   }
 
   positionInData(element, dataset) {
@@ -48,6 +48,14 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
 
     this.props.onSelect(newPeriod);
   }
+
+  dayDescriptionAt(index : number) : DayDescription {
+    return new DayDescription(
+        this.props.periodDescription.year,
+        this.props.periodDescription.month,
+        index
+      )
+}
 
   maxGasY() {
     return 15;

@@ -1,11 +1,26 @@
 const DAYS_OF_WEEK = {
-  0: "Sunday",
-  1: "Monday",
-  2: "Tuesday",
-  3: "Wednesday",
-  4: "Thursday",
-  5: "Friday",
-  6: "Saturday"
+  0: "Zondag",
+  1: "Maandag",
+  2: "Dinsdag",
+  3: "Woensdag",
+  4: "Donderdag",
+  5: "Vrijdag",
+  6: "Zaterdag"
+}
+
+const MONTHS = {
+  0: "januari",
+  1: "februari",
+  2: "maart",
+  3: "april",
+  4: "mei",
+  5: "juni",
+  6: "juli",
+  7: "augustus",
+  8: "september",
+  9: "oktober",
+  10: "november",
+  11: "december"
 }
 
 export abstract class PeriodDescription {
@@ -82,7 +97,7 @@ export class MonthDescription extends PeriodDescription {
   }
 
   toTitle() {
-    return `${this.year}-${this.padDatePart(this.month + 1)}`
+    return `${MONTHS[this.month]} ${this.year}`;
   }
 }
 
@@ -120,7 +135,7 @@ export class DayDescription extends PeriodDescription {
   toTitle() {
     const date = new Date(this.year, this.month, this.day);
 
-    return `${DAYS_OF_WEEK[date.getDay()]} ${this.year}-${this.month + 1}-${this.day}`
+    return `${DAYS_OF_WEEK[date.getDay()]} ${this.day} ${MONTHS[this.month]} ${this.year}`;
   }
 
   static today() {

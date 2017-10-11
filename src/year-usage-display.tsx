@@ -24,7 +24,7 @@ export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   }
 
   tooltipLabel(month) {
-    return "" + this.props.periodDescription.year + "-" + month;
+    return this.monthDescriptionAt(month - 1).toTitle()
   }
 
   onClick(index) {
