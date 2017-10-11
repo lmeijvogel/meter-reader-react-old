@@ -30,10 +30,6 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
     return (this.props.enabled !== nextProps.enabled) || (this.props.usage !== nextProps.usage);
   }
 
-  positionInData(element, dataset) {
-    throw "Not Implemented";
-  }
-
   // Used by subclasses
   range(start, end) : number[] {
     let result : number[] = [];
@@ -49,6 +45,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
 
   abstract labels();
   abstract tooltipLabel(field);
+  abstract positionInData(element, dataset) : number;
 
   abstract maxGasY();
 
