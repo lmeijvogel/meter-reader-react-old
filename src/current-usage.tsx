@@ -18,18 +18,14 @@ export default class CurrentUsage extends Component<IProps, any> {
         </thead>
         <tbody>
           <tr>
-            <td className={this.className()}>{this.displayableCurrent()}</td>
+            <td>{this.displayableCurrent()}</td>
           </tr>
         </tbody>
       </table>
     );
   }
 
-  className() {
-    return "";
-  }
-
-  displayableCurrent() {
+  displayableCurrent() : string {
     if (this.props.current) {
       return "" + (this.props.current * 1000) + " W";
     } else {
