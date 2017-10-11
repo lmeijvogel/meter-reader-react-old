@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { YearDescription } from './period-description';
+import { MonthDescription, YearDescription } from './period-description';
 import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from './period-usage-display';
 
 interface IProps extends IPeriodUsageDisplayProps {
@@ -28,13 +28,14 @@ export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   }
 
   onClick(index) {
-    const newPeriod = {
-      period: "month",
-      year: this.props.periodDescription.year,
-      month: index + 1
-    };
+    this.props.onSelect(this.monthDescriptionAt(index));
+  }
 
-    this.props.onSelect(newPeriod);
+  monthDescriptionAt(index) : MonthDescription {
+    return new MonthDescription(
+      this.props.periodDescription.year,
+      index
+    );
   }
 
   maxGasY() {

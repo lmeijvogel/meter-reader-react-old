@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {Component} from 'react';
 
-import DataShifter from './data-shifter'
-import Chart from './chart';
+import { PeriodDescription } from './period-description';
+import DataShifter from './data-shifter';
+import Chart from './chart';;
 
 export interface IPeriodUsageDisplayProps {
   enabled: boolean;
-  onSelect: (period: any) => void;
+  onSelect: (period: PeriodDescription) => void;
   usage: any;
 }
 
