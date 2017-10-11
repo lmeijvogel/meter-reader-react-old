@@ -38,4 +38,8 @@ export default class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   maxStroomY() {
     return 1.5;
   }
+
+  onClick(index) {
+    // NOP : There are no actions to be implemented for clicking on hours
+  }
 }

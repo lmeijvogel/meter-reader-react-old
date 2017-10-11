@@ -45,9 +45,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
     return result;
   }
 
-  onClick(index) {
-    // Implemented by subclasses
-  }
+  abstract onClick(index) : void;
 
   abstract labels();
   abstract tooltipLabel(field);
