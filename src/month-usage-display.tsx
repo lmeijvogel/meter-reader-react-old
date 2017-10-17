@@ -34,9 +34,8 @@ export default class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
   }
 
   maxDate() {
-    // -1 because JS months are zero-based
     // +1 because we want the 0th day of the next month (== last day of current month)
-    return (new Date(this.props.periodDescription.year, this.props.periodDescription.month - 1 + 1, 0)).getDate();
+    return (new Date(this.props.periodDescription.year, this.props.periodDescription.month + 1, 0)).getDate();
   }
 
   onClick(index) {
