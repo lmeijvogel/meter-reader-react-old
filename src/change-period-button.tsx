@@ -6,13 +6,11 @@ interface IProps {
   label: string;
 
   onClick: () => void;
-
-  className?: string
 }
 
 export default class ChangePeriodButton extends Component<IProps, {}> {
   render() {
-    return <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className={this.props.className}>{this.props.label}</button>;
+    return <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="navigation-button">{this.props.label}</button>;
   }
 
   onClick() {

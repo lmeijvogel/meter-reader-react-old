@@ -58,20 +58,20 @@ export default class NavigationButtons extends Component<IProps, {}> {
   navigationButtons({previous, next, up} : NavigationButtonParams) : JSX.Element {
     const today = DayDescription.today();
 
-    const todayButton = <ChangePeriodButton label="Today" onClick={() => this.newPeriod(today)} enabled={this.props.enabled} className="navigation-button" />
+    const todayButton = <ChangePeriodButton label="Today" onClick={() => this.newPeriod(today)} enabled={this.props.enabled} />
 
     return <div className="container">
              <div className="row">
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={"< "+ previous.name} onClick={() => this.newPeriod(previous.period)} enabled={this.props.enabled} className="navigation-button" />
+                 <ChangePeriodButton label={"< "+ previous.name} onClick={() => this.newPeriod(previous.period)} enabled={this.props.enabled} />
                </div>
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={next.name + " >"} onClick={() => this.newPeriod(next.period)} enabled={this.props.enabled} className="navigation-button" />
+                 <ChangePeriodButton label={next.name + " >"} onClick={() => this.newPeriod(next.period)} enabled={this.props.enabled} />
                </div>
              </div>
              {up && <div className="row">
                       <div className="column column-100">
-                        <ChangePeriodButton label={up.name} onClick={() => this.newPeriod(up.period)} enabled={this.props.enabled} className="navigation-button" />
+                        <ChangePeriodButton label={up.name} onClick={() => this.newPeriod(up.period)} enabled={this.props.enabled} />
                       </div>
                     </div>}
 
