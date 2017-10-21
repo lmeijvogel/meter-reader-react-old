@@ -59,7 +59,7 @@ export default class UsageGraphs extends Component<{}, IState> {
 
       return (
         <div>
-          <h1>{periodDescription.toTitle()}</h1>
+          <h2>{periodDescription.toTitle()}</h2>
           {usageDisplay}
           <NavigationButtons periodDescription={periodDescription} onSelect={this.periodSelected.bind(this)} enabled={!this.state.loadingData} />
         </div>
