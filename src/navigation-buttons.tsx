@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Component} from 'react';
 
 import ChangePeriodButton from './change-period-button';
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from './period-description';
+import { PeriodDescription, DayDescription } from './period-description';
 
 interface IProps {
   enabled: boolean;
