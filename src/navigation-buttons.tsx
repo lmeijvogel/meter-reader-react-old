@@ -12,15 +12,10 @@ interface IProps {
   onSelect: (any) => void;
 }
 
-interface NavigationButton {
-  name : string;
-  period: PeriodDescription;
-}
-
 interface NavigationButtonParams {
-  previous: NavigationButton;
-  next: NavigationButton;
-  up?: NavigationButton;
+  previous: PeriodDescription;
+  next: PeriodDescription;
+  up?: PeriodDescription;
 }
 
 export default class NavigationButtons extends Component<IProps, {}> {
@@ -31,24 +26,24 @@ export default class NavigationButtons extends Component<IProps, {}> {
       const yearDescription = periodDescription as YearDescription;
 
       return this.navigationButtons({
-        previous: {name: 'Jaar terug', period: yearDescription.previous()},
-        next: {name: 'Jaar vooruit', period: yearDescription.next()}
+        previous: yearDescription.previous(),
+        next: yearDescription.next()
       });
     } else if (periodDescription instanceof MonthDescription) {
       const monthDescription = periodDescription as MonthDescription;
 
       return this.navigationButtons({
-        previous: {name: 'Maand terug', period: monthDescription.previous()},
-        next: {name: 'Maand vooruit', period: monthDescription.next()},
-        up: {name: "Naar jaar", period: monthDescription.up()}
+        previous: monthDescription.previous(),
+        next: monthDescription.next(),
+        up: monthDescription.up()
       });
     } else if (periodDescription instanceof DayDescription) {
       const dayDescription = periodDescription as DayDescription;
 
       return this.navigationButtons({
-        previous: {name: "Dag terug", period: dayDescription.previous()},
-        next: {name: "Dag vooruit", period: dayDescription.next()},
-        up: {name: "Naar maand", period: dayDescription.up()}
+        previous: dayDescription.previous(),
+        next: dayDescription.next(),
+        up: dayDescription.up()
       });
     }
 
@@ -63,15 +58,15 @@ export default class NavigationButtons extends Component<IProps, {}> {
     return <div className="container">
              <div className="row">
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={"< "+ previous.period.toShortTitle()} onClick={() => this.newPeriod(previous.period)} enabled={this.props.enabled} />
+                 <ChangePeriodButton label={"< "+ previous.toShortTitle()} onClick={() => this.newPeriod(previous)} enabled={this.props.enabled} />
                </div>
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={next.period.toShortTitle() + " >"} onClick={() => this.newPeriod(next.period)} enabled={this.props.enabled} />
+                 <ChangePeriodButton label={next.toShortTitle() + " >"} onClick={() => this.newPeriod(next)} enabled={this.props.enabled} />
                </div>
              </div>
              {up && <div className="row">
                       <div className="column column-100">
-                        <ChangePeriodButton label={up.period.toShortTitle()} onClick={() => this.newPeriod(up.period)} enabled={this.props.enabled} />
+                        <ChangePeriodButton label={up.toShortTitle()} onClick={() => this.newPeriod(up)} enabled={this.props.enabled} />
                       </div>
                     </div>}
 
