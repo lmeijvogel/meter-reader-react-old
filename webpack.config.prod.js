@@ -45,6 +45,10 @@ module.exports = {
       template: require('html-webpack-template'),
 
       title: "Energie",
+      meta: [{
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      }],
       appMountId: 'app'
     })
 
