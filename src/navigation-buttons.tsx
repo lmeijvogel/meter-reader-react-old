@@ -12,25 +12,14 @@ interface IProps {
   onSelect: (any) => void;
 }
 
-interface NavigationButtonParams {
-  previous: PeriodDescription;
-  next: PeriodDescription;
-  up: PeriodDescription | null;
-}
-
 export default class NavigationButtons extends Component<IProps, {}> {
   render() {
     const periodDescription = this.props.periodDescription;
 
-    return this.navigationButtons({
-      previous: periodDescription.previous(),
-      next: periodDescription.next(),
-      up: periodDescription.up()
-    });
-  }
-
-  navigationButtons({previous, next, up} : NavigationButtonParams) : JSX.Element {
     const today = DayDescription.today();
+    const previous = periodDescription.previous();
+    const next = periodDescription.next();
+    const up = periodDescription.up();
 
     const todayButton = <ChangePeriodButton label="Today" onClick={() => this.newPeriod(today)} enabled={this.props.enabled} />
 
