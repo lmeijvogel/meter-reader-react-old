@@ -15,33 +15,18 @@ interface IProps {
 interface NavigationButtonParams {
   previous: PeriodDescription;
   next: PeriodDescription;
-  up?: PeriodDescription;
+  up: PeriodDescription | null;
 }
 
 export default class NavigationButtons extends Component<IProps, {}> {
   render() {
     const periodDescription = this.props.periodDescription;
 
-    if (periodDescription instanceof YearDescription) {
-      return this.navigationButtons({
-        previous: periodDescription.previous(),
-        next: periodDescription.next()
-      });
-    } else if (periodDescription instanceof MonthDescription) {
-      return this.navigationButtons({
-        previous: periodDescription.previous(),
-        next: periodDescription.next(),
-        up: periodDescription.up()
-      });
-    } else if (periodDescription instanceof DayDescription) {
-      return this.navigationButtons({
-        previous: periodDescription.previous(),
-        next: periodDescription.next(),
-        up: periodDescription.up()
-      });
-    }
-
-    return <div />;
+    return this.navigationButtons({
+      previous: periodDescription.previous(),
+      next: periodDescription.next(),
+      up: periodDescription.up()
+    });
   }
 
   navigationButtons({previous, next, up} : NavigationButtonParams) : JSX.Element {

@@ -40,6 +40,10 @@ export abstract class PeriodDescription {
   abstract toUrl(): string;
   abstract toTitle(): string;
 
+  abstract previous() : PeriodDescription;
+  abstract next() : PeriodDescription;
+  abstract up() : PeriodDescription | null;
+
   toShortTitle() : string {
     return this.toTitle();
   }
@@ -59,6 +63,10 @@ export class YearDescription extends PeriodDescription {
 
   next() {
     return new YearDescription(this.year + 1);
+  }
+
+  up() {
+    return null;
   }
 
   toUrl() {
