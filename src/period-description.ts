@@ -39,6 +39,10 @@ export abstract class PeriodDescription {
 
   abstract toUrl(): string;
   abstract toTitle(): string;
+
+  toShortTitle() : string {
+    return this.toTitle();
+  }
 }
 
 export class YearDescription extends PeriodDescription {
@@ -136,6 +140,12 @@ export class DayDescription extends PeriodDescription {
     const date = new Date(this.year, this.month, this.day);
 
     return `${DAYS_OF_WEEK[date.getDay()]} ${this.day} ${MONTHS[this.month]} ${this.year}`;
+  }
+
+  toShortTitle() {
+    const date = new Date(this.year, this.month, this.day);
+
+    return `${this.day} ${MONTHS[this.month]} ${this.year}`;
   }
 
   static today() {

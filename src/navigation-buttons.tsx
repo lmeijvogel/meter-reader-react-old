@@ -63,15 +63,15 @@ export default class NavigationButtons extends Component<IProps, {}> {
     return <div className="container">
              <div className="row">
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={"< "+ previous.name} onClick={() => this.newPeriod(previous.period)} enabled={this.props.enabled} />
+                 <ChangePeriodButton label={"< "+ previous.period.toShortTitle()} onClick={() => this.newPeriod(previous.period)} enabled={this.props.enabled} />
                </div>
                <div className="column column-md-50 column-sm-100">
-                 <ChangePeriodButton label={next.name + " >"} onClick={() => this.newPeriod(next.period)} enabled={this.props.enabled} />
+                 <ChangePeriodButton label={next.period.toShortTitle() + " >"} onClick={() => this.newPeriod(next.period)} enabled={this.props.enabled} />
                </div>
              </div>
              {up && <div className="row">
                       <div className="column column-100">
-                        <ChangePeriodButton label={up.name} onClick={() => this.newPeriod(up.period)} enabled={this.props.enabled} />
+                        <ChangePeriodButton label={up.period.toShortTitle()} onClick={() => this.newPeriod(up.period)} enabled={this.props.enabled} />
                       </div>
                     </div>}
 
