@@ -23,27 +23,21 @@ export default class NavigationButtons extends Component<IProps, {}> {
     const periodDescription = this.props.periodDescription;
 
     if (periodDescription instanceof YearDescription) {
-      const yearDescription = periodDescription as YearDescription;
-
       return this.navigationButtons({
-        previous: yearDescription.previous(),
-        next: yearDescription.next()
+        previous: periodDescription.previous(),
+        next: periodDescription.next()
       });
     } else if (periodDescription instanceof MonthDescription) {
-      const monthDescription = periodDescription as MonthDescription;
-
       return this.navigationButtons({
-        previous: monthDescription.previous(),
-        next: monthDescription.next(),
-        up: monthDescription.up()
+        previous: periodDescription.previous(),
+        next: periodDescription.next(),
+        up: periodDescription.up()
       });
     } else if (periodDescription instanceof DayDescription) {
-      const dayDescription = periodDescription as DayDescription;
-
       return this.navigationButtons({
-        previous: dayDescription.previous(),
-        next: dayDescription.next(),
-        up: dayDescription.up()
+        previous: periodDescription.previous(),
+        next: periodDescription.next(),
+        up: periodDescription.up()
       });
     }
 
