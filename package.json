@@ -34,24 +34,28 @@
     "regenerator-runtime": "^0.10.3",
     "source-map-loader": "^0.2.2",
     "style-loader": "^0.16.1",
+    "ts-jest": "^21.1.2",
+    "tslint": "^5.7.0",
     "typescript": "^2.5.3"
   },
   "scripts": {
     "test": "jest __tests__",
     "build": "webpack --env=dev",
     "watch": "webpack --watch --env=dev",
-    "serve": "cd build; python -m SimpleHTTPServer",
+    "serve": "bundle exec ruby serve.rb",
     "dist": "webpack --env=prod"
   },
+
   "jest": {
-    "transform": {
-      ".*": "<rootDir>/node_modules/babel-jest"
-    },
     "moduleFileExtensions": [
-      "js",
-      "json",
-      "es6"
-    ]
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
   },
   "author": "Lennaert Meijvogel",
   "license": "MIT"
