@@ -1,4 +1,5 @@
-import LocationBarParser from '../src/location-bar-parser.js';
+import LocationBarParser from '../src/location-bar-parser';
+import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from '../src/period-description';
 
 describe("LocationBarParser", () => {
   let locationBarParser;
@@ -11,11 +12,10 @@ describe("LocationBarParser", () => {
     it("returns the current month", () => {
       const actual = locationBarParser.parse("/")
 
-      expect(actual).toEqual({
-        period: "month",
-        month: (new Date()).getMonth() + 1,
-        year: (new Date()).getFullYear()
-      })
+      expect(actual).toEqual(new MonthDescription(
+        (new Date()).getFullYear(),
+        (new Date()).getMonth()
+      ))
     })
   })
 
@@ -23,12 +23,7 @@ describe("LocationBarParser", () => {
     it("returns the correct day", () => {
       const actual = locationBarParser.parse("/day/2017/06/20")
 
-      expect(actual).toEqual({
-        period: "day",
-        day: 20,
-        month: 6,
-        year: 2017
-      })
+      expect(actual).toEqual(new DayDescription(2017, 5, 20))
     })
   })
 
@@ -36,11 +31,7 @@ describe("LocationBarParser", () => {
     it("returns the correct month", () => {
       const actual = locationBarParser.parse("/month/2017/06")
 
-      expect(actual).toEqual({
-        period: "month",
-        month: 6,
-        year: 2017
-      })
+      expect(actual).toEqual(new MonthDescription(2017, 5))
     })
   })
 
@@ -48,10 +39,7 @@ describe("LocationBarParser", () => {
     it("returns the correct year", () => {
       const actual = locationBarParser.parse("/year/2017")
 
-      expect(actual).toEqual({
-        period: "year",
-        year: 2017
-      })
+      expect(actual).toEqual(new YearDescription(2017))
     })
   })
 })

@@ -1,4 +1,4 @@
-import MonthUsageDisplay from '../src/month-usage-display.jsx';
+import MonthUsageDisplay from '../src/month-usage-display.tsx';
 
 describe("MonthUsageDisplay data positioning", () => {
   var regularData = [

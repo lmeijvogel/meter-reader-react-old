@@ -1,4 +1,5 @@
-import DayUsageDisplay from '../src/day-usage-display.jsx';
+import DayUsageDisplay from '../src/day-usage-display.tsx';
+import { DayDescription } from '../src/period-description';
 
 describe("DayUsageDisplay data positioning", () => {
   var regularData = [
@@ -29,11 +30,7 @@ describe("DayUsageDisplay data positioning", () => {
     {"time_stamp":"2017-05-01T00:00:46+02:00", position: 24}
   ]
   it("sets the correct order", () => {
-    const dayUsageDisplay = new DayUsageDisplay({
-      year: 2017,
-      month: 4,
-      day: 30
-    });
+    const dayUsageDisplay = new DayUsageDisplay({periodDescription: new DayDescription( 2017, 3, 30)});
 
     const result = regularData.map( (el) => dayUsageDisplay.positionInData(el, regularData) )
 

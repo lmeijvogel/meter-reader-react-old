@@ -4,6 +4,10 @@
 	padding-top: 7.5rem;
 }
 
+.navigation-button {
+  width: 100%;
+}
+
 #home {
 	background: #f4f5f6;
 	height: 100vh;

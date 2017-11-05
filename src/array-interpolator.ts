@@ -1,13 +1,14 @@
 export default class ArrayInterpolator {
-  call(input) {
-    const firstNonEmpty = this.firstNonEmpty(input);
+  call(input : number[]) : number[] {
+    const firstNonEmpty : number = this.firstNonEmpty(input);
 
     if (firstNonEmpty === -1) {
       // No elements are filled in!
       return input;
     }
 
-    let rest;
+    let rest : number[];
+
     if (firstNonEmpty === 0) {
       // Fill a single range by finding the next non-empty element and
       // interpolate between them
@@ -20,21 +21,21 @@ export default class ArrayInterpolator {
         return input;
       }
 
-      const first = this.take(input, nextNonEmpty+1);
-      rest  = this.drop(input, nextNonEmpty);
+      const first : number[] = this.take(input, nextNonEmpty+1);
+      rest = this.drop(input, nextNonEmpty);
 
       const interpolatedFirst = this.interpolate(first);
 
       return this.initial(interpolatedFirst).concat(this.call(rest));
     } else {
-      const empties = this.take(input, firstNonEmpty);
-      rest  = this.drop(input, firstNonEmpty);
+      const empties : number[] = this.take(input, firstNonEmpty);
+      rest = this.drop(input, firstNonEmpty);
 
       return empties.concat(this.call(rest));
     }
   }
 
-  interpolate(array) {
+  interpolate(array : number[]) : number[] {
     const first = array[0];
     const last  = array[array.length-1];
     const count = array.length;
@@ -44,7 +45,7 @@ export default class ArrayInterpolator {
     return this.range(count).map( (el) => first + el*stepSize );
   }
 
-  firstNonEmpty(input) {
+  firstNonEmpty(input : number[]) : number {
     const firstIndexWhereInt = (input, test) => {
       if (input.length === 0) { return -1; }
 
@@ -63,26 +64,26 @@ export default class ArrayInterpolator {
     return firstIndexWhereInt(input, (el) => el != 0 && el != null);
   }
 
-  take(input, count) {
+  take(input : any[], count : number) {
     return input.slice(0, count);
   }
 
-  drop(input, count) {
+  drop(input : any[], count : number) {
     return input.slice(count);
   }
 
-  tail(input) {
+  tail(input : any[]) : any[] {
     return input.slice(1);
   }
 
-  initial(input) {
+  initial(input : any[]) : any[] {
     return input.slice(0, input.length - 1);
   }
 
-  range(count) {
-    let result = [];
+  range(count : number) : number[] {
+    let result : number[] = [];
 
-    for (var i = 0 ; i < count ; i++ ) {
+    for (let i : number = 0 ; i < count ; i++ ) {
       result.push(i);
     }
 

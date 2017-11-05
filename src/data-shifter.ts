@@ -1,6 +1,6 @@
 export default class DataShifter {
-  call(dataset, posExtractor) {
-    let output = [];
+  call(dataset : number[], posExtractor : (number) => number) {
+    let output : any[] = [];
 
     let lastPositionInOutput = 0;
 

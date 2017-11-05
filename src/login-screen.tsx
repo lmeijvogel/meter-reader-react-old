@@ -1,9 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 import {Component} from 'react';
 
-import PropTypes from 'prop-types';
+interface IProps {
+  loginSuccessful: () => void
+}
 
-export default class LoginScreen extends Component {
+interface IState {
+  username: string,
+  password: string,
+  error?: string
+}
+
+export default class LoginScreen extends Component<IProps, IState> {
   constructor() {
     super();
 
@@ -43,7 +51,7 @@ export default class LoginScreen extends Component {
   }
 
   onClick() {
-    this.setState({error: null});
+    this.setState({error: undefined});
 
     fetch("/api/login/create", {
       credentials: 'include',
@@ -53,8 +61,4 @@ export default class LoginScreen extends Component {
     }).then( () => this.props.loginSuccessful() )
       .catch( (e) => {console.log("Error"); console.log(e); this.setState({error: "Error logging in"})} );
   }
-}
-
-LoginScreen.propTypes = {
-  loginSuccessful: PropTypes.func.isRequired
 }

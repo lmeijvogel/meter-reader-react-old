@@ -4,24 +4,27 @@ var CleanWebpackPlugin = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: "./src/index.jsx",
+  entry: "./src/index.tsx",
   output: {
     path: "./dist/",
     filename: 'bundle-[hash].js',
     publicPath: '/'
   },
   module: {
-    loaders: [{
-      test: /.jsx?$/,
-      loader: 'babel-loader',
-      exclude: /node_modules/,
-      query: {
-        presets: ['es2015', 'react']
+    loaders: [
+      {
+        test: /.jsx?$|.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
+      {
+        test: /.css$/,
+        loader: 'style-loader!css-loader'
       }
-    }, {
-      test: /.css$/,
-      loader: 'style-loader!css-loader'
-    }]
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(['dist'], {
@@ -42,8 +45,16 @@ module.exports = {
       template: require('html-webpack-template'),
 
       title: "Energie",
+      meta: [{
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      }],
       appMountId: 'app'
     })
 
   ],
+
+  resolve: {
+    extensions: ['.ts', '.js', '.tsx', '.jsx', '.json']
+  }
 }
