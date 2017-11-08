@@ -23,6 +23,8 @@ const MONTHS = {
   11: "december"
 }
 
+const firstMeasurementDate = new Date(2014, 2, 3)
+
 export abstract class PeriodDescription {
   padDatePart(part: number): string {
     const stringPart = part.toString();
@@ -39,10 +41,25 @@ export abstract class PeriodDescription {
 
   abstract toUrl(): string;
   abstract toTitle(): string;
+  abstract toDate() : Date;
 
   abstract previous() : PeriodDescription;
   abstract next() : PeriodDescription;
   abstract up() : PeriodDescription | null;
+
+  hasMeasurements() : boolean {
+    return !this.beforeFirstMeasurement() && !this.isInFuture();
+  }
+
+  beforeFirstMeasurement() : boolean {
+    return this.relevantDateParts(this.toDate()) < this.relevantDateParts(firstMeasurementDate)
+  }
+
+  abstract relevantDateParts(date : Date) : Date;
+
+  isInFuture() : boolean {
+    return this.toDate() > new Date()
+  }
 
   toShortTitle() : string {
     return this.toTitle();
@@ -75,6 +92,14 @@ export class YearDescription extends PeriodDescription {
 
   toTitle() {
     return this.year.toString();
+  }
+
+  toDate() {
+    return new Date(this.year, 0, 1)
+  }
+
+  relevantDateParts(date : Date) : Date {
+    return new Date(date.getFullYear(), 0, 0)
   }
 }
 
@@ -110,6 +135,14 @@ export class MonthDescription extends PeriodDescription {
 
   toTitle() {
     return `${MONTHS[this.month]} ${this.year}`;
+  }
+
+  toDate() {
+    return new Date(this.year, this.month, 1)
+  }
+
+  relevantDateParts(date : Date) : Date {
+    return new Date(date.getFullYear(), date.getMonth(), 0)
   }
 }
 
@@ -150,10 +183,18 @@ export class DayDescription extends PeriodDescription {
     return `${DAYS_OF_WEEK[date.getDay()]} ${this.day} ${MONTHS[this.month]} ${this.year}`;
   }
 
+  toDate() {
+    return new Date(this.year, this.month, this.day)
+  }
+
   toShortTitle() {
     const date = new Date(this.year, this.month, this.day);
 
     return `${this.day} ${MONTHS[this.month]} ${this.year}`;
+  }
+
+  relevantDateParts(date : Date) : Date {
+    return date
   }
 
   static today() {

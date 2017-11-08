@@ -26,10 +26,10 @@ export default class NavigationButtons extends Component<IProps, {}> {
     return <div className="container">
              <div className="row">
                <div className="column column-md-50 column-sm-100">
-                 <NavigationButton label={"< "+ previous.toShortTitle()} onClick={() => this.newPeriod(previous)} enabled={this.props.enabled} />
+                 <NavigationButton label={"< "+ previous.toShortTitle()} onClick={() => this.newPeriod(previous)} enabled={this.props.enabled && previous.hasMeasurements()} />
                </div>
                <div className="column column-md-50 column-sm-100">
-                 <NavigationButton label={next.toShortTitle() + " >"} onClick={() => this.newPeriod(next)} enabled={this.props.enabled} />
+                 <NavigationButton label={next.toShortTitle() + " >"} onClick={() => this.newPeriod(next)} enabled={this.props.enabled && next.hasMeasurements()} />
                </div>
              </div>
              {up && <div className="row">
