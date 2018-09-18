@@ -6,6 +6,7 @@
   "main": "index.js",
   "dependencies": {
     "@types/react": "^16.0.10",
+    "@types/react-chartjs-2": "^2.5.7",
     "@types/react-dom": "^16.0.1",
     "babel-cli": "^6.23.0",
     "babel-loader": "^6.3.2",
@@ -45,7 +46,6 @@
     "serve": "bundle exec ruby serve.rb",
     "dist": "webpack --env=prod"
   },
-
   "jest": {
     "moduleFileExtensions": [
       "ts",
