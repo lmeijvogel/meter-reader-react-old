@@ -6,7 +6,7 @@ interface IProps {
     current: number;
 }
 
-export default class CurrentUsage extends Component<IProps, any> {
+export class CurrentUsage extends Component<IProps, any> {
     render() {
         return (
             <table className="column column-20">

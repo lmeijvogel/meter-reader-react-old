@@ -1,4 +1,4 @@
-export default class RelativeConverter {
+export class RelativeConverter {
     convert(input: number[]): number[] {
         const copy: number[] = input.slice(0);
 

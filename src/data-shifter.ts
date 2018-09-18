@@ -1,4 +1,4 @@
-export default class DataShifter {
+export class DataShifter {
     call(dataset: number[], posExtractor: (number) => number) {
         let output: any[] = [];
 

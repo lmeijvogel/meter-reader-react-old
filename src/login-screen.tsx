@@ -11,7 +11,7 @@ interface IState {
     error?: string;
 }
 
-export default class LoginScreen extends Component<IProps, IState> {
+export class LoginScreen extends Component<IProps, IState> {
     constructor(props: IProps, context: any) {
         super(props, context);
 

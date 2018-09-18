@@ -7,7 +7,7 @@ interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: YearDescription;
 }
 
-export default class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
     labels() {
         var range = this.range(1, 13);
 

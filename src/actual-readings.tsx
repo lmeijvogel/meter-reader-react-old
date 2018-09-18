@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
-export default class ActualReadings extends Component<IProps, {}> {
+export class ActualReadings extends Component<IProps, {}> {
     render() {
         const stroom_dal = this.props.stroom_dal;
         const stroom_piek = this.props.stroom_piek;

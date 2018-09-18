@@ -7,7 +7,7 @@ interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: DayDescription;
 }
 
-export default class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
     labels(): number[] {
         return this.range(0, 24);
     }

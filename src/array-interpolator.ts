@@ -1,4 +1,4 @@
-export default class ArrayInterpolator {
+export class ArrayInterpolator {
     call(input: number[]): number[] {
         const firstNonEmpty: number = this.firstNonEmpty(input);
 

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
 
-import LoginScreen from "./login-screen";
-import CurrentUsage from "./current-usage";
-import UsageGraphs from "./usage-graphs";
-import ActualReadings from "./actual-readings";
+import { LoginScreen } from "./login-screen";
+import { CurrentUsage } from "./current-usage";
+import { UsageGraphs } from "./usage-graphs";
+import { ActualReadings } from "./actual-readings";
 
 interface IState {
     liveData: LiveData;
@@ -19,7 +19,7 @@ class LiveData {
     stroom_piek: number;
 }
 
-export default class EnergyUsageApp extends Component<{}, IState> {
+export class EnergyUsageApp extends Component<{}, IState> {
     timer: any;
 
     constructor(props: {}, context: any) {

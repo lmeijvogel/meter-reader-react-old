@@ -7,7 +7,7 @@ interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: MonthDescription;
 }
 
-export default class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
     labels() {
         var range = this.range(1, this.maxDate() + 1);
 

@@ -8,7 +8,7 @@ interface IProps {
     onClick: () => void;
 }
 
-export default class NavigationButton extends Component<IProps, {}> {
+export class NavigationButton extends Component<IProps, {}> {
     render() {
         return (
             <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="navigation-button">

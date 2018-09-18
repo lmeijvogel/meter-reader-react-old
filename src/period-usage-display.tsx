@@ -2,8 +2,8 @@ import * as React from "react";
 import { Component } from "react";
 
 import { PeriodDescription } from "./period-description";
-import DataShifter from "./data-shifter";
-import Chart from "./chart";
+import { DataShifter } from "./data-shifter";
+import { Chart } from "./chart";
 
 export interface IPeriodUsageDisplayProps {
     enabled: boolean;

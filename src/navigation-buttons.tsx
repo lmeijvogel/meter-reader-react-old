@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
-import NavigationButton from "./navigation-button";
+import { NavigationButton } from "./navigation-button";
 import { PeriodDescription, DayDescription } from "./period-description";
 
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
     onSelect: (any) => void;
 }
 
-export default class NavigationButtons extends Component<IProps, {}> {
+export class NavigationButtons extends Component<IProps, {}> {
     render() {
         const periodDescription = this.props.periodDescription;
 

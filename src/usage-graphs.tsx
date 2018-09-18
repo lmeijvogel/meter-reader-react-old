@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Component } from "react";
 
-import DayUsageDisplay from "./day-usage-display";
-import MonthUsageDisplay from "./month-usage-display";
-import YearUsageDisplay from "./year-usage-display";
-import NavigationButtons from "./navigation-buttons";
-import LocationBarParser from "./location-bar-parser";
+import { DayUsageDisplay } from "./day-usage-display";
+import { MonthUsageDisplay } from "./month-usage-display";
+import { YearUsageDisplay } from "./year-usage-display";
+import { NavigationButtons } from "./navigation-buttons";
+import { LocationBarParser } from "./location-bar-parser";
 
 import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "./period-description";
 
@@ -16,7 +16,7 @@ interface IState {
     periodDescription?: PeriodDescription;
 }
 
-export default class UsageGraphs extends Component<{}, IState> {
+export class UsageGraphs extends Component<{}, IState> {
     constructor(state) {
         super(state);
         this.state = { periodUsage: [], loadingData: true };

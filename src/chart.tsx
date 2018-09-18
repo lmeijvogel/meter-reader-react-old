@@ -3,8 +3,8 @@ import { Component } from "react";
 
 import { Bar } from "react-chartjs-2";
 
-import ArrayInterpolator from "./array-interpolator";
-import RelativeConverter from "./relative-converter";
+import { ArrayInterpolator } from "./array-interpolator";
+import { RelativeConverter } from "./relative-converter";
 
 interface IProps {
     label: string;
@@ -17,7 +17,7 @@ interface IProps {
     tooltipLabelBuilder: () => void;
 }
 
-export default class Chart extends Component<IProps, {}> {
+export class Chart extends Component<IProps, {}> {
     render() {
         var tooltipLabelBuilder = this.props.tooltipLabelBuilder;
 

@@ -1,6 +1,6 @@
 import { PeriodDescription, DayDescription, MonthDescription, YearDescription } from "./period-description";
 
-export default class LocationBarParser {
+export class LocationBarParser {
     parse(path): PeriodDescription {
         const dayMatch = path.match(/\/day\/(\d+)\/(\d+)\/(\d+)/);
 
