@@ -1,19 +1,23 @@
-import * as React from 'react';
-import {Component} from 'react';
+import * as React from "react";
+import { Component } from "react";
 
 interface IProps {
-  enabled: boolean;
-  label: string;
+    enabled: boolean;
+    label: string;
 
-  onClick: () => void;
+    onClick: () => void;
 }
 
 export default class NavigationButton extends Component<IProps, {}> {
-  render() {
-    return <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="navigation-button">{this.props.label}</button>;
-  }
+    render() {
+        return (
+            <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="navigation-button">
+                {this.props.label}
+            </button>
+        );
+    }
 
-  onClick() {
-    this.props.onClick();
-  }
+    onClick() {
+        this.props.onClick();
+    }
 }

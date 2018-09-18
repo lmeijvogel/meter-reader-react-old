@@ -1,35 +1,31 @@
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from './period-description';
+import { PeriodDescription, DayDescription, MonthDescription, YearDescription } from "./period-description";
 
 export default class LocationBarParser {
-  parse(path): PeriodDescription {
-    const dayMatch = path.match(/\/day\/(\d+)\/(\d+)\/(\d+)/)
+    parse(path): PeriodDescription {
+        const dayMatch = path.match(/\/day\/(\d+)\/(\d+)\/(\d+)/);
 
-    if (dayMatch) {
-      return new DayDescription(
-        parseInt(dayMatch[1], 10),
-        parseInt(dayMatch[2], 10) - 1,
-        parseInt(dayMatch[3], 10))
+        if (dayMatch) {
+            return new DayDescription(
+                parseInt(dayMatch[1], 10),
+                parseInt(dayMatch[2], 10) - 1,
+                parseInt(dayMatch[3], 10)
+            );
+        }
+
+        const monthMatch = path.match(/\/month\/(\d+)\/(\d+)/);
+
+        if (monthMatch) {
+            return new MonthDescription(parseInt(monthMatch[1], 10), parseInt(monthMatch[2], 10) - 1);
+        }
+
+        const yearMatch = path.match(/\/year\/(\d+)/);
+
+        if (yearMatch) {
+            return new YearDescription(parseInt(yearMatch[1], 10));
+        }
+
+        const date = new Date();
+
+        return new MonthDescription(date.getFullYear(), date.getMonth());
     }
-
-    const monthMatch = path.match(/\/month\/(\d+)\/(\d+)/)
-
-    if (monthMatch) {
-      return new MonthDescription(
-        parseInt(monthMatch[1], 10),
-        parseInt(monthMatch[2], 10) - 1)
-    }
-
-    const yearMatch = path.match(/\/year\/(\d+)/)
-
-    if (yearMatch) {
-      return new YearDescription(
-        parseInt(yearMatch[1], 10))
-    }
-
-    const date = new Date()
-
-    return new MonthDescription(
-      date.getFullYear(),
-      date.getMonth())
-  }
 }
