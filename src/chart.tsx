@@ -5,6 +5,7 @@ import { Bar } from "react-chartjs-2";
 
 import { ArrayInterpolator } from "./array-interpolator";
 import { RelativeConverter } from "./relative-converter";
+import { PriceCalculator, PriceCategory } from "./price-calculator";
 
 interface IProps {
     label: string;
@@ -84,12 +85,16 @@ export class Chart extends Component<IProps, {}> {
     }
 
     chartTitle(): string {
-        return `${this.props.label} (${this.printableTotal} ${this.unit})`;
+        return `${this.props.label}: ${this.printableTotal} ${this.unit} (${this.printableCosts})`;
     }
 
     private get printableTotal(): number {
         const total = this.max() - this.min();
         return this.truncate(total, 3);
+    }
+
+    private get printableCosts(): string {
+        return PriceCalculator.costsFor(this.max() - this.min(), PriceCategory.Gas, new Date()).toString();
     }
 
     max(): number {
