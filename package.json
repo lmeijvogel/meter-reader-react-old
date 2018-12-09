@@ -24,6 +24,7 @@
     "webpack": "^2.2.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.1.2",
     "awesome-typescript-loader": "^3.2.3",
     "babel-jest": "^19.0.0",
     "clean-webpack-plugin": "^0.1.16",
@@ -37,7 +38,7 @@
     "style-loader": "^0.16.1",
     "ts-jest": "^21.1.2",
     "tslint": "^5.7.0",
-    "typescript": "^2.5.3"
+    "typescript": "^3.1.1"
   },
   "scripts": {
     "test": "jest __tests__",
