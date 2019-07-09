@@ -42,4 +42,8 @@ export class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
     maxStroomY() {
         return 350;
     }
+
+    maxWaterY() {
+        return 4500;
+    }
 }

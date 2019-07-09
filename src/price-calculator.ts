@@ -1,6 +1,7 @@
 export enum PriceCategory {
     Gas,
-    Stroom,
+        Stroom,
+        Water
 }
 
 export class Money {
@@ -18,6 +19,7 @@ export class Money {
 type RateForDateRange = {
     gasPrice: Money;
     stroomPrice: Money;
+    waterPrice: Money;
     validFrom: Date;
     validUntil: Date;
 };
@@ -30,6 +32,7 @@ export namespace PriceCalculator {
         {
             gasPrice: new Money(0.267 * 100),
             stroomPrice: new Money(0.047 * 100),
+            waterPrice: new Money(0),
             validFrom: new Date(2014, 0, 1),
             validUntil: new Date(2018, 10, 11)
         }
@@ -43,6 +46,8 @@ export namespace PriceCalculator {
                 return currentRate.gasPrice.multiply(units);
             case PriceCategory.Stroom:
                 return currentRate.stroomPrice.multiply(units);
+            case PriceCategory.Water:
+                return currentRate.waterPrice.multiply(units);
         }
     }
 
@@ -54,6 +59,7 @@ export namespace PriceCalculator {
             return {
                 gasPrice: new Money(0),
                 stroomPrice: new Money(0),
+                waterPrice: new Money(0),
                 validFrom: new Date(2014, 0, 1),
                 validUntil: new Date(2038, 0, 1)
             };

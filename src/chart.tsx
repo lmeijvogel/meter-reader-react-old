@@ -10,11 +10,13 @@ import { PriceCalculator, PriceCategory } from "./price-calculator";
 type Data = {
     gas: number;
     stroom_totaal: number;
+    water: number;
     time_stamp: string;
 };
 
 type DataName =
     | "gas"
+    | "water"
     | "stroom_totaal";
 
 interface IProps {
@@ -141,6 +143,8 @@ export class Chart extends Component<IProps, {}> {
                 return "m³";
             case "stroom_totaal":
                 return "kWh";
+            case "water":
+                return "L";
         }
     }
 

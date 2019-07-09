@@ -40,6 +40,16 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
                     onClick={this.onClick.bind(this)}
                     tooltipLabelBuilder={this.tooltipLabel.bind(this)}
                 />
+                <Chart
+                    label="Water"
+                    labels={labels}
+                    data={data}
+                    maxY={this.maxWaterY()}
+                    fieldName="water"
+                    color="#428bca"
+                    onClick={this.onClick.bind(this)}
+                    tooltipLabelBuilder={this.tooltipLabel.bind(this)}
+                />
             </div>
         );
     }
@@ -67,4 +77,6 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
     abstract maxGasY(): number;
 
     abstract maxStroomY(): number;
+
+    abstract maxWaterY(): number;
 }

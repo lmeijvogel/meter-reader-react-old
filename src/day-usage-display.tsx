@@ -39,6 +39,10 @@ export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return 1.5;
     }
 
+    maxWaterY() {
+        return 120;
+    }
+
     onClick(index) {
         // NOP : There are no actions to be implemented for clicking on hours
     }
