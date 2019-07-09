@@ -1,24 +1,24 @@
 export class ArrayInterpolator {
-    call(input: number[]): number[] {
-        const firstNonEmpty: number = this.firstNonEmpty(input);
+    call(input: (number | null)[]): number[] {
+        const firstNonEmptyIndex: number = this.firstNonEmptyIndex(input);
 
-        if (firstNonEmpty === -1) {
+        if (firstNonEmptyIndex === -1) {
             // No elements are filled in!
-            return input;
+            return [];
         }
 
         let rest: number[];
 
-        if (firstNonEmpty === 0) {
+        if (firstNonEmptyIndex === 0) {
             // Fill a single range by finding the next non-empty element and
             // interpolate between them
 
             // Skip the first element, but still count it in the offset
-            const nextNonEmpty = this.firstNonEmpty(this.tail(input)) + 1;
+            const nextNonEmpty = this.firstNonEmptyIndex(this.tail(input)) + 1;
 
             // No further elements are filled in, nothing to interpolate
             if (nextNonEmpty === 0) {
-                return input;
+                return input.slice(0, 1) as number[];
             }
 
             const first: number[] = this.take(input, nextNonEmpty + 1);
@@ -28,8 +28,8 @@ export class ArrayInterpolator {
 
             return this.initial(interpolatedFirst).concat(this.call(rest));
         } else {
-            const empties: number[] = this.take(input, firstNonEmpty);
-            rest = this.drop(input, firstNonEmpty);
+            const empties: number[] = this.take(input, firstNonEmptyIndex);
+            rest = this.drop(input, firstNonEmptyIndex);
 
             return empties.concat(this.call(rest));
         }
@@ -45,7 +45,7 @@ export class ArrayInterpolator {
         return this.range(count).map(el => first + el * stepSize);
     }
 
-    firstNonEmpty(input: number[]): number {
+    firstNonEmptyIndex(input: (number | null)[]): number {
         const firstIndexWhereInt = (input, test) => {
             if (input.length === 0) {
                 return -1;

@@ -31,8 +31,8 @@ export namespace PriceCalculator {
             gasPrice: new Money(0.267 * 100),
             stroomPrice: new Money(0.047 * 100),
             validFrom: new Date(2014, 0, 1),
-            validUntil: new Date(2018, 10, 11),
-        },
+            validUntil: new Date(2018, 10, 11)
+        }
     ];
 
     export function costsFor(units: number, priceCategory: PriceCategory, date: Date): Money {
@@ -50,7 +50,13 @@ export namespace PriceCalculator {
         const result = prices.filter(price => price.validFrom <= date && date < price.validUntil);
 
         if (result.length === 0) {
-            throw new Error("No prices specified for the specified date");
+            console.error("No prices specified for the selected date");
+            return {
+                gasPrice: new Money(0),
+                stroomPrice: new Money(0),
+                validFrom: new Date(2014, 0, 1),
+                validUntil: new Date(2038, 0, 1)
+            };
         }
 
         return result[0];

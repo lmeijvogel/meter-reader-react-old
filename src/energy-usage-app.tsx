@@ -7,7 +7,7 @@ import { UsageGraphs } from "./usage-graphs";
 import { ActualReadings } from "./actual-readings";
 
 interface IState {
-    liveData: LiveData;
+    liveData: LiveData | null;
     loggedIn: boolean;
 }
 
@@ -23,8 +23,12 @@ export class EnergyUsageApp extends Component<{}, IState> {
     timer: any;
 
     constructor(props: {}, context: any) {
-        super(props, context);
-        this.state = { liveData: new LiveData(), loggedIn: true };
+        super(props);
+
+        this.state = {
+            liveData: null,
+            loggedIn: false
+        };
     }
 
     render() {
@@ -34,17 +38,19 @@ export class EnergyUsageApp extends Component<{}, IState> {
             return (
                 <div className="container" style={{ maxWidth: "500px" }}>
                     <div className="row">
-                        <CurrentUsage id={this.state.liveData.id} current={this.state.liveData.current} />
+                    <CurrentUsage liveData={this.state.liveData} />
                     </div>
                     <div className="row">
                         <UsageGraphs />
                     </div>
                     <div className="row">
-                        <ActualReadings
-                            stroom_dal={this.state.liveData.stroom_dal}
-                            stroom_piek={this.state.liveData.stroom_piek}
-                            gas={this.state.liveData.gas}
-                        />
+                        {this.state.liveData &&
+                            <ActualReadings
+                                stroom_dal={this.state.liveData.stroom_dal}
+                                stroom_piek={this.state.liveData.stroom_piek}
+                                gas={this.state.liveData.gas}
+                            />
+                        }
                     </div>
                 </div>
             );

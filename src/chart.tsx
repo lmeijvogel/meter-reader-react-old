@@ -7,12 +7,22 @@ import { ArrayInterpolator } from "./array-interpolator";
 import { RelativeConverter } from "./relative-converter";
 import { PriceCalculator, PriceCategory } from "./price-calculator";
 
+type Data = {
+    gas: number;
+    stroom_totaal: number;
+    time_stamp: string;
+};
+
+type DataName =
+    | "gas"
+    | "stroom_totaal";
+
 interface IProps {
     label: string;
     labels: number[];
-    data: number[];
+    data: Data[];
     maxY: number;
-    fieldName: string;
+    fieldName: DataName;
     color: string;
     onClick: (int) => void;
     tooltipLabelBuilder: () => void;
@@ -46,7 +56,7 @@ export class Chart extends Component<IProps, {}> {
             responsive: true,
             title: {
                 display: true,
-                text: this.chartTitle(),
+                text: this.chartTitle()
             },
             legend: { display: false },
             tooltips: { callbacks: { title: titleCallback } },
@@ -55,11 +65,11 @@ export class Chart extends Component<IProps, {}> {
                     {
                         ticks: {
                             beginAtZero: true,
-                            max: this.props.maxY,
-                        },
-                    },
-                ],
-            },
+                            max: this.props.maxY
+                        }
+                    }
+                ]
+            }
         };
 
         return <Bar data={this.chartData()} options={options} />;
@@ -78,9 +88,9 @@ export class Chart extends Component<IProps, {}> {
                     label: this.props.label,
                     data: roundedData,
                     borderColor: this.props.color,
-                    backgroundColor: this.props.color,
-                },
-            ],
+                    backgroundColor: this.props.color
+                }
+            ]
         };
     }
 
@@ -94,22 +104,28 @@ export class Chart extends Component<IProps, {}> {
     }
 
     private get printableCosts(): string {
-        return PriceCalculator.costsFor(this.max() - this.min(), PriceCategory.Gas, new Date()).toString();
+        const firstTimestamp = new Date(this.props.data[0].time_stamp);
+
+        return PriceCalculator.costsFor(this.max() - this.min(), PriceCategory.Gas, firstTimestamp).toString();
     }
 
     max(): number {
-        return Math.max.apply(null, this.dataForField());
+        const actualValues = this.dataForField().filter(value => value !== null) as number[];
+
+        return Math.max.apply(null, actualValues);
     }
 
     min(): number {
-        return Math.min.apply(null, this.dataForField());
+        const actualValues = this.dataForField().filter(value => value !== null) as number[];
+
+        return Math.min.apply(null, actualValues);
     }
 
     truncate(value, precision) {
         return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
     }
 
-    dataForField() {
+    dataForField(): (number | null)[] {
         return this.props.data.map(u => {
             if (u) {
                 return u[this.props.fieldName];
