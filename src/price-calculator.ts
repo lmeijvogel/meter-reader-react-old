@@ -5,14 +5,14 @@ export enum PriceCategory {
 }
 
 export class Money {
-    constructor(private readonly cents: number) {}
+    constructor(private readonly euros: number) {}
 
     multiply(amount: number): Money {
-        return new Money(this.cents * amount);
+        return new Money(this.euros * amount);
     }
 
     toString(): string {
-        return `€ ${(this.cents / 100).toFixed(2)}`;
+        return `€ ${this.euros.toFixed(2)}`;
     }
 }
 
@@ -32,16 +32,17 @@ export namespace PriceCalculator {
     // All rates are in given in euros, but our Money class wants cents.
     const prices: RateForDateRange[] = [
         {
-            gasPrice: new Money(0.267 * 100),
-            stroomPrice: new Money(0.047 * 100),
+            gasPrice: new Money(0.267),
+            stroomPrice: new Money(0.047),
             waterPrice: new Money(0),
             validFrom: new Date(2014, 0, 1),
             validUntil: new Date(2018, 10, 11)
         },
         {
-            gasPrice: new Money(0.75336 * 100),
-            stroomPrice: new Money(0.22652 * 100),
-            waterPrice: new Money(1.30037 * 100 / 1000), // Incl. BTW, 1.193 excl. BTW. Rate is given on the Evides website in euros/m3, but I'd like to show in liters, so divide by 1000
+            gasPrice: new Money(0.75336),
+            stroomPrice: new Money(0.22652),
+            // Incl. BTW. Rate is given on the Evides website in per m3, but I'd like to show in liters, so divide by 1000.
+            waterPrice: new Money(1.30037 / 1000),
             validFrom: new Date(2018, 10, 12),
             validUntil: new Date(2019, 10, 11)
         }
