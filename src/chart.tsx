@@ -108,7 +108,20 @@ export class Chart extends Component<IProps, {}> {
     private get printableCosts(): string {
         const firstTimestamp = new Date(this.props.data[0].time_stamp);
 
-        return PriceCalculator.costsFor(this.max() - this.min(), PriceCategory.Gas, firstTimestamp).toString();
+        const category = this.getCategory(this.props.fieldName);
+
+        return PriceCalculator.costsFor(this.max() - this.min(), category, firstTimestamp).toString();
+    }
+
+    private getCategory(fieldName: DataName): PriceCategory {
+        switch (fieldName) {
+            case "gas":
+                return PriceCategory.Gas;
+            case "water":
+                return PriceCategory.Water;
+            case "stroom_totaal":
+                return PriceCategory.Stroom;
+        }
     }
 
     max(): number {
