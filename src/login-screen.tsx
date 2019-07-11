@@ -53,11 +53,11 @@ export class LoginScreen extends Component<IProps, IState> {
     }
 
     usernameChanged(event) {
-        this.setState({ username: event.target.value });
+        this.setState({ username: event.target.value, error: undefined });
     }
 
     passwordChanged(event) {
-        this.setState({ password: event.target.value });
+        this.setState({ password: event.target.value, error: undefined });
     }
 
     isValid() {
@@ -75,11 +75,22 @@ export class LoginScreen extends Component<IProps, IState> {
                 this.state.password
             )}`,
         })
-            .then(() => this.props.loginSuccessful())
-            .catch(e => {
-                console.log("Error");
-                console.log(e);
-                this.setState({ error: "Error logging in" });
+            .then((response) => {
+                switch (response.status) {
+                    case 200:
+                    this.props.loginSuccessful()
+                        break;
+                    case 401:
+                        this.showError("Unknown username or password");
+                        break;
+                    default:
+                        this.showError("Something went wrong");
+                        break;
+                }
             });
+    }
+
+    showError(message: string) {
+        this.setState({ error: message });
     }
 }
