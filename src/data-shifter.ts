@@ -1,6 +1,8 @@
+import { UsageData } from "./usage-data";
+
 export class DataShifter {
-    call(dataset: number[], posExtractor: (number) => number) {
-        let output: any[] = [];
+    call(dataset: (UsageData | null)[], posExtractor: (number) => number): (UsageData | null)[] {
+        let output: (UsageData | null)[] = [];
 
         let lastPositionInOutput = 0;
 

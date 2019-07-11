@@ -4,11 +4,12 @@ import { Component } from "react";
 import { PeriodDescription } from "./period-description";
 import { DataShifter } from "./data-shifter";
 import { Chart } from "./chart";
+import { UsageData } from "./usage-data";
 
 export interface IPeriodUsageDisplayProps {
     enabled: boolean;
     onSelect: (period: PeriodDescription) => void;
-    usage: any;
+    usage: UsageData[];
 }
 
 export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {

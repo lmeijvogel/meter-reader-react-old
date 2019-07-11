@@ -4,15 +4,9 @@ import { Component } from "react";
 import { Bar } from "react-chartjs-2";
 
 import { ArrayInterpolator } from "./array-interpolator";
+import { UsageData } from "./usage-data";
 import { RelativeConverter } from "./relative-converter";
 import { PriceCalculator, PriceCategory } from "./price-calculator";
-
-type Data = {
-    gas: number;
-    stroom_totaal: number;
-    water: number;
-    time_stamp: string;
-};
 
 type DataName =
     | "gas"
@@ -21,8 +15,8 @@ type DataName =
 
 interface IProps {
     label: string;
-    labels: number[];
-    data: Data[];
+    labels: (number | undefined)[];
+    data: (UsageData | null)[];
     maxY: number;
     fieldName: DataName;
     color: string;
