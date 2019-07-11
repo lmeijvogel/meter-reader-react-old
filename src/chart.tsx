@@ -100,7 +100,17 @@ export class Chart extends Component<IProps, {}> {
     }
 
     private get printableCosts(): string {
-        const firstTimestamp = new Date(this.props.data[0].time_stamp);
+        if (this.props.data === null) {
+            return "0";
+        }
+
+        const firstDataElement = this.props.data[0];
+
+        if (!firstDataElement) {
+            return "0";
+        }
+
+        const firstTimestamp = new Date(firstDataElement.time_stamp);
 
         const category = this.getCategory(this.props.fieldName);
 
