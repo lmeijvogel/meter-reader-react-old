@@ -4,6 +4,7 @@ import { Component } from "react";
 import { LoginScreen } from "./login-screen";
 import { CurrentUsage } from "./current-usage";
 import { UsageData } from "./usage-data";
+import { RecentUsageGraphs } from "./recent-usage-graphs";
 import { UsageGraphs } from "./usage-graphs";
 import { ActualReadings } from "./actual-readings";
 import { LocationBarParser } from "./location-bar-parser";
@@ -22,6 +23,7 @@ interface IState {
     periodDescription: PeriodDescription;
     periodUsage: (UsageData | null)[];
     loadingData: boolean;
+    showRecentUsage: boolean;
 }
 
 class LiveData {
@@ -43,12 +45,13 @@ export class EnergyUsageApp extends Component<{}, IState> {
             periodUsage: [],
             periodDescription: this.initiallyDisplayedPeriod(),
             loadingData: true,
-            loggedIn: LoggedInState.Unknown
+            loggedIn: LoggedInState.Unknown,
+            showRecentUsage: false
         };
     }
 
     render() {
-        const { loggedIn } = this.state;
+        const { loggedIn, showRecentUsage } = this.state;
 
         switch (loggedIn) {
             case LoggedInState.LoggedIn:
@@ -57,10 +60,14 @@ export class EnergyUsageApp extends Component<{}, IState> {
                 return (
                     <div className="container" style={{ maxWidth: "500px" }}>
                         <div className="row">
-                        <CurrentUsage liveData={this.state.liveData} />
+                        <CurrentUsage liveData={this.state.liveData} onClick={this.currentUsageClicked} />
                         </div>
                         <div className="row">
-                            <UsageGraphs loadingData={this.state.loadingData} periodDescription={this.state.periodDescription} periodUsage={this.state.periodUsage} periodSelected={this.periodSelected} />
+                            {showRecentUsage ?
+                                <RecentUsageGraphs onClick={this.recentUsageClicked} />
+                                :
+                                <UsageGraphs loadingData={this.state.loadingData} periodDescription={this.state.periodDescription} periodUsage={this.state.periodUsage} periodSelected={this.periodSelected} />
+                            }
                         </div>
                         <div className="row">
                             {this.state.liveData &&
@@ -187,6 +194,14 @@ export class EnergyUsageApp extends Component<{}, IState> {
                 // No 'finally'?!?
                 this.setState({ periodUsage: [], periodDescription: periodDescription, loadingData: false });
             });
+    }
+
+    currentUsageClicked = () => {
+        this.setState({ showRecentUsage: true });
+    }
+
+    recentUsageClicked = () => {
+        this.setState({showRecentUsage: false });
     }
 
     loginSuccessful = () => {

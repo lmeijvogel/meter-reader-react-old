@@ -21,3 +21,8 @@ h2 {
 .disabled {
   opacity: 0.3;
 }
+
+.recent-usage-graph {
+    width: 600px;
+    height: 300px;
+}

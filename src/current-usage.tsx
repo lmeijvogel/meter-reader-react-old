@@ -8,12 +8,13 @@ type LiveData = {
 
 type IProps = {
     liveData: LiveData | null;
+    onClick: () => void;
 };
 
 export class CurrentUsage extends Component<IProps, any> {
     render() {
         return (
-            <table className="column column-20">
+            <table className="column column-20" onClick={this.onClick}>
                 <thead>
                     <tr>
                         <th>Current</th>
@@ -26,6 +27,10 @@ export class CurrentUsage extends Component<IProps, any> {
                 </tbody>
             </table>
         );
+    }
+
+    private onClick = () => {
+        this.props.onClick();
     }
 
     private get displayableCurrent(): string {
