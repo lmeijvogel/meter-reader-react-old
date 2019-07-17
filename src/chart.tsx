@@ -94,9 +94,9 @@ export class Chart extends Component<IProps, {}> {
         return `${this.props.label}: ${this.printableTotal} ${this.unit} (${this.printableCosts})`;
     }
 
-    private get printableTotal(): number {
+    private get printableTotal(): string {
         const total = this.max() - this.min();
-        return this.truncate(total, 3);
+        return this.truncate(total, 1).toString().replace(".", ",");
     }
 
     private get printableCosts(): string {
@@ -114,7 +114,7 @@ export class Chart extends Component<IProps, {}> {
 
         const category = this.getCategory(this.props.fieldName);
 
-        return PriceCalculator.costsFor(this.max() - this.min(), category, firstTimestamp).toString();
+        return PriceCalculator.costsFor(this.max() - this.min(), category, firstTimestamp).toString().replace(".", ",");
     }
 
     private getCategory(fieldName: DataName): PriceCategory {
