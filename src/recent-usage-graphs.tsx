@@ -57,7 +57,7 @@ class RecentUsageStore {
 
     buildLabels(relevantUsages: UsageData[]) {
         return relevantUsages.map(u => {
-            return u.time_stamp.slice(11, 13);
+            return u.time_stamp.slice(11, 16);
         });
     }
 
@@ -142,7 +142,7 @@ export class RecentUsageGraphs extends React.Component<Props> {
     }
 
     chartOptions(): any {
-        let lastLabel = "";
+        let lastItemHour = "";
 
         return {
             maintainAspectRatio: false,
@@ -153,9 +153,11 @@ export class RecentUsageGraphs extends React.Component<Props> {
                     },
                     ticks: {
                         userCallback: (item, index) => {
-                            if (item !== lastLabel) {
-                                lastLabel = item;
-                                return item;
+                            const itemHour = item.slice(0, 2);
+
+                            if (itemHour !== lastItemHour) {
+                                lastItemHour = itemHour;
+                                return itemHour;
                             }
                         },
                         autoSkip: false,
@@ -172,13 +174,11 @@ export class RecentUsageGraphs extends React.Component<Props> {
                     },
                     ticks: {
                         display: true,
-                        // tickInterval: 0.002,
                         min: 0,
-                        // max: 2
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Stroom"
+                        labelString: "Stroom (Wh)"
                     }
                 },
                 {
@@ -190,18 +190,28 @@ export class RecentUsageGraphs extends React.Component<Props> {
                     },
                     ticks: {
                         display: true,
-                        // tickInterval: 1,
                         min: 0,
-                        // max: 10
 
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Water"
+                        labelString: "Water (L)"
                     }
                 }]
 
             },
+
+            tooltips: {
+                callbacks: {
+                    title: (tooltipItem, data) => {
+                        const index = tooltipItem[0].index;
+
+                        const timeStamp = data.labels[index];
+
+                        return timeStamp;
+                    }
+                }
+            }
         };
     }
 
