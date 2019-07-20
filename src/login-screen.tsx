@@ -1,3 +1,5 @@
+import { observer } from "mobx-react";
+import { computed, observable } from "mobx";
 import * as React from "react";
 import { Component } from "react";
 
@@ -5,24 +7,62 @@ interface IProps {
     loginSuccessful: () => void;
 }
 
-interface IState {
-    username: string;
-    password: string;
-    error?: string;
+class LoginStore {
+    @observable username: string = "";
+    @observable password: string = "";
+    @observable error: string | null = null;
+
+    constructor(username: string, password: string) {
+        this.username = username;
+        this.password = password;
+    }
+
+    @computed
+    get isValid() {
+        return this.username !== "" && this.password !== "";
+    }
+
+    submit(): Promise<void> {
+        this.error = null;
+
+        return fetch("/api/login/create", {
+            credentials: "include",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            method: "POST",
+            body: `username=${encodeURIComponent(this.username)}&password=${encodeURIComponent(
+                this.password
+            )}`,
+        })
+            .then((response) => {
+                switch (response.status) {
+                    case 200:
+                        return;
+                        break;
+                    case 401:
+                        this.error = "Unknown username or password";
+                        throw new Error("Unknown username or password");
+                    default:
+                        this.error = "Something went wrong";
+                        throw new Error("Something went wrong");
+                }
+            });
+    }
 }
 
-export class LoginScreen extends Component<IProps, IState> {
-    constructor(props: IProps, context: any) {
-        super(props, context);
+@observer
+export class LoginScreen extends Component<IProps> {
+    store: LoginStore;
 
-        this.state = {
-            username: "user",
-            password: "pass",
-        };
+    constructor(props: IProps) {
+        super(props);
+
+        this.store = new LoginStore("user", "pass");
     }
 
     render() {
-        const errorMessage = this.state.error ? <div className="error-message">{this.state.error}</div> : "";
+        const { username, password, error } = this.store;
+
+        const errorMessage = error ? <div className="error-message">{error}</div> : "";
 
         return (
             <div className="login-dialog">
@@ -33,7 +73,8 @@ export class LoginScreen extends Component<IProps, IState> {
                     id="username"
                     name="username"
                     placeholder="Username"
-                    onChange={this.usernameChanged.bind(this)}
+                    onChange={this.onUsernameChange}
+                    onKeyDown={this.onFieldKeydown}
                 />
 
                 <label htmlFor="password">Password</label>
@@ -42,55 +83,40 @@ export class LoginScreen extends Component<IProps, IState> {
                     id="password"
                     name="password"
                     placeholder="Password"
-                    onChange={this.passwordChanged.bind(this)}
+                    onChange={this.onPasswordChange}
+                    onKeyDown={this.onFieldKeydown}
                 />
 
-                <button disabled={!this.isValid()} onClick={this.onClick.bind(this)}>
+                <button disabled={!this.store.isValid} onClick={this.onClick}>
                     Submit
                 </button>
             </div>
         );
     }
 
-    usernameChanged(event) {
-        this.setState({ username: event.target.value, error: undefined });
+    onUsernameChange = (event) => {
+        this.store.username = event.target.value;
+        this.store.error = null;
     }
 
-    passwordChanged(event) {
-        this.setState({ password: event.target.value, error: undefined });
+    onPasswordChange = (event) => {
+        this.store.password = event.target.value;
+        this.store.error = null;
     }
 
-    isValid() {
-        return this.state.username !== "" && this.state.password !== "";
+    onClick = () => {
+        this.submit();
     }
 
-    onClick() {
-        this.setState({ error: undefined });
-
-        fetch("/api/login/create", {
-            credentials: "include",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            method: "POST",
-            body: `username=${encodeURIComponent(this.state.username)}&password=${encodeURIComponent(
-                this.state.password
-            )}`,
-        })
-            .then((response) => {
-                switch (response.status) {
-                    case 200:
-                    this.props.loginSuccessful()
-                        break;
-                    case 401:
-                        this.showError("Unknown username or password");
-                        break;
-                    default:
-                        this.showError("Something went wrong");
-                        break;
-                }
-            });
+    onFieldKeydown = (event) => {
+        if (event.keyCode == 13) {
+            this.submit();
+        }
     }
 
-    showError(message: string) {
-        this.setState({ error: message });
+    submit() {
+        this.store.submit().then(() => {
+            this.props.loginSuccessful();
+        });
     }
 }

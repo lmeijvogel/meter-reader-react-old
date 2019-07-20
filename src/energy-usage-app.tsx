@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
 
+import { action, observable } from "mobx";
+import { observer } from "mobx-react";
+
 import { LoginScreen } from "./login-screen";
 import { CurrentUsage } from "./current-usage";
 import { UsageData } from "./usage-data";
@@ -12,19 +15,10 @@ import { LocationBarParser } from "./location-bar-parser";
 import { PeriodDescription, MonthDescription } from "./period-description";
 
 enum LoggedInState {
-    Unknown,
-    LoggedIn,
-    NotLoggedIn
+    Unknown = "Unknown",
+    LoggedIn = "LoggedIn",
+    NotLoggedIn = "NotLoggedIn"
 };
-
-interface IState {
-    liveData: LiveData | null;
-    loggedIn: LoggedInState;
-    periodDescription: PeriodDescription;
-    periodUsage: (UsageData | null)[];
-    loadingData: boolean;
-    showRecentUsage: boolean;
-}
 
 class LiveData {
     id: number;
@@ -34,24 +28,71 @@ class LiveData {
     stroom_piek: number;
 }
 
-export class EnergyUsageApp extends Component<{}, IState> {
-    timer: any;
+export class EnergyUsageStore {
+    @observable liveData: LiveData | null = null;
+    @observable loggedIn: LoggedInState = LoggedInState.Unknown;
+    @observable periodDescription: PeriodDescription;
+    @observable periodUsage = observable<UsageData | null>([]);
+    @observable loadingData: boolean = true;
+    @observable showRecentUsage: boolean = false;
 
-    constructor(props: {}, context: any) {
+    @action
+    setLiveData(liveData: LiveData) {
+        this.liveData = liveData;
+    }
+
+    @action
+    periodSelected = (periodDescription: PeriodDescription, skipPushState = false) => {
+        const newLocation = periodDescription.toUrl();
+
+        this.loadingData = true;
+
+        if (!skipPushState) {
+            window.history.pushState({ periodDescription: periodDescription }, newLocation, newLocation);
+        }
+
+        fetch("/api" + newLocation + ".json", { credentials: "include" })
+            .then(response => {
+                switch (response.status) {
+                    case 200:
+                        this.loggedIn = LoggedInState.LoggedIn;
+                        return response.json();
+                    case 401:
+                        this.loggedIn = LoggedInState.NotLoggedIn;
+                        throw "Not logged in";
+                    default:
+                        throw `Unexpected status ${response.status}`;
+                }
+            }
+            )
+            .then(json => {
+                this.periodUsage.replace(json);
+                this.periodDescription = periodDescription;
+                this.loadingData = false;
+            })
+            .catch(e => {
+                // No 'finally'?!?
+                this.periodUsage.clear();
+                this.periodDescription = periodDescription;
+                this.loadingData = false;
+            });
+    }
+}
+
+type EnergyUsageProps = {
+    store: EnergyUsageStore;
+}
+
+@observer
+export class EnergyUsageApp extends Component<EnergyUsageProps> {
+    timer: any | null = null;
+
+    constructor(props: EnergyUsageProps) {
         super(props);
-
-        this.state = {
-            liveData: null,
-            periodUsage: [],
-            periodDescription: this.initiallyDisplayedPeriod(),
-            loadingData: true,
-            loggedIn: LoggedInState.Unknown,
-            showRecentUsage: false
-        };
     }
 
     render() {
-        const { loggedIn, showRecentUsage } = this.state;
+        const { liveData, loadingData, loggedIn, periodDescription, periodUsage, showRecentUsage } = this.props.store;
 
         switch (loggedIn) {
             case LoggedInState.LoggedIn:
@@ -60,21 +101,21 @@ export class EnergyUsageApp extends Component<{}, IState> {
                 return (
                     <div className="container" style={{ maxWidth: "500px" }}>
                         <div className="row">
-                        <CurrentUsage liveData={this.state.liveData} onClick={this.currentUsageClicked} />
+                        <CurrentUsage liveData={liveData} onClick={this.currentUsageClicked} />
                         </div>
                         <div className="row">
                             {showRecentUsage ?
                                 <RecentUsageGraphs onClick={this.recentUsageClicked} />
                                 :
-                                <UsageGraphs loadingData={this.state.loadingData} periodDescription={this.state.periodDescription} periodUsage={this.state.periodUsage} periodSelected={this.periodSelected} />
+                                <UsageGraphs loadingData={loadingData} periodDescription={periodDescription} periodUsage={periodUsage} periodSelected={this.props.store.periodSelected} />
                             }
                         </div>
                         <div className="row">
-                            {this.state.liveData &&
+                            {liveData &&
                                 <ActualReadings
-                                    stroom_dal={this.state.liveData.stroom_dal}
-                                    stroom_piek={this.state.liveData.stroom_piek}
-                                    gas={this.state.liveData.gas}
+                                    stroom_dal={liveData.stroom_dal}
+                                    stroom_piek={liveData.stroom_piek}
+                                    gas={liveData.gas}
                                 />
                             }
                         </div>
@@ -95,7 +136,7 @@ export class EnergyUsageApp extends Component<{}, IState> {
 
         window.onpopstate = event => {
             if (event.state.period) {
-                this.periodSelected(event.state.period, true);
+                this.props.store.periodSelected(event.state.period, true);
             }
         };
 
@@ -111,7 +152,7 @@ export class EnergyUsageApp extends Component<{}, IState> {
 
         const period = locationBarParser.parse(window.location.pathname);
 
-        this.periodSelected(period, false);
+        this.props.store.periodSelected(period, false);
     }
 
     initiallyDisplayedPeriod(): PeriodDescription {
@@ -131,7 +172,7 @@ export class EnergyUsageApp extends Component<{}, IState> {
     }
 
     retrieveLiveData() {
-        if (this.state.loggedIn === LoggedInState.NotLoggedIn) {
+        if (this.props.store.loggedIn === LoggedInState.NotLoggedIn) {
             return;
         }
 
@@ -149,63 +190,29 @@ export class EnergyUsageApp extends Component<{}, IState> {
                 }
             })
             .then(json => {
-                this.setState({
-                    liveData: {
+                this.props.store.setLiveData({
                         id: json.id,
                         current: json.current,
                         gas: json.gas,
                         stroom_dal: json.stroom_dal,
                         stroom_piek: json.stroom_piek,
-                    },
-                });
+                 });
             });
     }
 
-    periodSelected = (periodDescription: PeriodDescription, skipPushState = false) => {
-        const newLocation = periodDescription.toUrl();
-
-        this.setState({ loadingData: true });
-
-        if (!skipPushState) {
-            window.history.pushState({ periodDescription: periodDescription }, newLocation, newLocation);
-        }
-
-        fetch("/api" + newLocation + ".json", { credentials: "include" })
-            .then(response => {
-                switch (response.status) {
-                    case 200:
-                        console.log("This.state: ", this.state);
-                        this.setState({ loggedIn: LoggedInState.LoggedIn });
-                        return response.json();
-                    case 401:
-                        this.setState({ loggedIn: LoggedInState.NotLoggedIn });
-                        throw "Not logged in";
-                    default:
-                        throw `Unexpected status ${response.status}`;
-                }
-            }
-            )
-            .then(json => {
-                const newState = { periodUsage: json, periodDescription: periodDescription, loadingData: false };
-
-                this.setState(newState);
-            })
-            .catch(e => {
-                // No 'finally'?!?
-                this.setState({ periodUsage: [], periodDescription: periodDescription, loadingData: false });
-            });
-    }
-
+    @action
     currentUsageClicked = () => {
-        this.setState({ showRecentUsage: true });
+        this.props.store.showRecentUsage = true;
     }
 
+    @action
     recentUsageClicked = () => {
-        this.setState({showRecentUsage: false });
+        this.props.store.showRecentUsage = false;
     }
 
+    @action
     loginSuccessful = () => {
-        this.setState({ loggedIn: LoggedInState.LoggedIn });
+        this.props.store.loggedIn = LoggedInState.LoggedIn;
 
         this.selectPeriodFromLocationBar();
     }

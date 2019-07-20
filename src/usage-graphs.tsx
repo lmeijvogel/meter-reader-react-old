@@ -1,3 +1,5 @@
+import { observer } from "mobx-react";
+
 import * as React from "react";
 import { Component } from "react";
 
@@ -5,17 +7,19 @@ import { DayUsageDisplay } from "./day-usage-display";
 import { MonthUsageDisplay } from "./month-usage-display";
 import { YearUsageDisplay } from "./year-usage-display";
 import { NavigationButtons } from "./navigation-buttons";
+import { UsageData } from "./usage-data";
 
 import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "./period-description";
 
 interface IProps {
     loadingData: boolean;
-    periodUsage: Array<any>;
+    periodUsage: Array<UsageData | null>;
     periodSelected: (periodDescription: PeriodDescription, skipPushState: boolean) => void;
     periodDescription: PeriodDescription;
 
 }
 
+@observer
 export class UsageGraphs extends Component<IProps> {
     render() {
         const periodDescription = this.props.periodDescription;

@@ -9,7 +9,7 @@ interface IProps {
 
     periodDescription: PeriodDescription;
 
-    onSelect: (any) => void;
+    onSelect: (periodDescription: PeriodDescription) => void;
 }
 
 export class NavigationButtons extends Component<IProps, {}> {

@@ -1,55 +1,46 @@
+import { action, computed, observable } from "mobx";
+import { observer } from "mobx-react";
+
 import * as React from "react";
 
-import { Line } from "react-chartjs-2";
+import { UsageData } from "./usage-data";
+import { Bar } from "react-chartjs-2";
 
-type Props = {
-    onClick: () => void;
-};
+class RecentUsageStore {
+    @observable json: any = [];
 
-type State = {
-    waterData: number[];
-    stroomData: number[];
-    labels: string[];
-}
-
-export class RecentUsageGraphs extends React.Component<Props, State> {
-    _labels: string[];
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            waterData: [],
-            stroomData: [],
-            labels: []
-        };
+    @action
+    setData(json: any) {
+        this.json.replace(json);
     }
 
-    componentDidMount() {
-        fetch("/api/energy/recent", { credentials: "include" })
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json();
-                } else {
-                    return [];
-                }
-            }).then(json => {
-                // this.decimate(json.reverse());
-                const relevantUsages = this.decimate(json.reverse(), 2);
-                console.log(relevantUsages.length);
-                const waterData = this.makeRelative(relevantUsages.map(u => u.water));
+    @computed
+    get relevantUsages(): UsageData[] {
+        const lastHalf = this.json.slice(0, this.json.length / 2).reverse();
 
-                const stroomTotals = relevantUsages.map(u => u.stroom_dal + u.stroom_piek);
-                console.log(stroomTotals);
-                const stroomData = this.makeRelative(stroomTotals).map(u => this.truncate(u * 1000, 2));
-
-                const labels = this.buildLabels(relevantUsages);
-
-                this.setState({ waterData: waterData, stroomData: stroomData, labels: labels });
-            });
+        return this.decimate(lastHalf, 12);
     }
 
-    decimate(input: any[], interval: number): any[] {
+    @computed
+    get waterData(): number[] {
+        return this.makeRelative(this.relevantUsages.map(u => u.water));
+    }
+
+    @computed
+    get stroomData(): number[] {
+        const stroomTotals = this.relevantUsages.map(u => u.stroom_dal + u.stroom_piek);
+        return this.makeRelative(stroomTotals).map(u => this.truncate(u * 1000, 2));
+    }
+
+    @computed
+    get labels(): string[] {
+        return  this.buildLabels(this.relevantUsages);
+    }
+
+
+    private
+
+    decimate(input: UsageData[], interval: number): UsageData[] {
         let numberUntilNextEntry = 0;
 
         return input.filter(_ => {
@@ -64,21 +55,64 @@ export class RecentUsageGraphs extends React.Component<Props, State> {
         });
     }
 
-    buildLabels(relevantUsages: any[]) {
+    buildLabels(relevantUsages: UsageData[]) {
         return relevantUsages.map(u => {
             return u.time_stamp.slice(11, 13);
         });
     }
 
+    makeRelative(data: number[]): number[] {
+        let last = data[0];
+
+        return data.slice(1).map(el => {
+            const value = el - last;
+
+            last = el;
+
+            return value;
+        });
+    }
+
+    truncate(value, precision) {
+        return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
+    }
+}
+
+type Props = {
+    onClick: () => void;
+};
+
+@observer
+export class RecentUsageGraphs extends React.Component<Props> {
+    store: RecentUsageStore;
+
+    constructor(props) {
+        super(props);
+
+        this.store = new RecentUsageStore();
+    }
+
+    componentDidMount() {
+        fetch("/api/energy/recent", { credentials: "include" })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return [];
+                }
+            }).then(json => {
+                this.store.setData(json);
+            });
+    }
 
     render() {
         return <div className="recent-usage-graph" onClick={this.onClick}>
-            <Line data={this.chartData()} options={this.chartOptions()} />
+            <Bar data={this.chartData()} options={this.chartOptions()} />
         </div>;
     }
 
     chartData(): any {
-        const { waterData, stroomData, labels } = this.state;
+        const { waterData, stroomData, labels } = this.store;
 
         return {
             labels: labels,
@@ -105,18 +139,6 @@ export class RecentUsageGraphs extends React.Component<Props, State> {
                 }
             ],
         };
-    }
-
-    makeRelative(data: number[]): number[] {
-        let last = data[0];
-
-        return data.slice(1).map(el => {
-            const value = el - last;
-
-            last = el;
-
-            return value;
-        });
     }
 
     chartOptions(): any {
@@ -186,9 +208,4 @@ export class RecentUsageGraphs extends React.Component<Props, State> {
     onClick = () => {
         this.props.onClick();
     }
-
-    truncate(value, precision) {
-        return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
-    }
-
 }

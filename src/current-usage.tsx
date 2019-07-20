@@ -11,7 +11,7 @@ type IProps = {
     onClick: () => void;
 };
 
-export class CurrentUsage extends Component<IProps, any> {
+export class CurrentUsage extends Component<IProps> {
     render() {
         return (
             <table className="column column-20" onClick={this.onClick}>
