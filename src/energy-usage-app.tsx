@@ -156,7 +156,8 @@ export class EnergyUsageApp extends Component<EnergyUsageProps> {
     }
 
     initiallyDisplayedPeriod(): PeriodDescription {
-        return new MonthDescription(2019, 7);
+        const now = new Date();
+        return new MonthDescription(now.getFullYear(), now.getMonth() + 1);
     }
 
     startLiveDataTimer() {
