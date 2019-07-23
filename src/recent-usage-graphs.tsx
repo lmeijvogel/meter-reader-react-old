@@ -78,16 +78,12 @@ class RecentUsageStore {
     }
 }
 
-type Props = {
-    onClick: () => void;
-};
-
 @observer
-export class RecentUsageGraphs extends React.Component<Props> {
+export class RecentUsageGraphs extends React.Component {
     store: RecentUsageStore;
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super({}, {});
 
         this.store = new RecentUsageStore();
     }
@@ -106,7 +102,7 @@ export class RecentUsageGraphs extends React.Component<Props> {
     }
 
     render() {
-        return <div className="recent-usage-graph" onClick={this.onClick}>
+        return <div className="recent-usage-graph">
             <Bar data={this.chartData()} options={this.chartOptions()} />
         </div>;
     }
@@ -213,9 +209,5 @@ export class RecentUsageGraphs extends React.Component<Props> {
                 }
             }
         };
-    }
-
-    onClick = () => {
-        this.props.onClick();
     }
 }

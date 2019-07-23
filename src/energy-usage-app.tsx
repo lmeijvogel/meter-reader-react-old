@@ -98,7 +98,7 @@ export class EnergyUsageApp extends Component<EnergyUsageProps> {
                         </div>
                         <div className="row">
                             {showRecentUsage ?
-                                <RecentUsageGraphs onClick={this.recentUsageClicked} />
+                                <RecentUsageGraphs />
                                 :
                                 <UsageGraphs loadingData={loadingData} periodDescription={periodDescription} periodUsage={periodUsage} periodSelected={this.props.store.periodSelected} />
                             }
@@ -196,12 +196,7 @@ export class EnergyUsageApp extends Component<EnergyUsageProps> {
 
     @action
     currentUsageClicked = () => {
-        this.props.store.showRecentUsage = true;
-    }
-
-    @action
-    recentUsageClicked = () => {
-        this.props.store.showRecentUsage = false;
+        this.props.store.showRecentUsage = !this.props.store.showRecentUsage;
     }
 
     @action
