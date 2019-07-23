@@ -37,10 +37,7 @@ class RecentUsageStore {
         return  this.buildLabels(this.relevantUsages);
     }
 
-
-    private
-
-    decimate(input: UsageData[], interval: number): UsageData[] {
+    private decimate(input: UsageData[], interval: number): UsageData[] {
         let numberUntilNextEntry = 0;
 
         return input.filter(_ => {
@@ -55,13 +52,13 @@ class RecentUsageStore {
         });
     }
 
-    buildLabels(relevantUsages: UsageData[]) {
+    private buildLabels(relevantUsages: UsageData[]) {
         return relevantUsages.map(u => {
             return u.time_stamp.slice(11, 16);
         });
     }
 
-    makeRelative(data: number[]): number[] {
+    private makeRelative(data: number[]): number[] {
         let last = data[0];
 
         return data.slice(1).map(el => {
@@ -73,7 +70,7 @@ class RecentUsageStore {
         });
     }
 
-    truncate(value, precision) {
+    private truncate(value: number, precision: number) {
         return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
     }
 }

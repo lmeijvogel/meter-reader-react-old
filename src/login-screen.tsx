@@ -37,7 +37,6 @@ class LoginStore {
                 switch (response.status) {
                     case 200:
                         return;
-                        break;
                     case 401:
                         this.error = "Unknown username or password";
                         throw new Error("Unknown username or password");
@@ -60,7 +59,7 @@ export class LoginScreen extends Component<IProps> {
     }
 
     render() {
-        const { username, password, error } = this.store;
+        const { error } = this.store;
 
         const errorMessage = error ? <div className="error-message">{error}</div> : "";
 
@@ -94,12 +93,12 @@ export class LoginScreen extends Component<IProps> {
         );
     }
 
-    onUsernameChange = (event) => {
+    onUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.store.username = event.target.value;
         this.store.error = null;
     }
 
-    onPasswordChange = (event) => {
+    onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.store.password = event.target.value;
         this.store.error = null;
     }
@@ -108,7 +107,7 @@ export class LoginScreen extends Component<IProps> {
         this.submit();
     }
 
-    onFieldKeydown = (event) => {
+    onFieldKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.keyCode == 13) {
             this.submit();
         }
