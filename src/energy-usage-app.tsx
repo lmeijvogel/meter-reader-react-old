@@ -4,6 +4,7 @@ import { Component } from "react";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 
+import { LiveData } from './live-data';
 import { LoginScreen } from "./login-screen";
 import { CurrentUsage } from "./current-usage";
 import { UsageData } from "./usage-data";
@@ -19,14 +20,6 @@ enum LoggedInState {
     LoggedIn = "LoggedIn",
     NotLoggedIn = "NotLoggedIn"
 };
-
-class LiveData {
-    id: number;
-    current: number;
-    gas: number;
-    stroom_dal: number;
-    stroom_piek: number;
-}
 
 export class EnergyUsageStore {
     @observable liveData: LiveData | null = null;

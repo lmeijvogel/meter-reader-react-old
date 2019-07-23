@@ -1,10 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
-type LiveData = {
-    id: number;
-    current: number;
-};
+import { LiveData } from './live-data';
 
 type IProps = {
     liveData: LiveData | null;
