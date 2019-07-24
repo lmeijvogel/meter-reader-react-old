@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, IObservableArray } from "mobx";
 import { observer } from "mobx-react";
 
 import * as React from "react";
@@ -7,7 +7,7 @@ import { UsageData } from "./usage-data";
 import { Bar } from "react-chartjs-2";
 
 class RecentUsageStore {
-    @observable json: any = [];
+    @observable json: IObservableArray<any> = observable([]);
 
     @action
     setData(json: any) {
@@ -145,7 +145,7 @@ export class RecentUsageGraphs extends React.Component {
                         display: true
                     },
                     ticks: {
-                        userCallback: (item, index) => {
+                        userCallback: (item: string) => {
                             const itemHour = item.slice(0, 2);
 
                             if (itemHour !== lastItemHour) {
@@ -196,7 +196,7 @@ export class RecentUsageGraphs extends React.Component {
 
             tooltips: {
                 callbacks: {
-                    title: (tooltipItem, data) => {
+                    title: (tooltipItem: any[], data) => {
                         const index = tooltipItem[0].index;
 
                         const timeStamp = data.labels[index];
