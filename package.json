@@ -45,7 +45,7 @@
   "scripts": {
     "test": "jest __tests__",
     "build": "webpack --env=dev",
-    "watch": "webpack --watch --env=dev",
+    "dev": "webpack --watch --env=dev",
     "serve": "bundle exec ruby serve.rb",
     "dist": "webpack --env=prod"
   },
