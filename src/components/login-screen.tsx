@@ -22,7 +22,7 @@ class LoginStore {
         return this.username !== "" && this.password !== "";
     }
 
-    submit(): Promise<void> {
+    async submit() {
         this.error = null;
 
         return fetch("/api/login/create", {

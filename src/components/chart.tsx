@@ -3,10 +3,10 @@ import { Component } from "react";
 
 import { Bar } from "react-chartjs-2";
 
-import { ArrayInterpolator } from "./array-interpolator";
-import { UsageData } from "./usage-data";
-import { RelativeConverter } from "./relative-converter";
-import { PriceCalculator, PriceCategory } from "./price-calculator";
+import { ArrayInterpolator } from "../helpers/array-interpolator";
+import { UsageData } from "../models/usage-data";
+import { RelativeConverter } from "../helpers/relative-converter";
+import { PriceCalculator, PriceCategory } from "../helpers/price-calculator";
 
 type DataName =
     | "gas"

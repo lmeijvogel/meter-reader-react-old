@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { EnergyUsageApp, EnergyUsageStore } from "./energy-usage-app";
+import { EnergyUsageApp, EnergyUsageStore } from "./components/energy-usage-app";
 
 // Importing these here will include them on the resulting page
 const energieStyles = require("./styles/energie.css");

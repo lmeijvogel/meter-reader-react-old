@@ -1,7 +1,4 @@
-import * as React from "react";
-
-import { computed } from "mobx";
-import { DayDescription } from "./period-description";
+import { DayDescription } from "../models/period-description";
 import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./period-usage-display";
 
 interface IProps extends IPeriodUsageDisplayProps {

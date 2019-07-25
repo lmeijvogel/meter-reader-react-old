@@ -1,4 +1,4 @@
-import { UsageData } from "./usage-data";
+import { UsageData } from "../models/usage-data";
 
 export class DataShifter {
     call(dataset: (UsageData | null)[], posExtractor: (number) => number): (UsageData | null)[] {

@@ -1,6 +1,4 @@
-import * as React from "react";
-
-import { DayDescription, MonthDescription } from "./period-description";
+import { DayDescription, MonthDescription } from "../models/period-description";
 import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./period-usage-display";
 
 interface IProps extends IPeriodUsageDisplayProps {

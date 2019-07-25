@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { MonthDescription, YearDescription } from "./period-description";
+import { MonthDescription, YearDescription } from "../models/period-description";
 import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./period-usage-display";
 
 interface IProps extends IPeriodUsageDisplayProps {
@@ -23,15 +23,15 @@ export class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return date.getMonth() + (date.getFullYear() - minYear) * 12;
     }
 
-    tooltipLabel(month) {
+    tooltipLabel(month: number) {
         return this.monthDescriptionAt(month - 1).toTitle();
     }
 
-    onClick(index) {
+    onClick(index: number) {
         this.props.onSelect(this.monthDescriptionAt(index));
     }
 
-    monthDescriptionAt(index): MonthDescription {
+    monthDescriptionAt(index: number): MonthDescription {
         return new MonthDescription(this.props.periodDescription.year, index);
     }
 

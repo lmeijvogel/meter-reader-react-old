@@ -4,16 +4,16 @@ import { Component } from "react";
 import { action, observable } from "mobx";
 import { observer } from "mobx-react";
 
-import { LiveData } from './live-data';
+import { LiveData } from '../models/live-data';
 import { LoginScreen } from "./login-screen";
 import { CurrentUsage } from "./current-usage";
-import { UsageData } from "./usage-data";
+import { UsageData } from "../models/usage-data";
 import { RecentUsageGraphs } from "./recent-usage-graphs";
 import { UsageGraphs } from "./usage-graphs";
 import { ActualReadings } from "./actual-readings";
-import { LocationBarParser } from "./location-bar-parser";
+import { LocationBarParser } from "../helpers/location-bar-parser";
 
-import { PeriodDescription, MonthDescription } from "./period-description";
+import { PeriodDescription, MonthDescription } from "../models/period-description";
 
 enum LoggedInState {
     Unknown = "Unknown",

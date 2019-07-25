@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { PeriodDescription } from "./period-description";
-import { DataShifter } from "./data-shifter";
+import { PeriodDescription } from "../models//period-description";
+import { DataShifter } from "../helpers/data-shifter";
 import { Chart } from "./chart";
-import { UsageData } from "./usage-data";
+import { UsageData } from "../models/usage-data";
 
 export interface IPeriodUsageDisplayProps {
     enabled: boolean;

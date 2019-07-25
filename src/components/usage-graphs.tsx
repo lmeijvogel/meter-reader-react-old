@@ -7,9 +7,9 @@ import { DayUsageDisplay } from "./day-usage-display";
 import { MonthUsageDisplay } from "./month-usage-display";
 import { YearUsageDisplay } from "./year-usage-display";
 import { NavigationButtons } from "./navigation-buttons";
-import { UsageData } from "./usage-data";
+import { UsageData } from "../models/usage-data";
 
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "./period-description";
+import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "../models/period-description";
 
 interface IProps {
     loadingData: boolean;
