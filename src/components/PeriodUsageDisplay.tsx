@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { PeriodDescription } from "../models//period-description";
-import { DataShifter } from "../helpers/data-shifter";
-import { Chart } from "./chart";
-import { UsageData } from "../models/usage-data";
+import { PeriodDescription } from "../models//PeriodDescription";
+import { DataShifter } from "../helpers/DataShifter";
+import { Chart } from "./Chart";
+import { UsageData } from "../models/UsageData";
 
 export interface IPeriodUsageDisplayProps {
     enabled: boolean;
@@ -20,7 +20,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
         const data = dataShifter.call(this.props.usage, this.positionInData.bind(this));
 
         return (
-            <div className={"period-usage-display" + (this.props.enabled ? "" : " disabled")}>
+            <div className={"PeriodUsageDisplay" + (this.props.enabled ? "" : " disabled")}>
                 <Chart
                     label="Gas"
                     labels={labels}

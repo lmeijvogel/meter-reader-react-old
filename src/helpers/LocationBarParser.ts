@@ -1,4 +1,4 @@
-import { PeriodDescription, DayDescription, MonthDescription, YearDescription } from "../models/period-description";
+import { PeriodDescription, DayDescription, MonthDescription, YearDescription } from "../models/PeriodDescription";
 
 export class LocationBarParser {
     parse(path): PeriodDescription {

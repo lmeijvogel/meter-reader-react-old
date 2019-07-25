@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { MonthDescription, YearDescription } from "../models/period-description";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./period-usage-display";
+import { MonthDescription, YearDescription } from "../models/PeriodDescription";
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./PeriodUsageDisplay";
 
 interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: YearDescription;

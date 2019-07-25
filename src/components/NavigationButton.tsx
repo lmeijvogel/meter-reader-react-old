@@ -11,7 +11,7 @@ interface IProps {
 export class NavigationButton extends Component<IProps, {}> {
     render() {
         return (
-            <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="navigation-button">
+            <button onClick={this.onClick.bind(this)} disabled={!this.props.enabled} className="NavigationButton">
                 {this.props.label}
             </button>
         );

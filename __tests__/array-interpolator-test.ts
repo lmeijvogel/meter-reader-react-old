@@ -1,4 +1,4 @@
-import ArrayInterpolator from '../src/array-interpolator';
+import ArrayInterpolator from '../src/ArrayInterpolator';
 
 const subject = new ArrayInterpolator();
 

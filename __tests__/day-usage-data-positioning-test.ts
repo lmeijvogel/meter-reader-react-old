@@ -1,5 +1,5 @@
-import DayUsageDisplay from '../src/day-usage-display.tsx';
-import { DayDescription } from '../src/period-description';
+import DayUsageDisplay from '../src/DayUsageDisplay.tsx';
+import { DayDescription } from '../src/PeriodDescription';
 
 describe("DayUsageDisplay data positioning", () => {
   var regularData = [

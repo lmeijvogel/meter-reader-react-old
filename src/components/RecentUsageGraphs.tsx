@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 
 import * as React from "react";
 
-import { UsageData } from "../models/usage-data";
+import { UsageData } from "../models/UsageData";
 import { Bar } from "react-chartjs-2";
 
 class RecentUsageStore {
@@ -99,7 +99,7 @@ export class RecentUsageGraphs extends React.Component {
     }
 
     render() {
-        return <div className="recent-usage-data">
+        return <div className="recent-UsageData">
             <div className="recent-usage-graph">
                 <Bar data={this.chartData()} options={this.chartOptions()} />
             </div>

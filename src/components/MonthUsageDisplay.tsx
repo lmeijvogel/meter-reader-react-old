@@ -1,5 +1,5 @@
-import { DayDescription, MonthDescription } from "../models/period-description";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./period-usage-display";
+import { DayDescription, MonthDescription } from "../models/PeriodDescription";
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./PeriodUsageDisplay";
 
 interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: MonthDescription;

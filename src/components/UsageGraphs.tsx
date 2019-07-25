@@ -3,13 +3,13 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { Component } from "react";
 
-import { DayUsageDisplay } from "./day-usage-display";
-import { MonthUsageDisplay } from "./month-usage-display";
-import { YearUsageDisplay } from "./year-usage-display";
-import { NavigationButtons } from "./navigation-buttons";
-import { UsageData } from "../models/usage-data";
+import { DayUsageDisplay } from "./DayUsageDisplay";
+import { MonthUsageDisplay } from "./MonthUsageDisplay";
+import { YearUsageDisplay } from "./YearUsageDisplay";
+import { NavigationButtons } from "./NavigationButtons";
+import { UsageData } from "../models/UsageData";
 
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "../models/period-description";
+import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "../models/PeriodDescription";
 
 interface IProps {
     loadingData: boolean;

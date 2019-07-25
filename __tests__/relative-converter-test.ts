@@ -1,4 +1,4 @@
-import RelativeConverter from '../src/relative-converter';
+import RelativeConverter from '../src/RelativeConverter';
 
 const subject = new RelativeConverter();
 

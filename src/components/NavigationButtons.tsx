@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
 
-import { NavigationButton } from "./navigation-button";
-import { PeriodDescription, DayDescription } from "../models/period-description";
+import { NavigationButton } from "./NavigationButton";
+import { PeriodDescription, DayDescription } from "../models/PeriodDescription";
 
 interface IProps {
     enabled: boolean;

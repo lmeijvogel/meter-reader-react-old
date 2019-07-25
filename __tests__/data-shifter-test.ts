@@ -1,4 +1,4 @@
-import DataShifter from '../src/data-shifter';
+import DataShifter from '../src/DataShifter';
 
 describe("DataShifter", () => {
   const subject = new DataShifter();

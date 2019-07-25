@@ -1,5 +1,5 @@
-import LocationBarParser from '../src/location-bar-parser';
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from '../src/period-description';
+import LocationBarParser from '../src/LocationBarParser';
+import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from '../src/PeriodDescription';
 
 describe("LocationBarParser", () => {
   let locationBarParser;

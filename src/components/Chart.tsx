@@ -3,10 +3,10 @@ import { Component } from "react";
 
 import { Bar } from "react-chartjs-2";
 
-import { ArrayInterpolator } from "../helpers/array-interpolator";
-import { UsageData } from "../models/usage-data";
-import { RelativeConverter } from "../helpers/relative-converter";
-import { PriceCalculator, PriceCategory } from "../helpers/price-calculator";
+import { ArrayInterpolator } from "../helpers/ArrayInterpolator";
+import { UsageData } from "../models/UsageData";
+import { RelativeConverter } from "../helpers/RelativeConverter";
+import { PriceCalculator, PriceCategory } from "../helpers/PriceCalculator";
 
 type DataName =
     | "gas"
@@ -52,7 +52,7 @@ export class Chart extends Component<IProps, {}> {
             responsive: true,
             title: {
                 display: true,
-                text: this.chartTitle()
+                text: this.ChartTitle()
             },
             legend: { display: false },
             tooltips: { callbacks: { title: titleCallback } },
@@ -68,11 +68,11 @@ export class Chart extends Component<IProps, {}> {
             }
         };
 
-        return <Bar data={this.chartData()} options={options} />;
+        return <Bar data={this.ChartData()} options={options} />;
     }
 
     // TODO?
-    chartData(): any {
+    ChartData(): any {
         const interpolatedData = new ArrayInterpolator().call(this.dataForField());
         const relativeData = new RelativeConverter().convert(interpolatedData);
         const roundedData = relativeData.map(value => this.truncate(value, 3));
@@ -90,7 +90,7 @@ export class Chart extends Component<IProps, {}> {
         };
     }
 
-    chartTitle(): string {
+    ChartTitle(): string {
         return `${this.props.label}: ${this.printableTotal} ${this.unit} (${this.printableCosts})`;
     }
 
