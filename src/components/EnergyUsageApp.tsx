@@ -1,79 +1,21 @@
+import { action } from "mobx";
+import { observer } from "mobx-react";
+
 import * as React from "react";
 import { Component } from "react";
 
-import { action, observable } from "mobx";
-import { observer } from "mobx-react";
+import { LocationBarParser } from "../helpers/LocationBarParser";
+import { PeriodDescription, MonthDescription } from "../models/PeriodDescription";
+import { EnergyUsageAppStore, LoggedInState } from '../stores/EnergyUsageAppStore';
 
-import { LiveData } from '../models/LiveData';
 import { LoginScreen } from "./LoginScreen";
 import { CurrentUsage } from "./CurrentUsage";
-import { UsageData } from "../models/UsageData";
 import { RecentUsageGraphs } from "./RecentUsageGraphs";
 import { UsageGraphs } from "./UsageGraphs";
 import { ActualReadings } from "./ActualReadings";
-import { LocationBarParser } from "../helpers/LocationBarParser";
-
-import { PeriodDescription, MonthDescription } from "../models/PeriodDescription";
-
-enum LoggedInState {
-    Unknown = "Unknown",
-    LoggedIn = "LoggedIn",
-    NotLoggedIn = "NotLoggedIn"
-};
-
-export class EnergyUsageStore {
-    @observable liveData: LiveData | null = null;
-    @observable loggedIn: LoggedInState = LoggedInState.Unknown;
-    @observable periodDescription: PeriodDescription;
-    @observable periodUsage = observable<UsageData | null>([]);
-    @observable loadingData: boolean = true;
-    @observable showRecentUsage: boolean = false;
-
-    @action
-    setLiveData(liveData: LiveData) {
-        this.liveData = liveData;
-    }
-
-    @action
-    periodSelected = (periodDescription: PeriodDescription, skipPushState = false) => {
-        const newLocation = periodDescription.toUrl();
-
-        this.loadingData = true;
-
-        if (!skipPushState) {
-            window.history.pushState({ periodDescription: periodDescription }, newLocation, newLocation);
-        }
-
-        fetch("/api" + newLocation + ".json", { credentials: "include" })
-            .then(response => {
-                switch (response.status) {
-                    case 200:
-                        this.loggedIn = LoggedInState.LoggedIn;
-                        return response.json();
-                    case 401:
-                        this.loggedIn = LoggedInState.NotLoggedIn;
-                        throw "Not logged in";
-                    default:
-                        throw `Unexpected status ${response.status}`;
-                }
-            }
-            )
-            .then(json => {
-                this.periodUsage.replace(json);
-                this.periodDescription = periodDescription;
-                this.loadingData = false;
-            })
-            .catch(e => {
-                // No 'finally'?!?
-                this.periodUsage.clear();
-                this.periodDescription = periodDescription;
-                this.loadingData = false;
-            });
-    }
-}
 
 type EnergyUsageProps = {
-    store: EnergyUsageStore;
+    store: EnergyUsageAppStore;
 }
 
 @observer
@@ -114,13 +56,10 @@ export class EnergyUsageApp extends Component<EnergyUsageProps> {
                         </div>
                     </div>
                 );
-                break;
             case LoggedInState.NotLoggedIn:
                 return <LoginScreen loginSuccessful={this.loginSuccessful} />;
-                break;
             case LoggedInState.Unknown:
                 return null;
-                break
         }
     }
 
