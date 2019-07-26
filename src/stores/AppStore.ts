@@ -9,7 +9,7 @@ export enum LoggedInState {
     NotLoggedIn = "NotLoggedIn"
 };
 
-export class EnergyUsageAppStore {
+export class AppStore {
     @observable liveData: LiveData | null = null;
     @observable loggedIn: LoggedInState = LoggedInState.Unknown;
     @observable periodDescription: PeriodDescription;

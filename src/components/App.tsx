@@ -6,7 +6,7 @@ import { Component } from "react";
 
 import { LocationBarParser } from "../helpers/LocationBarParser";
 import { PeriodDescription, MonthDescription } from "../models/PeriodDescription";
-import { EnergyUsageAppStore, LoggedInState } from '../stores/EnergyUsageAppStore';
+import { AppStore, LoggedInState } from '../stores/AppStore';
 
 import { LoginScreen } from "./LoginScreen";
 import { CurrentUsage } from "./CurrentUsage";
@@ -14,17 +14,13 @@ import { RecentUsageGraphs } from "./RecentUsageGraphs";
 import { UsageGraphs } from "./UsageGraphs";
 import { ActualReadings } from "./ActualReadings";
 
-type EnergyUsageProps = {
-    store: EnergyUsageAppStore;
+type Props = {
+    store: AppStore;
 }
 
 @observer
-export class EnergyUsageApp extends Component<EnergyUsageProps> {
+export class App extends Component<Props> {
     timer: any | null = null;
-
-    constructor(props: EnergyUsageProps) {
-        super(props);
-    }
 
     render() {
         const { liveData, loadingData, loggedIn, periodDescription, periodUsage, showRecentUsage } = this.props.store;
