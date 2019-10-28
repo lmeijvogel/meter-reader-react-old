@@ -39,7 +39,7 @@ export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
     }
 
     maxWaterY() {
-        return 120;
+        return 200;
     }
 
     onClick(_index: number) {
