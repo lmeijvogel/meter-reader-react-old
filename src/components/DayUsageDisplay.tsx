@@ -1,5 +1,5 @@
 import { DayDescription } from "../models/PeriodDescription";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./PeriodUsageDisplay";
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps, ElementWithTimeStamp } from "./PeriodUsageDisplay";
 
 interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: DayDescription;
@@ -10,12 +10,13 @@ export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return this.range(0, 24);
     }
 
-    tooltipLabel(hour): string {
-        const nextHour = (parseInt(hour, 10) + 1) % 24;
-        return "" + hour + ":00 - " + nextHour + ":00";
+    tooltipLabel(hour: string): string {
+        const intHour = parseInt(hour, 10);
+        const nextHour = (intHour + 1) % 24;
+        return `${hour}:00 - ${nextHour}:00`;
     }
 
-    positionInData(element, dataset) {
+    positionInData(element: ElementWithTimeStamp, _dataset: ElementWithTimeStamp[]): number {
         const periodDescription = this.props.periodDescription;
 
         const currentDate = new Date(periodDescription.year, periodDescription.month, periodDescription.day);
@@ -41,7 +42,7 @@ export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return 120;
     }
 
-    onClick(index) {
+    onClick(_index: number) {
         // NOP : There are no actions to be implemented for clicking on hours
     }
 }

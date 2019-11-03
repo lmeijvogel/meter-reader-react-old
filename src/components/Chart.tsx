@@ -20,15 +20,30 @@ interface IProps {
     maxY: number;
     fieldName: DataName;
     color: string;
-    onClick: (int) => void;
+    onClick: (index: number) => void;
     tooltipLabelBuilder: () => void;
 }
+
+type ChartItem = {
+    xLabel: string;
+    index: number;
+};
+
+type ChartData = {
+    labels: (number | undefined)[];
+    datasets: {
+        label: string;
+        data: number[];
+        borderColor: string,
+        backgroundColor: string
+    }[]
+};
 
 export class Chart extends Component<IProps, {}> {
     render() {
         var tooltipLabelBuilder = this.props.tooltipLabelBuilder;
 
-        var titleCallback = function(tooltipItems, data) {
+        var titleCallback = function(tooltipItems: ChartItem[], data: ChartData) {
             // Pick first xLabel for now
             var title = "";
             var labels = data.labels;
@@ -40,7 +55,13 @@ export class Chart extends Component<IProps, {}> {
                 if (item.xLabel) {
                     title = item.xLabel;
                 } else if (labelCount > 0 && item.index < labelCount) {
-                    title = labels[item.index];
+                    const label = labels[item.index];
+
+                    if (!!label) {
+                        title = label.toString();
+                    } else {
+                        title = "";
+                    }
                 }
             }
 
@@ -71,8 +92,7 @@ export class Chart extends Component<IProps, {}> {
         return <Bar data={this.ChartData()} options={options} />;
     }
 
-    // TODO?
-    ChartData(): any {
+    ChartData(): ChartData {
         const interpolatedData = new ArrayInterpolator().call(this.dataForField());
         const relativeData = new RelativeConverter().convert(interpolatedData);
         const roundedData = relativeData.map(value => this.truncate(value, 3));
@@ -140,7 +160,7 @@ export class Chart extends Component<IProps, {}> {
         return Math.min.apply(null, actualValues);
     }
 
-    truncate(value, precision) {
+    truncate(value: number, precision: number): number {
         return Math.round(value * Math.pow(10, precision)) / Math.pow(10, precision);
     }
 
@@ -165,7 +185,7 @@ export class Chart extends Component<IProps, {}> {
         }
     }
 
-    onClick(event, data) {
+    onClick(_event, data) {
         if (data[0]) {
             this.props.onClick(data[0]._index);
         }

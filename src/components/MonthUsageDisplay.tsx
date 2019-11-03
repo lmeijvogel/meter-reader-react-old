@@ -1,5 +1,5 @@
 import { DayDescription, MonthDescription } from "../models/PeriodDescription";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps } from "./PeriodUsageDisplay";
+import { PeriodUsageDisplay, IPeriodUsageDisplayProps, ElementWithTimeStamp } from "./PeriodUsageDisplay";
 
 interface IProps extends IPeriodUsageDisplayProps {
     periodDescription: MonthDescription;
@@ -12,11 +12,12 @@ export class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return range;
     }
 
-    tooltipLabel(day) {
-        return this.dayDescriptionAt(day).toTitle();
+    tooltipLabel(day: string) {
+        const intDay = parseInt(day, 10);
+        return this.dayDescriptionAt(intDay).toTitle();
     }
 
-    positionInData(element, dataset) {
+    positionInData(element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]) {
         const date = new Date(element.time_stamp);
         const month = date.getMonth();
 
@@ -36,7 +37,7 @@ export class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return new Date(this.props.periodDescription.year, this.props.periodDescription.month + 1, 0).getDate();
     }
 
-    onClick(index) {
+    onClick(index: number) {
         const newPeriod = new DayDescription(
             this.props.periodDescription.year,
             this.props.periodDescription.month,

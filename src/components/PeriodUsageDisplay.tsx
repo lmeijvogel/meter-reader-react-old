@@ -12,6 +12,10 @@ export interface IPeriodUsageDisplayProps {
     usage: UsageData[];
 }
 
+export type ElementWithTimeStamp = {
+    time_stamp: number;
+};
+
 export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {
     render() {
         const labels = this.labels();
@@ -55,7 +59,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
         );
     }
 
-    shouldComponentUpdate(nextProps, nextState): boolean {
+    shouldComponentUpdate(nextProps: A, _nextState: B): boolean {
         return this.props.enabled !== nextProps.enabled || this.props.usage !== nextProps.usage;
     }
 
@@ -69,11 +73,11 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
         return result;
     }
 
-    abstract onClick(index): void;
+    abstract onClick(index: number): void;
 
     abstract labels(): number[];
-    abstract tooltipLabel(field: number): string;
-    abstract positionInData(element, dataset): number;
+    abstract tooltipLabel(field: string): string;
+    abstract positionInData(element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]): number;
 
     abstract maxGasY(): number;
 
