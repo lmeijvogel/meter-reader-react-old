@@ -44,7 +44,15 @@ export namespace PriceCalculator {
             // Incl. BTW. Rate is given on the Evides website in per m3, but I'd like to show in liters, so divide by 1000.
             waterPrice: new Money(1.30037 / 1000),
             validFrom: new Date(2018, 10, 12),
-            validUntil: new Date(2019, 10, 11)
+            validUntil: new Date(2019, 11, 25) // 25 december: End of current contract
+        },
+        {
+            gasPrice: new Money(0.68358),
+            stroomPrice: new Money(0.22035),
+            // Incl. BTW. Rate is given on the Evides website in per m3, but I'd like to show in liters, so divide by 1000.
+            waterPrice: new Money(1.30037 / 1000),
+            validFrom: new Date(2019, 11, 26),
+            validUntil: new Date(2022, 11, 26) // 25 december: End of current contract
         }
     ];
 
