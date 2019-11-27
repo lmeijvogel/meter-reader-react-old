@@ -31,13 +31,14 @@ export class RecentUsageGraphs extends React.Component {
     render() {
         return <div className="recent-UsageData">
             <div className="recent-usage-graph">
-                <Bar data={this.chartData()} options={this.chartOptions()} />
+                <Bar data={this.stroomChartData()} options={this.chartOptions(this.stroomYAxis())} />
+                <Bar data={this.waterChartData()} options={this.chartOptions(this.waterYAxis())} />
             </div>
         </div>;
     }
 
-    chartData(): any {
-        const { waterData, stroomData, labels } = this.store;
+    stroomChartData(): any {
+        const { stroomData, labels } = this.store;
 
         return {
             labels: labels,
@@ -51,7 +52,17 @@ export class RecentUsageGraphs extends React.Component {
                     borderWidth: "1.5",
                     pointRadius: 0,
                     yAxisID: "stroom"
-                },
+                }
+            ],
+        };
+    }
+
+    waterChartData(): any {
+        const { waterData, labels } = this.store;
+
+        return {
+            labels: labels,
+            datasets: [
                 {
                     label: "Water",
                     legendText: "Stroom",
@@ -66,7 +77,7 @@ export class RecentUsageGraphs extends React.Component {
         };
     }
 
-    chartOptions(): any {
+    chartOptions(yAxis: any): any {
         let lastItemHour = "";
 
         return {
@@ -90,40 +101,7 @@ export class RecentUsageGraphs extends React.Component {
                     },
 
                 }],
-                yAxes: [{
-                    id: "stroom",
-                    title: "Stroom",
-                    position: "left",
-                    gridLines: {
-                        display: false
-                    },
-                    ticks: {
-                        display: true,
-                        min: 0,
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Stroom (Wh)"
-                    }
-                },
-                {
-                    id: "water",
-                    title: "Water",
-                    position: "right",
-                    gridLines: {
-                        display: true
-                    },
-                    ticks: {
-                        display: true,
-                        min: 0,
-
-                    },
-                    scaleLabel: {
-                        display: true,
-                        labelString: "Water (L)"
-                    }
-                }]
-
+                yAxes: [yAxis]
             },
 
             tooltips: {
@@ -138,5 +116,44 @@ export class RecentUsageGraphs extends React.Component {
                 }
             }
         };
+    }
+
+    stroomYAxis() {
+        return {
+            id: "stroom",
+            title: "Stroom",
+            position: "left",
+            gridLines: {
+                display: false
+            },
+            ticks: {
+                display: true,
+                min: 0,
+            },
+            scaleLabel: {
+                display: true,
+                labelString: "Stroom (Wh)"
+            }
+        };
+    }
+
+    waterYAxis() {
+        return {
+            id: "water",
+            title: "Water",
+            position: "left",
+            gridLines: {
+                display: true
+            },
+            ticks: {
+                display: true,
+                min: 0,
+
+            },
+            scaleLabel: {
+                display: true,
+                labelString: "Water (L)"
+            }
+        }
     }
 }
