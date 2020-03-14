@@ -1,11 +1,7 @@
 import { MonthDescription, YearDescription } from "../models/PeriodDescription";
 import { PeriodUsageDisplay, IPeriodUsageDisplayProps, ElementWithTimeStamp } from "./PeriodUsageDisplay";
 
-interface IProps extends IPeriodUsageDisplayProps {
-    periodDescription: YearDescription;
-}
-
-export class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class YearUsageDisplay extends PeriodUsageDisplay<YearDescription> {
     labels(): number[] {
         var range = this.range(1, 13);
 

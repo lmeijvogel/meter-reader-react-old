@@ -1,11 +1,7 @@
 import { DayDescription, MonthDescription } from "../models/PeriodDescription";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps, ElementWithTimeStamp } from "./PeriodUsageDisplay";
+import { PeriodUsageDisplay, ElementWithTimeStamp } from "./PeriodUsageDisplay";
 
-interface IProps extends IPeriodUsageDisplayProps {
-    periodDescription: MonthDescription;
-}
-
-export class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class MonthUsageDisplay extends PeriodUsageDisplay<MonthDescription> {
     labels() {
         var range = this.range(1, this.maxDate() + 1);
 

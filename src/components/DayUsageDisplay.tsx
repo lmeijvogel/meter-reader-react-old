@@ -1,11 +1,7 @@
 import { DayDescription } from "../models/PeriodDescription";
-import { PeriodUsageDisplay, IPeriodUsageDisplayProps, ElementWithTimeStamp } from "./PeriodUsageDisplay";
+import { PeriodUsageDisplay, ElementWithTimeStamp } from "./PeriodUsageDisplay";
 
-interface IProps extends IPeriodUsageDisplayProps {
-    periodDescription: DayDescription;
-}
-
-export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
+export class DayUsageDisplay extends PeriodUsageDisplay<DayDescription> {
     labels(): number[] {
         return this.range(0, 24);
     }

@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Component } from "react";
 
 import { PeriodDescription } from "../models//PeriodDescription";
 import { DataShifter } from "../helpers/DataShifter";
 import { Chart } from "./Chart";
 import { UsageData } from "../models/UsageData";
 
-export interface IPeriodUsageDisplayProps {
+export interface IPeriodUsageDisplayProps<T extends PeriodDescription> {
+    periodDescription: T;
     enabled: boolean;
     onSelect: (period: PeriodDescription) => void;
     usage: UsageData[];
@@ -16,7 +16,7 @@ export type ElementWithTimeStamp = {
     time_stamp: number;
 };
 
-export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> extends Component<A, B> {
+export abstract class PeriodUsageDisplay<A extends PeriodDescription> extends React.Component<IPeriodUsageDisplayProps<A>, {}> {
     render() {
         const labels = this.labels();
         const dataShifter = new DataShifter();
@@ -59,7 +59,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
         );
     }
 
-    shouldComponentUpdate(nextProps: A, _nextState: B): boolean {
+    shouldComponentUpdate(nextProps: IPeriodUsageDisplayProps<A>, _nextState: unknown): boolean {
         return this.props.enabled !== nextProps.enabled || this.props.usage !== nextProps.usage;
     }
 

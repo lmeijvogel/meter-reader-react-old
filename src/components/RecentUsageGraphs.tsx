@@ -9,8 +9,8 @@ import { RecentUsageGraphsStore } from '../stores/RecentUsageGraphsStore';
 export class RecentUsageGraphs extends React.Component {
     store: RecentUsageGraphsStore;
 
-    constructor() {
-        super({}, {});
+    constructor(props: any) {
+        super(props);
 
         this.store = new RecentUsageGraphsStore();
     }
