@@ -42,7 +42,7 @@ export class DayUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return 200;
     }
 
-    onClick(_index: number) {
+    onClick = (_index: number) => {
         // NOP : There are no actions to be implemented for clicking on hours
     }
 }

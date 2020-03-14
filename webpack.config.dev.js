@@ -9,6 +9,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CheckerPlugin } = require("awesome-typescript-loader");
 
 module.exports = {
+    mode: "development",
     entry: "./src/index.tsx",
     output: {
         path: __dirname + "/build/",
@@ -16,7 +17,7 @@ module.exports = {
         publicPath: "/",
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /.css$/,
                 loader: "style-loader!css-loader",

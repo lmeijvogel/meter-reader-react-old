@@ -32,7 +32,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
                     maxY={this.maxGasY()}
                     fieldName="gas"
                     color="#e73711"
-                    onClick={this.onClick.bind(this)}
+                    onClick={this.onClick}
                     tooltipLabelBuilder={this.tooltipLabel.bind(this)}
                 />
                 <Chart
@@ -42,7 +42,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
                     maxY={this.maxStroomY()}
                     fieldName="stroom_totaal"
                     color="#f0ad4e"
-                    onClick={this.onClick.bind(this)}
+                    onClick={this.onClick}
                     tooltipLabelBuilder={this.tooltipLabel.bind(this)}
                 />
                 <Chart
@@ -52,7 +52,7 @@ export abstract class PeriodUsageDisplay<A extends IPeriodUsageDisplayProps, B> 
                     maxY={this.maxWaterY()}
                     fieldName="water"
                     color="#428bca"
-                    onClick={this.onClick.bind(this)}
+                    onClick={this.onClick}
                     tooltipLabelBuilder={this.tooltipLabel.bind(this)}
                 />
             </div>

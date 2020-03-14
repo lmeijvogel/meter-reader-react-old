@@ -37,7 +37,7 @@ export class MonthUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return new Date(this.props.periodDescription.year, this.props.periodDescription.month + 1, 0).getDate();
     }
 
-    onClick(index: number) {
+    onClick = (index: number) => {
         const newPeriod = new DayDescription(
             this.props.periodDescription.year,
             this.props.periodDescription.month,

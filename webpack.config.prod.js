@@ -1,17 +1,18 @@
-var path = require("path");
-var webpack = require("webpack");
-var CleanWebpackPlugin = require("clean-webpack-plugin");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
+    mode: "production",
     entry: "./src/index.tsx",
     output: {
-        path: __dirname + "/dist/",
         filename: "bundle-[hash].js",
+        path: __dirname + "/dist/",
         publicPath: "/",
+        libraryTarget: "umd"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /.jsx?$|.tsx?$/,
                 loader: "awesome-typescript-loader",
@@ -26,8 +27,11 @@ module.exports = {
             },
         ],
     },
+    optimization: {
+      minimize: true
+    },
     plugins: [
-        new CleanWebpackPlugin(["dist"], {
+        new CleanWebpackPlugin({
             paths: ["./dist"],
             exclude: ["login.html"],
             verbose: false,
@@ -39,7 +43,6 @@ module.exports = {
                 NODE_ENV: JSON.stringify("production"),
             },
         }),
-        new webpack.optimize.UglifyJsPlugin(), // Minify everything
         new webpack.optimize.AggressiveMergingPlugin(), // Merge chunks
         new HtmlWebpackPlugin({
             inject: false,

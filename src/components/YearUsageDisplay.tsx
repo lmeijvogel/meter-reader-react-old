@@ -26,7 +26,7 @@ export class YearUsageDisplay extends PeriodUsageDisplay<IProps, {}> {
         return date.getMonth() + (date.getFullYear() - minYear) * 12;
     }
 
-    onClick(index: number) {
+    onClick = (index: number) => {
         this.props.onSelect(this.monthDescriptionAt(index));
     }
 
