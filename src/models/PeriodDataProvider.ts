@@ -7,7 +7,7 @@ export abstract class PeriodDataProvider {
 
     abstract labels(): number[];
     abstract tooltipLabel: (field: string) => string;
-    abstract positionInData: (element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]) => number;
+    abstract positionInData: (element: UsageData, dataset: (UsageData | null)[]) => number;
 
     abstract descriptionAt(index: number): PeriodDescription;
 

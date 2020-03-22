@@ -15,7 +15,7 @@ type DataName =
 
 interface IProps {
     label: string;
-    labels: (number | undefined)[];
+    labels: number[];
     data: (UsageData | null)[];
     maxY: number;
     fieldName: DataName;
@@ -29,21 +29,11 @@ type ChartItem = {
     index: number;
 };
 
-type ChartData = {
-    labels: (number | undefined)[];
-    datasets: {
-        label: string;
-        data: number[];
-        borderColor: string,
-        backgroundColor: string
-    }[]
-};
-
 export class Chart extends Component<IProps, {}> {
     render() {
         var tooltipLabelBuilder = this.props.tooltipLabelBuilder;
 
-        var titleCallback = function(tooltipItems: ChartItem[], data: ChartData) {
+        var titleCallback = function(tooltipItems: ChartItem[], data: Chart.ChartData) {
             // Pick first xLabel for now
             var title = "";
             var labels = data.labels;
@@ -55,7 +45,7 @@ export class Chart extends Component<IProps, {}> {
                 if (item.xLabel) {
                     title = item.xLabel;
                 } else if (labelCount > 0 && item.index < labelCount) {
-                    const label = labels[item.index];
+                    const label = labels ? labels[item.index] : undefined;
 
                     if (!!label) {
                         title = label.toString();
@@ -69,7 +59,7 @@ export class Chart extends Component<IProps, {}> {
         };
 
         const options = {
-            onClick: this.onClick.bind(this),
+            onClick: this.onClick,
             responsive: true,
             title: {
                 display: true,
@@ -92,7 +82,7 @@ export class Chart extends Component<IProps, {}> {
         return <Bar data={this.ChartData()} options={options} />;
     }
 
-    ChartData(): ChartData {
+    ChartData(): Chart.ChartData {
         const interpolatedData = new ArrayInterpolator().call(this.dataForField());
         const relativeData = new RelativeConverter().convert(interpolatedData);
         const roundedData = relativeData.map(value => this.truncate(value, 3));
@@ -185,7 +175,8 @@ export class Chart extends Component<IProps, {}> {
         }
     }
 
-    onClick(_event, data) {
+    // TODO: Any here
+    onClick = (_event: unknown, data: any[] ) => {
         if (data[0]) {
             this.props.onClick(data[0]._index);
         }

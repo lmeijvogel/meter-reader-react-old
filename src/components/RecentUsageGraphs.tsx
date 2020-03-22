@@ -9,7 +9,7 @@ import { RecentUsageGraphsStore } from '../stores/RecentUsageGraphsStore';
 export class RecentUsageGraphs extends React.Component {
     store: RecentUsageGraphsStore;
 
-    constructor(props: any) {
+    constructor(props: {}) {
         super(props);
 
         this.store = new RecentUsageGraphsStore();
@@ -106,7 +106,8 @@ export class RecentUsageGraphs extends React.Component {
 
             tooltips: {
                 callbacks: {
-                    title: (tooltipItem: any[], data) => {
+                    // TODO: Any
+                    title: (tooltipItem: any[], data: any) => {
                         const index = tooltipItem[0].index;
 
                         const timeStamp = data.labels[index];

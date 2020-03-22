@@ -18,8 +18,10 @@ export class YearDataProvider extends PeriodDataProvider {
         return this.descriptionAt(intMonth - 1).toTitle();
     }
 
-    positionInData = (element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]): number => {
-        const years = dataset.map(el => new Date(el.time_stamp).getFullYear());
+    positionInData = (element: UsageData, dataset: (UsageData | null)[]): number => {
+        const filteredDataset = dataset.filter(el => !!el) as UsageData[];
+
+        const years = filteredDataset.map(el => new Date(el.time_stamp).getFullYear());
         const minYear = Math.min.apply(null, years);
 
         const date = new Date(element.time_stamp);

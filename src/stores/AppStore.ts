@@ -26,7 +26,7 @@ export enum LoadingState {
 export class AppStore {
     @observable liveData: LiveData | null = null;
     @observable loggedIn: LoggedInState = LoggedInState.Unknown;
-    @observable dataProvider: PeriodDataProvider | null;
+    @observable dataProvider: PeriodDataProvider | null = null;
     @observable loadingState: LoadingState = LoadingState.NotLoaded;
     @observable showRecentUsage: boolean = false;
 

@@ -1,7 +1,7 @@
 import { PeriodDescription, DayDescription, MonthDescription, YearDescription } from "../models/PeriodDescription";
 
 export class LocationBarParser {
-    parse(path): PeriodDescription {
+    parse(path: string): PeriodDescription {
         const dayMatch = path.match(/\/day\/(\d+)\/(\d+)\/(\d+)/);
 
         if (dayMatch) {

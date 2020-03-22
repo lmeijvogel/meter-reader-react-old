@@ -18,11 +18,13 @@ export class MonthDataProvider extends PeriodDataProvider {
         return this.descriptionAt(intDay).toTitle();
     }
 
-    positionInData = (element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]) => {
+    positionInData = (element: UsageData, dataset: (UsageData | null)[]) => {
         const date = new Date(element.time_stamp);
         const month = date.getMonth();
 
-        const minMonth = new Date(dataset[0].time_stamp).getMonth();
+        const filteredDataset = dataset.filter(el => !!el) as UsageData[];
+
+        const minMonth = new Date(filteredDataset[0].time_stamp).getMonth();
 
         if (month === minMonth) {
             return date.getDate() - 1;

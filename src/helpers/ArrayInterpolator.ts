@@ -51,7 +51,7 @@ export class ArrayInterpolator {
         return this.firstIndexWhereInt(input, (el: optNumber) => el != 0 && el != null);
     }
 
-    firstIndexWhereInt(input: optNumber[], test: (el: optNumber) => boolean) {
+    firstIndexWhereInt(input: optNumber[], test: (el: optNumber) => boolean): number {
         if (input.length === 0) {
             return -1;
         }

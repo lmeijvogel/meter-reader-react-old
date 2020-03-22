@@ -1,27 +1,27 @@
-const DAYS_OF_WEEK = {
-    0: "Zondag",
-    1: "Maandag",
-    2: "Dinsdag",
-    3: "Woensdag",
-    4: "Donderdag",
-    5: "Vrijdag",
-    6: "Zaterdag",
-};
+const DAYS_OF_WEEK = [
+    "Zondag",
+    "Maandag",
+    "Dinsdag",
+    "Woensdag",
+    "Donderdag",
+    "Vrijdag",
+    "Zaterdag",
+];
 
-const MONTHS = {
-    0: "januari",
-    1: "februari",
-    2: "maart",
-    3: "april",
-    4: "mei",
-    5: "juni",
-    6: "juli",
-    7: "augustus",
-    8: "september",
-    9: "oktober",
-    10: "november",
-    11: "december",
-};
+const MONTHS = [
+    "januari",
+    "februari",
+    "maart",
+    "april",
+    "mei",
+    "juni",
+    "juli",
+    "augustus",
+    "september",
+    "oktober",
+    "november",
+    "december",
+];
 
 const firstMeasurementDate = new Date(2014, 2, 3);
 

@@ -1,13 +1,17 @@
 import { UsageData } from "../models/UsageData";
 
 export class DataShifter {
-    call(dataset: (UsageData | null)[], posExtractor: (element: unknown, dataset: unknown[]) => number): (UsageData | null)[] {
+    call(dataset: (UsageData | null)[], posExtractor: (element: UsageData, dataset: (UsageData | null)[]) => number): (UsageData | null)[] {
         let output: (UsageData | null)[] = [];
 
         let lastPositionInOutput = 0;
 
         dataset.forEach(element => {
-            const nextPositionInOutput = posExtractor.call(null, element, dataset);
+            if (!element) {
+                return;
+            }
+
+            const nextPositionInOutput = posExtractor(element, dataset);
 
             // I don't really want to handle this case at the moment
             if (nextPositionInOutput < lastPositionInOutput) {

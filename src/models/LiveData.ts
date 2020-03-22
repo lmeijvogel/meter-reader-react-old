@@ -1,4 +1,4 @@
-export class LiveData {
+export type LiveData = {
     id: number;
     current: number;
     gas: number;
