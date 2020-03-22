@@ -1,7 +1,7 @@
 import { UsageData } from "../models/UsageData";
 
 export class DataShifter {
-    call(dataset: (UsageData | null)[], posExtractor: (number) => number): (UsageData | null)[] {
+    call(dataset: (UsageData | null)[], posExtractor: (element: unknown, dataset: unknown[]) => number): (UsageData | null)[] {
         let output: (UsageData | null)[] = [];
 
         let lastPositionInOutput = 0;

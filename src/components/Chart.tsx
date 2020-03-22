@@ -21,7 +21,7 @@ interface IProps {
     fieldName: DataName;
     color: string;
     onClick: (index: number) => void;
-    tooltipLabelBuilder: () => void;
+    tooltipLabelBuilder: (title: string) => string;
 }
 
 type ChartItem = {

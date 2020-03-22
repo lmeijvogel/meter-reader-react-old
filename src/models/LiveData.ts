@@ -5,5 +5,3 @@ export class LiveData {
     stroom_dal: number;
     stroom_piek: number;
 }
-
-

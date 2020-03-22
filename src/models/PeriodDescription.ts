@@ -188,8 +188,6 @@ export class DayDescription extends PeriodDescription {
     }
 
     toShortTitle() {
-        const date = new Date(this.year, this.month, this.day);
-
         return `${this.day} ${MONTHS[this.month]} ${this.year}`;
     }
 

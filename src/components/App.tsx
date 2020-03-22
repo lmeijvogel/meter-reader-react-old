@@ -61,7 +61,7 @@ export class App extends Component<Props> {
     componentDidMount() {
         this.selectPeriodFromLocationBar();
 
-        window.onpopstate = event => {
+        window.onpopstate = (event: PopStateEvent) => {
             if (event.state.period) {
                 this.props.store.periodSelected(event.state.period, true);
             }

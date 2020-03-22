@@ -1,5 +1,7 @@
+type optNumber = number | null;
+
 export class ArrayInterpolator {
-    call(input: (number | null)[]): number[] {
+    call(input: optNumber[]): number[] {
         const firstNonEmptyIndex: number = this.firstNonEmptyIndex(input);
 
         if (firstNonEmptyIndex === -1) {
@@ -7,7 +9,7 @@ export class ArrayInterpolator {
             return [];
         }
 
-        let rest: number[];
+        let rest: optNumber[];
 
         if (firstNonEmptyIndex === 0) {
             // Fill a single range by finding the next non-empty element and
@@ -21,23 +23,23 @@ export class ArrayInterpolator {
                 return input.slice(0, 1) as number[];
             }
 
-            const first: number[] = this.take(input, nextNonEmpty + 1);
+            const first: optNumber[] = this.take(input, nextNonEmpty + 1);
             rest = this.drop(input, nextNonEmpty);
 
             const interpolatedFirst = this.interpolate(first);
 
-            return this.initial(interpolatedFirst).concat(this.call(rest));
+            return this.initial(interpolatedFirst).concat(this.call(rest)) as number[];
         } else {
-            const empties: number[] = this.take(input, firstNonEmptyIndex);
+            const empties: optNumber[] = this.take(input, firstNonEmptyIndex);
             rest = this.drop(input, firstNonEmptyIndex);
 
-            return empties.concat(this.call(rest));
+            return empties.concat(this.call(rest)) as number[];
         }
     }
 
-    interpolate(array: number[]): number[] {
-        const first = array[0];
-        const last = array[array.length - 1];
+    interpolate(array: optNumber[]): number[] {
+        const first = array[0] as number;
+        const last = array[array.length - 1] as number;
         const count = array.length;
 
         const stepSize = (last - first) / (count - 1);
@@ -45,42 +47,42 @@ export class ArrayInterpolator {
         return this.range(count).map(el => first + el * stepSize);
     }
 
-    firstNonEmptyIndex(input: (number | null)[]): number {
-        const firstIndexWhereInt = (input, test) => {
-            if (input.length === 0) {
-                return -1;
-            }
-
-            const head = input[0];
-
-            if (test(head)) {
-                return 0;
-            } else {
-                const indexInTail = firstIndexWhereInt(this.tail(input), test);
-
-                if (indexInTail === -1) {
-                    return -1;
-                }
-                return 1 + indexInTail;
-            }
-        };
-
-        return firstIndexWhereInt(input, el => el != 0 && el != null);
+    firstNonEmptyIndex(input: optNumber[]): number {
+        return this.firstIndexWhereInt(input, (el: optNumber) => el != 0 && el != null);
     }
 
-    take(input: any[], count: number) {
+    firstIndexWhereInt(input: optNumber[], test: (el: optNumber) => boolean) {
+        if (input.length === 0) {
+            return -1;
+        }
+
+        const head = input[0];
+
+        if (test(head)) {
+            return 0;
+        } else {
+            const indexInTail = this.firstIndexWhereInt(this.tail(input), test);
+
+            if (indexInTail === -1) {
+                return -1;
+            }
+            return 1 + indexInTail;
+        }
+    }
+
+    take(input: optNumber[], count: number): optNumber[] {
         return input.slice(0, count);
     }
 
-    drop(input: any[], count: number) {
+    drop(input: optNumber[], count: number): optNumber[] {
         return input.slice(count);
     }
 
-    tail(input: any[]): any[] {
+    tail(input: optNumber[]): optNumber[] {
         return input.slice(1);
     }
 
-    initial(input: any[]): any[] {
+    initial(input: optNumber[]): optNumber[] {
         return input.slice(0, input.length - 1);
     }
 
