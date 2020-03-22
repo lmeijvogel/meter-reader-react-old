@@ -5,7 +5,6 @@ import * as React from "react";
 import { Component } from "react";
 
 import { LocationBarParser } from "../helpers/LocationBarParser";
-import { PeriodDescription, MonthDescription } from "../models/PeriodDescription";
 import { AppStore, LoggedInState } from '../stores/AppStore';
 
 import { LoginScreen } from "./LoginScreen";
@@ -23,7 +22,7 @@ export class App extends Component<Props> {
     timer: any | null = null;
 
     render() {
-        const { liveData, loadingData, loggedIn, periodDescription, periodUsage, showRecentUsage } = this.props.store;
+        const { dataProvider, liveData, loadingState, loggedIn, periodUsage, showRecentUsage } = this.props.store;
 
         switch (loggedIn) {
             case LoggedInState.LoggedIn:
@@ -38,7 +37,7 @@ export class App extends Component<Props> {
                             {showRecentUsage ?
                                 <RecentUsageGraphs />
                                 :
-                                <UsageGraphs loadingData={loadingData} periodDescription={periodDescription} periodUsage={periodUsage} periodSelected={this.props.store.periodSelected} />
+                                <UsageGraphs loadingState={loadingState} dataProvider={dataProvider!} periodUsage={periodUsage} periodSelected={this.props.store.periodSelected} />
                             }
                         </div>
                         <div className="row">
@@ -81,11 +80,6 @@ export class App extends Component<Props> {
         const period = locationBarParser.parse(window.location.pathname);
 
         this.props.store.periodSelected(period, false);
-    }
-
-    initiallyDisplayedPeriod(): PeriodDescription {
-        const now = new Date();
-        return new MonthDescription(now.getFullYear(), now.getMonth() + 1);
     }
 
     startLiveDataTimer() {

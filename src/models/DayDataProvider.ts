@@ -1,19 +1,30 @@
 import { DayDescription } from "../models/PeriodDescription";
-import { PeriodUsageDisplay, ElementWithTimeStamp } from "./PeriodUsageDisplay";
+import { PeriodDataProvider, ElementWithTimeStamp } from "./PeriodDataProvider";
+import { PeriodDescription } from "./PeriodDescription";
 
-export class DayUsageDisplay extends PeriodUsageDisplay<DayDescription> {
+export class DayDataProvider extends PeriodDataProvider {
+    constructor(public periodDescription: DayDescription) {
+        super();
+    }
+
+    descriptionAt(_index: number): PeriodDescription {
+        // Clicking on an hour bar shouldn't change anything, but I don't want to return null
+        // since that makes typing more fragile.
+        return this.periodDescription;
+    }
+
     labels(): number[] {
         return this.range(0, 24);
     }
 
-    tooltipLabel(hour: string): string {
+    tooltipLabel = (hour: string): string => {
         const intHour = parseInt(hour, 10);
         const nextHour = (intHour + 1) % 24;
         return `${hour}:00 - ${nextHour}:00`;
     }
 
-    positionInData(element: ElementWithTimeStamp, _dataset: ElementWithTimeStamp[]): number {
-        const periodDescription = this.props.periodDescription;
+    positionInData = (element: ElementWithTimeStamp, _dataset: ElementWithTimeStamp[]): number => {
+        const periodDescription = this.periodDescription;
 
         const currentDate = new Date(periodDescription.year, periodDescription.month, periodDescription.day);
 
@@ -26,19 +37,16 @@ export class DayUsageDisplay extends PeriodUsageDisplay<DayDescription> {
         return elementTime.getHours() + dayDifference * 24;
     }
 
-    maxGasY() {
+    get maxGasY() {
         return 2;
     }
 
-    maxStroomY() {
+    get maxStroomY() {
         return 1.5;
     }
 
-    maxWaterY() {
+    get maxWaterY() {
         return 200;
     }
-
-    onClick = (_index: number) => {
-        // NOP : There are no actions to be implemented for clicking on hours
-    }
 }
+

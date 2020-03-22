@@ -3,71 +3,67 @@ import { observer } from "mobx-react";
 import * as React from "react";
 import { Component } from "react";
 
-import { DayUsageDisplay } from "./DayUsageDisplay";
-import { MonthUsageDisplay } from "./MonthUsageDisplay";
-import { YearUsageDisplay } from "./YearUsageDisplay";
-import { NavigationButtons } from "./NavigationButtons";
+import { PeriodDataProvider } from "../models/PeriodDataProvider";
+import { PeriodDescription } from "../models/PeriodDescription";
 import { UsageData } from "../models/UsageData";
 
-import { PeriodDescription, YearDescription, MonthDescription, DayDescription } from "../models/PeriodDescription";
-import {PeriodUsageDisplay} from "./PeriodUsageDisplay";
+import { NavigationButtons } from "./NavigationButtons";
+import { PeriodUsageDisplay } from "./PeriodUsageDisplay";
+import {LoadingState} from "../stores/AppStore";
+import {computed} from "mobx";
 
 interface IProps {
-    loadingData: boolean;
+    loadingState: LoadingState;
     periodUsage: Array<UsageData | null>;
     periodSelected: (periodDescription: PeriodDescription, skipPushState: boolean) => void;
-    periodDescription: PeriodDescription;
-
+    dataProvider: PeriodDataProvider;
 }
 
 @observer
 export class UsageGraphs extends Component<IProps> {
     render() {
-        const { loadingData, periodDescription } = this.props;
+        const { loadingState } = this.props;
 
-        if (periodDescription) {
-            const usageDisplay = this.renderUsageDisplay(periodDescription);
+        if (loadingState === LoadingState.Loaded) {
+            const { periodDescription } = this.props.dataProvider;
+
+            const usageDisplay = this.renderUsageDisplay();
 
             return (
                 <div>
                     <h2>{periodDescription.toTitle()}</h2>
 
-                    {usageDisplay}
+                        {usageDisplay}
 
-                    <NavigationButtons
-                        periodDescription={periodDescription}
-                        onSelect={this.periodSelected.bind(this)}
-                        enabled={!loadingData}
-                    />
+                        <NavigationButtons
+                            periodDescription={periodDescription}
+                            onSelect={this.periodSelected}
+                            enabled={this.enabled}
+                        />
                 </div>
             );
-        } else {
-            return null;
-        }
-    }
-
-    private renderUsageDisplay(periodDescription: PeriodDescription) {
-        const { loadingData, periodUsage } = this.props;
-
-        let displayElementClass: any;
-
-        if (periodDescription instanceof DayDescription) {
-            displayElementClass = DayUsageDisplay;
-        } else if (periodDescription instanceof MonthDescription) {
-            displayElementClass = MonthUsageDisplay;
-        } else if (periodDescription instanceof YearDescription) {
-            displayElementClass = YearUsageDisplay;
         }
 
-        return React.createElement(displayElementClass, {
-            usage: periodUsage,
-            periodDescription: periodDescription,
-            onSelect: this.periodSelected.bind(this),
-            enabled: !loadingData,
-        });
+        return null;
     }
 
-    periodSelected(periodDescription: PeriodDescription, skipPushState = false) {
+    private renderUsageDisplay() {
+        const { periodUsage, dataProvider } = this.props;
+
+        return <PeriodUsageDisplay
+            dataProvider={dataProvider}
+            usage={periodUsage}
+            onSelect={this.periodSelected}
+            enabled={this.enabled}
+        />;
+    }
+
+    periodSelected = (periodDescription: PeriodDescription, skipPushState = false) => {
         this.props.periodSelected(periodDescription, skipPushState);
+    }
+
+    @computed
+    private get enabled(): boolean {
+        return this.props.loadingState == LoadingState.Loaded;
     }
 }

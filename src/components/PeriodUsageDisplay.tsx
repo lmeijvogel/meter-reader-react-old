@@ -1,27 +1,33 @@
 import * as React from "react";
+import { observer } from "mobx-react";
 
 import { PeriodDescription } from "../models//PeriodDescription";
 import { DataShifter } from "../helpers/DataShifter";
 import { Chart } from "./Chart";
 import { UsageData } from "../models/UsageData";
+import { PeriodDataProvider } from "../models/PeriodDataProvider";
 
-export interface IPeriodUsageDisplayProps<T extends PeriodDescription> {
-    periodDescription: T;
+export interface IPeriodUsageDisplayProps {
+    dataProvider: PeriodDataProvider;
     enabled: boolean;
     onSelect: (period: PeriodDescription) => void;
-    usage: UsageData[];
+    usage: (UsageData | null)[];
 }
 
-export type ElementWithTimeStamp = {
-    time_stamp: number;
-};
-
-export abstract class PeriodUsageDisplay<A extends PeriodDescription> extends React.Component<IPeriodUsageDisplayProps<A>, {}> {
+@observer
+export class PeriodUsageDisplay extends React.Component<IPeriodUsageDisplayProps, {}> {
     render() {
-        const labels = this.labels();
+        const { dataProvider } = this.props;
+
+        if (!dataProvider) {
+            return null;
+        }
+
+
+        const labels = dataProvider.labels();
         const dataShifter = new DataShifter();
 
-        const data = dataShifter.call(this.props.usage, this.positionInData.bind(this));
+        const data = dataShifter.call(this.props.usage, dataProvider.positionInData);
 
         return (
             <div className={"PeriodUsageDisplay" + (this.props.enabled ? "" : " disabled")}>
@@ -29,59 +35,37 @@ export abstract class PeriodUsageDisplay<A extends PeriodDescription> extends Re
                     label="Gas"
                     labels={labels}
                     data={data}
-                    maxY={this.maxGasY()}
+                    maxY={dataProvider.maxGasY}
                     fieldName="gas"
                     color="#e73711"
                     onClick={this.onClick}
-                    tooltipLabelBuilder={this.tooltipLabel.bind(this)}
+                    tooltipLabelBuilder={dataProvider.tooltipLabel}
                 />
                 <Chart
                     label="Stroom"
                     labels={labels}
                     data={data}
-                    maxY={this.maxStroomY()}
+                    maxY={dataProvider.maxStroomY}
                     fieldName="stroom_totaal"
                     color="#f0ad4e"
                     onClick={this.onClick}
-                    tooltipLabelBuilder={this.tooltipLabel.bind(this)}
+                    tooltipLabelBuilder={dataProvider.tooltipLabel}
                 />
                 <Chart
                     label="Water"
                     labels={labels}
                     data={data}
-                    maxY={this.maxWaterY()}
+                    maxY={dataProvider.maxWaterY}
                     fieldName="water"
                     color="#428bca"
                     onClick={this.onClick}
-                    tooltipLabelBuilder={this.tooltipLabel.bind(this)}
+                    tooltipLabelBuilder={dataProvider.tooltipLabel}
                 />
             </div>
         );
     }
 
-    shouldComponentUpdate(nextProps: IPeriodUsageDisplayProps<A>, _nextState: unknown): boolean {
-        return this.props.enabled !== nextProps.enabled || this.props.usage !== nextProps.usage;
+    onClick = (index: number): void => {
+        this.props.onSelect(this.props.dataProvider.descriptionAt(index));
     }
-
-    protected range(start: number, end: number): number[] {
-        let result: number[] = [];
-
-        for (let i: number = start; i < end; i++) {
-            result.push(i);
-        }
-
-        return result;
-    }
-
-    abstract onClick(index: number): void;
-
-    abstract labels(): number[];
-    abstract tooltipLabel(field: string): string;
-    abstract positionInData(element: ElementWithTimeStamp, dataset: ElementWithTimeStamp[]): number;
-
-    abstract maxGasY(): number;
-
-    abstract maxStroomY(): number;
-
-    abstract maxWaterY(): number;
 }
