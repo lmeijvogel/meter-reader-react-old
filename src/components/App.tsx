@@ -22,7 +22,7 @@ export class App extends Component<Props> {
     timer: any | null = null;
 
     render() {
-        const { dataProvider, liveData, loadingState, loggedIn, periodUsage, showRecentUsage } = this.props.store;
+        const { dataProvider, liveData, loadingState, loggedIn, showRecentUsage } = this.props.store;
 
         switch (loggedIn) {
             case LoggedInState.LoggedIn:
@@ -37,7 +37,7 @@ export class App extends Component<Props> {
                             {showRecentUsage ?
                                 <RecentUsageGraphs />
                                 :
-                                <UsageGraphs loadingState={loadingState} dataProvider={dataProvider!} periodUsage={periodUsage} periodSelected={this.props.store.periodSelected} />
+                                <UsageGraphs loadingState={loadingState} dataProvider={dataProvider!} periodSelected={this.props.store.periodSelected} />
                             }
                         </div>
                         <div className="row">

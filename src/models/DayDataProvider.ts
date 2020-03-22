@@ -1,9 +1,10 @@
 import { DayDescription } from "../models/PeriodDescription";
-import { PeriodDataProvider, ElementWithTimeStamp } from "./PeriodDataProvider";
+import { PeriodDataProvider } from "./PeriodDataProvider";
 import { PeriodDescription } from "./PeriodDescription";
+import {UsageData} from "./UsageData";
 
 export class DayDataProvider extends PeriodDataProvider {
-    constructor(public periodDescription: DayDescription) {
+    constructor(public periodDescription: DayDescription, public readonly periodUsage: Array<UsageData | null>) {
         super();
     }
 
@@ -23,7 +24,7 @@ export class DayDataProvider extends PeriodDataProvider {
         return `${hour}:00 - ${nextHour}:00`;
     }
 
-    positionInData = (element: ElementWithTimeStamp, _dataset: ElementWithTimeStamp[]): number => {
+    positionInData = (element: UsageData, _dataset: (UsageData | null)[]): number => {
         const periodDescription = this.periodDescription;
 
         const currentDate = new Date(periodDescription.year, periodDescription.month, periodDescription.day);

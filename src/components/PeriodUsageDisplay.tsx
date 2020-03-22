@@ -4,14 +4,12 @@ import { observer } from "mobx-react";
 import { PeriodDescription } from "../models//PeriodDescription";
 import { DataShifter } from "../helpers/DataShifter";
 import { Chart } from "./Chart";
-import { UsageData } from "../models/UsageData";
 import { PeriodDataProvider } from "../models/PeriodDataProvider";
 
 export interface IPeriodUsageDisplayProps {
     dataProvider: PeriodDataProvider;
     enabled: boolean;
     onSelect: (period: PeriodDescription) => void;
-    usage: (UsageData | null)[];
 }
 
 @observer
@@ -27,7 +25,7 @@ export class PeriodUsageDisplay extends React.Component<IPeriodUsageDisplayProps
         const labels = dataProvider.labels();
         const dataShifter = new DataShifter();
 
-        const data = dataShifter.call(this.props.usage, dataProvider.positionInData);
+        const data = dataShifter.call(dataProvider.periodUsage, dataProvider.positionInData);
 
         return (
             <div className={"PeriodUsageDisplay" + (this.props.enabled ? "" : " disabled")}>

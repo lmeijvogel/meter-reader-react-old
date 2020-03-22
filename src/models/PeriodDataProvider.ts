@@ -1,11 +1,9 @@
 import { PeriodDescription } from "./PeriodDescription";
-
-export type ElementWithTimeStamp = {
-    time_stamp: number;
-};
+import {UsageData} from "./UsageData";
 
 export abstract class PeriodDataProvider {
     abstract periodDescription: PeriodDescription;
+    abstract periodUsage: Array<UsageData | null>;
 
     abstract labels(): number[];
     abstract tooltipLabel: (field: string) => string;

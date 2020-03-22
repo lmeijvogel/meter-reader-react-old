@@ -5,7 +5,6 @@ import { Component } from "react";
 
 import { PeriodDataProvider } from "../models/PeriodDataProvider";
 import { PeriodDescription } from "../models/PeriodDescription";
-import { UsageData } from "../models/UsageData";
 
 import { NavigationButtons } from "./NavigationButtons";
 import { PeriodUsageDisplay } from "./PeriodUsageDisplay";
@@ -14,7 +13,6 @@ import {computed} from "mobx";
 
 interface IProps {
     loadingState: LoadingState;
-    periodUsage: Array<UsageData | null>;
     periodSelected: (periodDescription: PeriodDescription, skipPushState: boolean) => void;
     dataProvider: PeriodDataProvider;
 }
@@ -48,11 +46,10 @@ export class UsageGraphs extends Component<IProps> {
     }
 
     private renderUsageDisplay() {
-        const { periodUsage, dataProvider } = this.props;
+        const { dataProvider } = this.props;
 
         return <PeriodUsageDisplay
             dataProvider={dataProvider}
-            usage={periodUsage}
             onSelect={this.periodSelected}
             enabled={this.enabled}
         />;

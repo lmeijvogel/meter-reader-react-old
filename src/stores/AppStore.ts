@@ -27,7 +27,6 @@ export class AppStore {
     @observable liveData: LiveData | null = null;
     @observable loggedIn: LoggedInState = LoggedInState.Unknown;
     @observable dataProvider: PeriodDataProvider | null;
-    @observable periodUsage = observable<UsageData | null>([]);
     @observable loadingState: LoadingState = LoadingState.NotLoaded;
     @observable showRecentUsage: boolean = false;
 
@@ -66,9 +65,8 @@ export class AppStore {
     }
 
     @action
-    private setData = (periodDescription: PeriodDescription, json: any) => {
-        this.periodUsage.replace(json);
-        this.dataProvider = this.buildDataProvider(periodDescription);
+    private setData = (periodDescription: PeriodDescription, json: Array<UsageData | null>) => {
+        this.dataProvider = this.buildDataProvider(periodDescription, json);
 
         this.loadingState = LoadingState.Loaded;
     }
@@ -76,22 +74,21 @@ export class AppStore {
     @action
     private setErrorState = () => {
         this.dataProvider = null;
-        this.periodUsage.clear();
 
         this.loadingState = LoadingState.ErrorLoading;
     }
 
-    private buildDataProvider(periodDescription: PeriodDescription): PeriodDataProvider {
+    private buildDataProvider(periodDescription: PeriodDescription, periodUsage: Array<UsageData | null>): PeriodDataProvider {
         if (periodDescription instanceof YearDescription) {
-            return new YearDataProvider(periodDescription);
+            return new YearDataProvider(periodDescription, periodUsage);
         }
 
         if (periodDescription instanceof MonthDescription) {
-            return new MonthDataProvider(periodDescription);
+            return new MonthDataProvider(periodDescription, periodUsage);
         }
 
         if (periodDescription instanceof DayDescription) {
-            return new DayDataProvider(periodDescription);
+            return new DayDataProvider(periodDescription, periodUsage);
         }
 
         throw new Error(`Unexpected periodDescription type: ${periodDescription}`);

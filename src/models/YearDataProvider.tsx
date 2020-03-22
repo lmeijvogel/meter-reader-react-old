@@ -1,8 +1,9 @@
 import { MonthDescription, YearDescription } from "./PeriodDescription";
-import {ElementWithTimeStamp, PeriodDataProvider} from "./PeriodDataProvider";
+import { PeriodDataProvider } from "./PeriodDataProvider";
+import {UsageData} from "./UsageData";
 
 export class YearDataProvider extends PeriodDataProvider {
-    constructor(public periodDescription: YearDescription) {
+    constructor(public periodDescription: YearDescription, public readonly periodUsage: Array<UsageData | null>) {
         super();
     }
 
