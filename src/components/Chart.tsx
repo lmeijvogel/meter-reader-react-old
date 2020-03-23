@@ -175,8 +175,7 @@ export class Chart extends Component<IProps, {}> {
         }
     }
 
-    // TODO: Any here
-    onClick = (_event: unknown, data: any[] ) => {
+    onClick = (_event: MouseEvent, data: { _index: number }[]) => {
         if (data[0]) {
             this.props.onClick(data[0]._index);
         }

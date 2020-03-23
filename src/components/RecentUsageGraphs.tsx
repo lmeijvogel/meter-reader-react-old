@@ -37,7 +37,7 @@ export class RecentUsageGraphs extends React.Component {
         </div>;
     }
 
-    stroomChartData(): any {
+    stroomChartData(): Chart.ChartData {
         const { stroomData, labels } = this.store;
 
         return {
@@ -45,11 +45,10 @@ export class RecentUsageGraphs extends React.Component {
             datasets: [
                 {
                     label: "Stroom",
-                    legendText: "Stroom",
                     data: stroomData,
                     fill: false,
                     borderColor: "#f0ad4e",
-                    borderWidth: "1.5",
+                    borderWidth: 1.5,
                     pointRadius: 0,
                     yAxisID: "stroom"
                 }
@@ -57,7 +56,7 @@ export class RecentUsageGraphs extends React.Component {
         };
     }
 
-    waterChartData(): any {
+    waterChartData(): Chart.ChartData {
         const { waterData, labels } = this.store;
 
         return {
@@ -65,11 +64,10 @@ export class RecentUsageGraphs extends React.Component {
             datasets: [
                 {
                     label: "Water",
-                    legendText: "Stroom",
                     data: waterData,
                     fill: false,
                     borderColor: "#428bca",
-                    borderWidth: "1.5",
+                    borderWidth: 1.5,
                     pointRadius: 0,
                     yAxisID: "water"
                 }
@@ -77,8 +75,21 @@ export class RecentUsageGraphs extends React.Component {
         };
     }
 
-    chartOptions(yAxis: any): any {
+    chartOptions(yAxis: Chart.ChartScales): Chart.ChartOptions {
         let lastItemHour = "";
+
+        // These anys are also in the typings provided for Chartjs
+        // and are unused anyway.
+        const tickCallback = (value: string, _index: any, _values: any) => {
+            const itemHour = value.slice(0, 2);
+
+            if (itemHour !== lastItemHour) {
+                lastItemHour = itemHour;
+                return itemHour;
+            }
+
+            return "";
+        };
 
         return {
             maintainAspectRatio: false,
@@ -88,14 +99,7 @@ export class RecentUsageGraphs extends React.Component {
                         display: true
                     },
                     ticks: {
-                        userCallback: (item: string) => {
-                            const itemHour = item.slice(0, 2);
-
-                            if (itemHour !== lastItemHour) {
-                                lastItemHour = itemHour;
-                                return itemHour;
-                            }
-                        },
+                        callback: tickCallback,
                         autoSkip: false,
                         display: true
                     },
@@ -107,19 +111,23 @@ export class RecentUsageGraphs extends React.Component {
             tooltips: {
                 callbacks: {
                     // TODO: Any
-                    title: (tooltipItem: any[], data: any) => {
-                        const index = tooltipItem[0].index;
+                    title: (item: Chart.ChartTooltipItem[], data: Chart.ChartData) => {
+                        if (!data.labels) return "";
+
+                        const index = item[0].index;
+
+                        if (!index) return "";
 
                         const timeStamp = data.labels[index];
 
-                        return timeStamp;
+                        return timeStamp?.toString() || "";
                     }
                 }
             }
         };
     }
 
-    stroomYAxis() {
+    stroomYAxis(): Chart.ChartScales & { id: string, title: string } {
         return {
             id: "stroom",
             title: "Stroom",
@@ -138,7 +146,7 @@ export class RecentUsageGraphs extends React.Component {
         };
     }
 
-    waterYAxis() {
+    waterYAxis(): Chart.ChartScales & { id: string, title: string } {
         return {
             id: "water",
             title: "Water",
@@ -149,7 +157,6 @@ export class RecentUsageGraphs extends React.Component {
             ticks: {
                 display: true,
                 min: 0,
-
             },
             scaleLabel: {
                 display: true,
