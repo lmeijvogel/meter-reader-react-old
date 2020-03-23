@@ -87,8 +87,7 @@ export class App extends Component<Props> {
     }
 
     startLiveDataTimer() {
-        var retrieveLiveData = this.retrieveLiveData.bind(this);
-        this.timer = setInterval(retrieveLiveData, 3000);
+        this.timer = setInterval(this.retrieveLiveData, 3000);
     }
 
     stopLiveDataTimer() {
@@ -98,7 +97,7 @@ export class App extends Component<Props> {
         }
     }
 
-    retrieveLiveData() {
+    retrieveLiveData = () => {
         if (this.props.store.loggedIn === LoggedInState.NotLoggedIn) {
             return;
         }
