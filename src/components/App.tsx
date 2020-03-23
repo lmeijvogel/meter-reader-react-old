@@ -35,20 +35,24 @@ export class App extends Component<Props> {
                         </div>
                         <div className="row">
                             {showRecentUsage ?
+                            <div>
                                 <RecentUsageGraphs />
+                            </div>
                                 :
                                 <UsageGraphs loadingState={loadingState} dataProvider={dataProvider!} periodSelected={this.props.store.periodSelected} />
                             }
                         </div>
-                        <div className="row">
-                            {liveData &&
-                                <ActualReadings
-                                    stroom_dal={liveData.stroom_dal}
-                                    stroom_piek={liveData.stroom_piek}
-                                    gas={liveData.gas}
-                                />
+                            {!showRecentUsage &&
+                                <div className="row">
+                                    {liveData &&
+                                    <ActualReadings
+                                        stroom_dal={liveData.stroom_dal}
+                                        stroom_piek={liveData.stroom_piek}
+                                        gas={liveData.gas}
+                                        />
+                                    }
+                                </div>
                             }
-                        </div>
                     </div>
                 );
             case LoggedInState.NotLoggedIn:
