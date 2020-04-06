@@ -1,6 +1,6 @@
 import { MonthDescription, YearDescription } from "./PeriodDescription";
 import { PeriodDataProvider } from "./PeriodDataProvider";
-import {UsageData} from "./UsageData";
+import { UsageData } from "./UsageData";
 
 export class YearDataProvider extends PeriodDataProvider {
     constructor(public periodDescription: YearDescription, public readonly periodUsage: Array<UsageData | null>) {
@@ -16,7 +16,7 @@ export class YearDataProvider extends PeriodDataProvider {
     tooltipLabel = (month: string) => {
         const intMonth = parseInt(month, 10);
         return this.descriptionAt(intMonth - 1).toTitle();
-    }
+    };
 
     positionInData = (element: UsageData, dataset: (UsageData | null)[]): number => {
         const filteredDataset = dataset.filter(el => !!el) as UsageData[];
@@ -27,7 +27,7 @@ export class YearDataProvider extends PeriodDataProvider {
         const date = new Date(element.time_stamp);
 
         return date.getMonth() + (date.getFullYear() - minYear) * 12;
-    }
+    };
 
     descriptionAt(index: number): MonthDescription {
         return new MonthDescription(this.periodDescription.year, index);

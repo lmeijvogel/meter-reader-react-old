@@ -1,6 +1,6 @@
 import { DayDescription, MonthDescription } from "./PeriodDescription";
 import { PeriodDataProvider } from "./PeriodDataProvider";
-import {UsageData} from "./UsageData";
+import { UsageData } from "./UsageData";
 
 export class MonthDataProvider extends PeriodDataProvider {
     constructor(public periodDescription: MonthDescription, public readonly periodUsage: Array<UsageData | null>) {
@@ -16,7 +16,7 @@ export class MonthDataProvider extends PeriodDataProvider {
     tooltipLabel = (day: string) => {
         const intDay = parseInt(day, 10);
         return this.descriptionAt(intDay).toTitle();
-    }
+    };
 
     positionInData = (element: UsageData, dataset: (UsageData | null)[]) => {
         const date = new Date(element.time_stamp);
@@ -33,7 +33,7 @@ export class MonthDataProvider extends PeriodDataProvider {
 
             return lastDayInMonth.getDate();
         }
-    }
+    };
 
     maxDate() {
         // +1 because we want the 0th day of the next month (== last day of current month)
