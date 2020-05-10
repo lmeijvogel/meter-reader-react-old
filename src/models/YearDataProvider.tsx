@@ -42,6 +42,6 @@ export class YearDataProvider extends PeriodDataProvider {
     }
 
     get maxWaterY() {
-        return 10000;
+        return 15000;
     }
 }
