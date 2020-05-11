@@ -15,7 +15,7 @@ export class MonthDataProvider extends PeriodDataProvider {
 
     tooltipLabel = (day: string) => {
         const intDay = parseInt(day, 10);
-        return this.descriptionAt(intDay).toTitle();
+        return this.descriptionAt(intDay - 1).toTitle();
     };
 
     positionInData = (element: UsageData, dataset: (UsageData | null)[]) => {
@@ -41,7 +41,7 @@ export class MonthDataProvider extends PeriodDataProvider {
     }
 
     descriptionAt(index: number): DayDescription {
-        return new DayDescription(this.periodDescription.year, this.periodDescription.month, index);
+        return new DayDescription(this.periodDescription.year, this.periodDescription.month, index + 1);
     }
 
     get maxGasY() {
