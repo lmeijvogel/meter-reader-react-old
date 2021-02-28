@@ -127,7 +127,9 @@ export class App extends Component<Props> {
                     current: json.current,
                     gas: json.gas,
                     stroom_dal: json.stroom_dal,
-                    stroom_piek: json.stroom_piek
+                    stroom_piek: json.stroom_piek,
+                    water_current: json.water_current,
+                    water_current_period_in_seconds: json.water_current_period_in_seconds
                 });
             });
     };

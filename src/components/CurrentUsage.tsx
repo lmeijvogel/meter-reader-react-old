@@ -15,11 +15,13 @@ export class CurrentUsage extends Component<IProps> {
                 <thead>
                     <tr>
                         <th>Current</th>
+                        <th>Water</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>{this.displayableCurrent}</td>
+                        <td>{this.displayableWater}</td>
                     </tr>
                 </tbody>
             </table>
@@ -35,6 +37,19 @@ export class CurrentUsage extends Component<IProps> {
 
         if (liveData) {
             return `${liveData.current * 1000} W`;
+        } else {
+            return "...";
+        }
+    }
+
+    private get displayableWater(): string {
+        const { liveData } = this.props;
+
+        if (liveData) {
+            const { water_current, water_current_period_in_seconds } = liveData;
+
+            const waterUsagePerMinute = water_current / (water_current_period_in_seconds / 60);
+            return `${waterUsagePerMinute} L/m`;
         } else {
             return "...";
         }
